@@ -2,11 +2,11 @@ package com.github.shimeoki.jshaper.geom;
 
 public interface Point2f extends Pos2f {
 
-    public void setX();
+    public void setX(final float x);
 
-    public void setY();
+    public void setY(final float y);
 
-    public void addX();
+    public void addX(final float dx);
 
-    public void addY();
+    public void addY(final float dy);
 }
