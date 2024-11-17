@@ -1,8 +1,14 @@
 plugins {
+    id("base")
     id("java-library")
+    id("java-library-distribution")
 }
 
 version = "0.1.1"
+
+base {
+    archivesName = rootProject.name
+}
 
 repositories {
     mavenCentral()
@@ -16,6 +22,15 @@ dependencies {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
+    }
+
+    withJavadocJar()
+    withSourcesJar()
+}
+
+distributions {
+    main {
+        distributionBaseName = rootProject.name
     }
 }
 
