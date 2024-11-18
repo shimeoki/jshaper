@@ -2,10 +2,7 @@ package com.github.shimeoki.jshaper.data;
 
 public final class Vector4f implements Array4f {
 
-    private float v1;
-    private float v2;
-    private float v3;
-    private float v4;
+    private final float[] array = new float[4];
 
     public Vector4f(
             final float v1,
@@ -21,61 +18,61 @@ public final class Vector4f implements Array4f {
 
     @Override
     public float value1() {
-        return v1;
+        return array[0];
     }
 
     @Override
     public void setValue1(final float value) {
-        v1 = value;
+        array[0] = value;
     }
 
     @Override
     public void addToValue1(final float delta) {
-        setValue1(v1 + delta);
+        setValue1(value1() + delta);
     }
 
     @Override
     public float value2() {
-        return v2;
+        return array[1];
     }
 
     @Override
     public void setValue2(final float value) {
-        v2 = value;
+        array[1] = value;
     }
 
     @Override
     public void addToValue2(final float delta) {
-        setValue2(v2 + delta);
+        setValue2(value2() + delta);
     }
 
     @Override
     public float value3() {
-        return v3;
+        return array[2];
     }
 
     @Override
     public void setValue3(final float value) {
-        v3 = value;
+        array[2] = value;
     }
 
     @Override
     public void addToValue3(final float delta) {
-        setValue3(v3 + delta);
+        setValue3(value3() + delta);
     }
 
     @Override
     public float value4() {
-        return v4;
+        return array[3];
     }
 
     @Override
     public void setValue4(final float value) {
-        v4 = value;
+        array[3] = value;
     }
 
     @Override
     public void addToValue4(final float delta) {
-        setValue4(v4 + delta);
+        setValue4(value4() + delta);
     }
 }
