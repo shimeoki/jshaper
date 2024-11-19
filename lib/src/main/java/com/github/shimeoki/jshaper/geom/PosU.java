@@ -1,6 +1,6 @@
 package com.github.shimeoki.jshaper.geom;
 
-public interface PosUf {
+public interface PosU {
 
     public float u();
 }

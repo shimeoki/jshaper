@@ -1,6 +1,6 @@
 package com.github.shimeoki.jshaper.geom;
 
-public interface PointYf extends PosYf {
+public interface PointY extends PosY {
 
     public void setY(final float y);
 

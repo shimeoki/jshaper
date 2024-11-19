@@ -1,6 +1,6 @@
 package com.github.shimeoki.jshaper.geom;
 
-public interface PointVf extends PosVf {
+public interface PointV extends PosV {
 
     public void setV(final float v);
 
