@@ -1,6 +1,6 @@
 package com.github.shimeoki.jshaper.data;
 
-public interface Arrayf {
+public interface Vectorf {
 
     public float[] array();
 }
