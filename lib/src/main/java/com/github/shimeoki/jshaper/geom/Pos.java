@@ -6,8 +6,8 @@ public enum Pos {
     Z,
     U,
     V,
+    W,
     I,
     J,
-    K,
-    W
+    K
 }
