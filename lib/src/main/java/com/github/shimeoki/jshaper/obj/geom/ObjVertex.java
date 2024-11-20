@@ -8,7 +8,15 @@ public final class ObjVertex implements Pointf {
     private final float[] values = new float[4];
 
     public ObjVertex(final float x, final float y, final float z, final Float w) {
+        setX(x);
+        setY(y);
+        setZ(z);
 
+        if (w != null) {
+            setW(w);
+        } else {
+            setW(1);
+        }
     }
 
     @Override
