@@ -1,9 +1,9 @@
 package com.github.shimeoki.jshaper.obj.geom;
 
 import com.github.shimeoki.jshaper.data.Arrayf;
-import com.github.shimeoki.jshaper.geom.Pointf;
+import com.github.shimeoki.jshaper.geom.Posf;
 
-public interface ObjVertex extends Pointf, Arrayf {
+public interface ObjVertex extends Posf, Arrayf {
 
     public float x();
 

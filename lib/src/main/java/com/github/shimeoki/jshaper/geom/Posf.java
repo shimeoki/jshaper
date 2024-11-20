@@ -1,6 +1,6 @@
 package com.github.shimeoki.jshaper.geom;
 
-public interface Pointf {
+public interface Posf {
 
     public float get(final Pos p);
 
