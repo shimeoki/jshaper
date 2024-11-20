@@ -1,10 +1,34 @@
-package com.github.shimeoki.jshaper.obj.geom;
+package com.github.shimeoki.jshaper.obj.data;
 
-public interface ObjTriplet {
+import java.util.Objects;
 
-    public ObjVertex vertex();
+import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
+import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
+import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
-    public ObjTextureVertex textureVertex();
+public final class ObjTriplet {
 
-    public ObjVertexNormal vertexNormal();
+    private final ObjVertex v;
+    private final ObjTextureVertex vt;
+    private final ObjVertexNormal vn;
+
+    public ObjTriplet(final ObjVertex v, final ObjTextureVertex vt, final ObjVertexNormal vn) {
+        Objects.requireNonNull(v);
+
+        this.v = v;
+        this.vt = vt;
+        this.vn = vn;
+    }
+
+    public ObjVertex vertex() {
+        return v;
+    }
+
+    public ObjTextureVertex textureVertex() {
+        return vt;
+    }
+
+    public ObjVertexNormal vertexNormal() {
+        return vn;
+    }
 }
