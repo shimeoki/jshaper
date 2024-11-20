@@ -12,6 +12,10 @@ public final class ObjFace {
     public ObjFace(final List<ObjTriplet> triplets) {
         Objects.requireNonNull(triplets);
 
+        if (triplets.size() < 3) {
+            throw new IllegalArgumentException("ObjFace: triplets.size() < 3");
+        }
+
         this.triplets = triplets;
     }
 
