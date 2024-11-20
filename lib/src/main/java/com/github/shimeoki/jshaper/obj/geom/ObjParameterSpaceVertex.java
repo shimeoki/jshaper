@@ -1,18 +1,83 @@
 package com.github.shimeoki.jshaper.obj.geom;
 
 import com.github.shimeoki.jshaper.geom.Pointf;
+import com.github.shimeoki.jshaper.geom.Pos;
 
-public interface ObjParameterSpaceVertex extends Pointf {
+public final class ObjParameterSpaceVertex implements Pointf {
 
-    public float u();
+    private final float[] values = new float[3];
 
-    public void setU(final float u);
+    public ObjParameterSpaceVertex(final float u, final Float v, final Float w) {
+        setU(u);
 
-    public float v();
+        if (v != null) {
+            setV(v);
+        }
 
-    public void setV(final float v);
+        if (w != null) {
+            setW(w);
+        } else {
+            setW(1);
+        }
+    }
 
-    public float w();
+    @Override
+    public float[] array() {
+        return values;
+    }
 
-    public void setW(final float w);
+    @Override
+    public float get(final Pos p) {
+        switch (p) {
+            case U:
+                return u();
+            case V:
+                return v();
+            case W:
+                return w();
+            default:
+                throw new IllegalArgumentException("ObjParameterSpaceVertex: invalid Pos");
+        }
+    }
+
+    @Override
+    public void set(final Pos p, final float value) {
+        switch (p) {
+            case U:
+                setU(value);
+                break;
+            case V:
+                setV(value);
+                break;
+            case W:
+                setW(value);
+                break;
+            default:
+                throw new IllegalArgumentException("ObjParameterSpaceVertex: invalid Pos");
+        }
+    }
+
+    public float u() {
+        return values[0];
+    }
+
+    public void setU(final float u) {
+        values[0] = u;
+    }
+
+    public float v() {
+        return values[1];
+    }
+
+    public void setV(final float v) {
+        values[1] = v;
+    }
+
+    public float w() {
+        return values[2];
+    }
+
+    public void setW(final float w) {
+        values[2] = w;
+    }
 }
