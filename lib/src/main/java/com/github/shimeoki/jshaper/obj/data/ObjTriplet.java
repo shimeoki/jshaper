@@ -12,7 +12,11 @@ public final class ObjTriplet {
     private final ObjTextureVertex vt;
     private final ObjVertexNormal vn;
 
-    public ObjTriplet(final ObjVertex v, final ObjTextureVertex vt, final ObjVertexNormal vn) {
+    public ObjTriplet(
+            final ObjVertex v,
+            final ObjTextureVertex vt,
+            final ObjVertexNormal vn) {
+
         Objects.requireNonNull(v);
 
         this.v = v;
