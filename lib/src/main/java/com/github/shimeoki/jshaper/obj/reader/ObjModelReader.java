@@ -23,6 +23,10 @@ public final class ObjModelReader implements ObjReader {
     private StringBuilder stringer;
     private List<String> strings;
 
+    // TODO
+    private int row, col;
+    private String line;
+
     private BufferedReader reader(final File f) throws ObjReaderException {
         final Path p = f.toPath();
 
@@ -110,22 +114,60 @@ public final class ObjModelReader implements ObjReader {
         // TODO
     }
 
-    private void parseLine(final String line) throws ObjReaderException {
+    private void parseLine() throws ObjReaderException {
+        stringer.setLength(0);
+        strings.clear();
+        col = 0;
+
+        final ObjToken lineToken = lineToken();
+        if (lineToken.equals(ObjToken.COMMENT)) {
+            return;
+        }
+
+        fillStrings();
+
+        parseStrings(lineToken);
+    }
+
+    private ObjToken lineToken() throws ObjReaderException {
+        final int len = line.length();
+
+        char c;
+        for (; col < len; col++) {
+            c = line.charAt(col);
+
+            // the line token cannot be prefixed with spaces
+            if (c == ' ') {
+                break;
+            }
+
+            stringer.append(c);
+        }
+
+        final ObjToken token = ObjTokenizer.parse(flush());
+        if (token == null) {
+            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "unknown token at the start of the line");
+        }
+
+        return token;
+    }
+
+    private void fillStrings() throws ObjReaderException {
         final int len = line.length();
         if (len == 0) {
             return;
         }
 
-        stringer.setLength(0);
-        strings.clear();
-
-        ObjToken lineToken = null, token = null;
-
+        ObjToken token;
         char c;
         String s;
 
-        for (int i = 0; i < len; i++) {
-            c = line.charAt(i);
+        for (; col <= len; col++) {
+            if (col == len) {
+                c = ' '; // artificially add a space at the end
+            } else {
+                c = line.charAt(col);
+            }
 
             if (c != ' ') {
                 stringer.append(c);
@@ -140,27 +182,17 @@ public final class ObjModelReader implements ObjReader {
             token = ObjTokenizer.parse(s);
 
             if (token == null) {
-                if (lineToken == null) {
-                    throw new ObjReaderException(ObjReaderExceptionType.PARSE,
-                            "invalid token at the start of the line");
-                }
-
                 strings.add(s);
                 continue;
             }
 
             if (token.equals(ObjToken.COMMENT)) {
                 break;
-            }
-
-            if (lineToken == null) {
-                lineToken = token;
             } else {
-                throw new ObjReaderException(ObjReaderExceptionType.PARSE, "token found not at the start of the line");
+                throw new ObjReaderException(ObjReaderExceptionType.PARSE,
+                        "found a token not at the start of the line");
             }
         }
-
-        parseStrings(lineToken);
     }
 
     private String flush() {
