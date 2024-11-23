@@ -29,6 +29,7 @@ public final class ObjModelReader implements ObjReader {
 
     private void error(final ObjReaderExceptionType type, final String msg) throws ObjReaderException {
         uncache();
+        closeReader();
         throw new ObjReaderException(type, msg);
     }
 
@@ -281,8 +282,8 @@ public final class ObjModelReader implements ObjReader {
 
         parseLines();
 
-        closeReader();
         uncache();
+        closeReader();
 
         // TODO
         return null;
