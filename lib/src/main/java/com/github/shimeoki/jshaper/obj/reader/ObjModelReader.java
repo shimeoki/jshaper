@@ -8,6 +8,10 @@ public final class ObjModelReader implements ObjReader {
 
     @Override
     public ObjFile read(final File f) {
+        if (!f.canRead()) {
+            throw new IllegalArgumentException("ObjModelReader::read: file is not readable");
+        }
+
         // TODO
         return null;
     }
