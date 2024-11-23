@@ -27,13 +27,18 @@ public final class ObjModelReader implements ObjReader {
     private int row, col;
     private String line;
 
+    private void error(final ObjReaderExceptionType type, final String msg) throws ObjReaderException {
+        uncache();
+        throw new ObjReaderException(type, msg);
+    }
+
     private void openReader(final File f) throws ObjReaderException {
         final Path p = f.toPath();
 
         try {
             reader = Files.newBufferedReader(p);
         } catch (final IOException e) {
-            throw new ObjReaderException(ObjReaderExceptionType.IO, "error while opening the file");
+            error(ObjReaderExceptionType.IO, "error while opening the file");
         }
     }
 
@@ -41,7 +46,7 @@ public final class ObjModelReader implements ObjReader {
         try {
             reader.close();
         } catch (IOException e) {
-            throw new ObjReaderException(ObjReaderExceptionType.IO, "error while closing the file");
+            error(ObjReaderExceptionType.IO, "error while closing the file");
         }
     }
 
@@ -71,7 +76,7 @@ public final class ObjModelReader implements ObjReader {
         try {
             line = reader.readLine();
         } catch (IOException e) {
-            throw new ObjReaderException(ObjReaderExceptionType.IO, "error while reading the file");
+            error(ObjReaderExceptionType.IO, "error while reading the file");
         }
     }
 
@@ -79,15 +84,19 @@ public final class ObjModelReader implements ObjReader {
         try {
             return Float.parseFloat(s);
         } catch (final NumberFormatException e) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid float format");
+            error(ObjReaderExceptionType.PARSE, "invalid float format");
         }
+
+        // shouldn't reach.
+        // only for the compiler check
+        return 0;
     }
 
     private void parseVertex() throws ObjReaderException {
         final int len = strings.size();
 
         if (len < 3 || len > 4) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for vertex");
+            error(ObjReaderExceptionType.PARSE, "invalid format for vertex");
         }
 
         final float x = parseFloat(strings.get(0));
@@ -109,7 +118,7 @@ public final class ObjModelReader implements ObjReader {
         final int len = strings.size();
 
         if (len < 1 || len > 3) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for texture vertex");
+            error(ObjReaderExceptionType.PARSE, "invalid format for texture vertex");
         }
 
         final float u = parseFloat(strings.get(0));
@@ -134,7 +143,7 @@ public final class ObjModelReader implements ObjReader {
 
     private void parseVertexNormal() throws ObjReaderException {
         if (strings.size() != 3) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for vertex normal");
+            error(ObjReaderExceptionType.PARSE, "invalid format for vertex normal");
         }
 
         final float i = parseFloat(strings.get(0));
@@ -181,7 +190,7 @@ public final class ObjModelReader implements ObjReader {
 
         final ObjToken token = ObjTokenizer.parse(flush());
         if (token == null) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "unknown token at the start of the line");
+            error(ObjReaderExceptionType.PARSE, "unknown token at the start of the line");
         }
 
         return token;
@@ -224,7 +233,7 @@ public final class ObjModelReader implements ObjReader {
             if (token.equals(ObjToken.COMMENT)) {
                 break;
             } else {
-                throw new ObjReaderException(ObjReaderExceptionType.PARSE,
+                error(ObjReaderExceptionType.PARSE,
                         "found a token not at the start of the line");
             }
         }
@@ -251,7 +260,7 @@ public final class ObjModelReader implements ObjReader {
                 parseFace();
                 break;
             default:
-                throw new ObjReaderException(ObjReaderExceptionType.PARSE, "unsupported token");
+                error(ObjReaderExceptionType.PARSE, "unsupported token");
         }
     }
 
@@ -264,7 +273,7 @@ public final class ObjModelReader implements ObjReader {
     @Override
     public ObjFile read(final File f) throws ObjReaderException {
         if (!f.canRead()) {
-            throw new ObjReaderException(ObjReaderExceptionType.IO, "file is not readable");
+            error(ObjReaderExceptionType.IO, "file is not readable");
         }
 
         cache();
