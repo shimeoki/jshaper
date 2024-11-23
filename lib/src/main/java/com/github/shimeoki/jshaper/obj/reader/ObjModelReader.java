@@ -19,6 +19,8 @@ public final class ObjModelReader implements ObjReader {
     private List<ObjTextureVertex> textureVertices;
     private List<ObjVertexNormal> vertexNormals;
 
+    private BufferedReader reader;
+
     // TODO
     private StringBuilder stringer;
     private List<String> strings;
@@ -27,17 +29,22 @@ public final class ObjModelReader implements ObjReader {
     private int row, col;
     private String line;
 
-    private BufferedReader reader(final File f) throws ObjReaderException {
+    private void openReader(final File f) throws ObjReaderException {
         final Path p = f.toPath();
 
-        final BufferedReader r;
         try {
-            r = Files.newBufferedReader(p);
+            reader = Files.newBufferedReader(p);
         } catch (final IOException e) {
             throw new ObjReaderException(ObjReaderExceptionType.IO, "error while opening the file");
         }
+    }
 
-        return r;
+    private void closeReader() throws ObjReaderException {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            throw new ObjReaderException(ObjReaderExceptionType.IO, "error while closing the file");
+        }
     }
 
     private float parseFloat(final String s) throws ObjReaderException {
@@ -225,6 +232,12 @@ public final class ObjModelReader implements ObjReader {
         if (!f.canRead()) {
             throw new ObjReaderException(ObjReaderExceptionType.IO, "file is not readable");
         }
+
+        openReader(f);
+
+        // code goes here
+
+        closeReader();
 
         // TODO
         return null;
