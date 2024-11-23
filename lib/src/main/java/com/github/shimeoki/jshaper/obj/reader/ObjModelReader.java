@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
@@ -22,6 +21,7 @@ public final class ObjModelReader implements ObjReader {
 
     // TODO
     private StringBuilder stringer;
+    private List<String> strings;
 
     private BufferedReader reader(final File f) throws ObjReaderException {
         final Path p = f.toPath();
@@ -113,8 +113,8 @@ public final class ObjModelReader implements ObjReader {
         }
 
         stringer.setLength(0);
+        strings.clear();
 
-        final List<String> strings = new ArrayList<>();
         ObjToken lineToken = null, token = null;
 
         char c;
