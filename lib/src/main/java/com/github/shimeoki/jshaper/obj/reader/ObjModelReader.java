@@ -40,9 +40,7 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
-    private void parseVertex(final String line) throws ObjReaderException {
-        final String[] parts = line.split(" +");
-
+    private void parseVertex(final String[] parts) throws ObjReaderException {
         if (parts.length < 3 || parts.length > 4) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for vertex");
         }
@@ -62,9 +60,7 @@ public final class ObjModelReader implements ObjReader {
         vertices.add(v);
     }
 
-    private void parseTextureVertex(final String line) throws ObjReaderException {
-        final String[] parts = line.split(" +");
-
+    private void parseTextureVertex(final String[] parts) throws ObjReaderException {
         if (parts.length < 1 || parts.length > 3) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for texture vertex");
         }
@@ -89,9 +85,7 @@ public final class ObjModelReader implements ObjReader {
         textureVertices.add(vt);
     }
 
-    private void parseVertexNormal(final String line) throws ObjReaderException {
-        final String[] parts = line.split(" +");
-
+    private void parseVertexNormal(final String[] parts) throws ObjReaderException {
         if (parts.length != 3) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for vertex normal");
         }
@@ -104,23 +98,26 @@ public final class ObjModelReader implements ObjReader {
         vertexNormals.add(vn);
     }
 
-    private void parseFace(final String line) throws ObjReaderException {
+    private void parseFace(final String[] parts) throws ObjReaderException {
         // TODO
     }
 
     private void parseLine(final ObjToken token, final String line) throws ObjReaderException {
+        // TODO
+        final String[] parts = null;
+
         switch (token) {
             case VERTEX:
-                parseVertex(line);
+                parseVertex(parts);
                 break;
             case TEXTURE_VERTEX:
-                parseTextureVertex(line);
+                parseTextureVertex(parts);
                 break;
             case VERTEX_NORMAL:
-                parseVertexNormal(line);
+                parseVertexNormal(parts);
                 break;
             case FACE:
-                parseFace(line);
+                parseFace(parts);
                 break;
             default:
                 throw new ObjReaderException(ObjReaderExceptionType.PARSE, "unsupported token");
