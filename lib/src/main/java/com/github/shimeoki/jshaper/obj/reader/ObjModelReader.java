@@ -113,6 +113,7 @@ public final class ObjModelReader implements ObjReader {
         }
 
         stringer.setLength(0);
+
         final List<String> strings = new ArrayList<>();
         ObjToken lineToken = null, token = null;
 
@@ -141,6 +142,7 @@ public final class ObjModelReader implements ObjReader {
                 }
 
                 strings.add(s);
+                continue;
             }
 
             if (token.equals(ObjToken.COMMENT)) {
