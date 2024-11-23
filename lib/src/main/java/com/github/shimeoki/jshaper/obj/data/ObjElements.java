@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 
-public class ObjElements {
+public final class ObjElements {
 
     // not all elements from the specification
     // are present
