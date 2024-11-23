@@ -47,6 +47,14 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
+    private void readLine() throws ObjReaderException {
+        try {
+            line = reader.readLine();
+        } catch (IOException e) {
+            throw new ObjReaderException(ObjReaderExceptionType.IO, "error while reading the file");
+        }
+    }
+
     private float parseFloat(final String s) throws ObjReaderException {
         try {
             return Float.parseFloat(s);
