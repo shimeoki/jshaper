@@ -44,18 +44,20 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
-    private void parseVertex(final String[] parts) throws ObjReaderException {
-        if (parts.length < 3 || parts.length > 4) {
+    private void parseVertex() throws ObjReaderException {
+        final int len = strings.size();
+
+        if (len < 3 || len > 4) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for vertex");
         }
 
-        final float x = parseFloat(parts[0]);
-        final float y = parseFloat(parts[1]);
-        final float z = parseFloat(parts[2]);
+        final float x = parseFloat(strings.get(0));
+        final float y = parseFloat(strings.get(1));
+        final float z = parseFloat(strings.get(2));
 
         final Float w;
-        if (parts.length == 4) {
-            w = parseFloat(parts[3]);
+        if (len == 4) {
+            w = parseFloat(strings.get(3));
         } else {
             w = null;
         }
