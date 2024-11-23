@@ -11,11 +11,13 @@ import java.util.List;
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
+import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
 public final class ObjModelReader implements ObjReader {
 
     private final List<ObjVertex> vertices = new ArrayList<>();
     private final List<ObjTextureVertex> textureVertices = new ArrayList<>();
+    private final List<ObjVertexNormal> vertexNormals = new ArrayList<>();
 
     private BufferedReader reader(final File f) throws ObjReaderException {
         final Path p = f.toPath();
@@ -88,7 +90,18 @@ public final class ObjModelReader implements ObjReader {
     }
 
     private void parseVertexNormal(final String line) throws ObjReaderException {
-        // TODO
+        final String[] parts = line.split(" +");
+
+        if (parts.length != 3) {
+            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for vertex normal");
+        }
+
+        final float i = parseFloat(parts[0]);
+        final float j = parseFloat(parts[1]);
+        final float k = parseFloat(parts[2]);
+
+        final ObjVertexNormal vn = new ObjVertexNormal(i, j, k);
+        vertexNormals.add(vn);
     }
 
     private void parseFace(final String line) throws ObjReaderException {
