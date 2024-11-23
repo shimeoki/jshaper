@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
@@ -14,18 +15,15 @@ import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
 public final class ObjModelReader implements ObjReader {
 
-    // TODO
     private List<ObjVertex> vertices;
     private List<ObjTextureVertex> textureVertices;
     private List<ObjVertexNormal> vertexNormals;
 
     private BufferedReader reader;
 
-    // TODO
     private StringBuilder stringer;
     private List<String> strings;
 
-    // TODO
     private int row, col;
     private String line;
 
@@ -45,6 +43,28 @@ public final class ObjModelReader implements ObjReader {
         } catch (IOException e) {
             throw new ObjReaderException(ObjReaderExceptionType.IO, "error while closing the file");
         }
+    }
+
+    private void cache() {
+        vertices = new ArrayList<>();
+        textureVertices = new ArrayList<>();
+        vertexNormals = new ArrayList<>();
+
+        stringer = new StringBuilder();
+        strings = new ArrayList<>();
+    }
+
+    private void uncache() {
+        vertices = null;
+        textureVertices = null;
+        vertexNormals = null;
+
+        stringer = null;
+        strings = null;
+
+        row = 0;
+        col = 0;
+        line = null;
     }
 
     private void readLine() throws ObjReaderException {
@@ -247,11 +267,13 @@ public final class ObjModelReader implements ObjReader {
             throw new ObjReaderException(ObjReaderExceptionType.IO, "file is not readable");
         }
 
+        cache();
         openReader(f);
 
         parseLines();
 
         closeReader();
+        uncache();
 
         // TODO
         return null;
