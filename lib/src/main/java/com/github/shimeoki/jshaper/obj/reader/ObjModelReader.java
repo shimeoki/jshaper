@@ -106,7 +106,7 @@ public final class ObjModelReader implements ObjReader {
         vertexNormals.add(vn);
     }
 
-    private void parseFace(final String[] parts) throws ObjReaderException {
+    private void parseFace() throws ObjReaderException {
         // TODO
     }
 
@@ -173,16 +173,16 @@ public final class ObjModelReader implements ObjReader {
 
         switch (token) {
             case VERTEX:
-                parseVertex(parts);
+                parseVertex();
                 break;
             case TEXTURE_VERTEX:
-                parseTextureVertex(parts);
+                parseTextureVertex();
                 break;
             case VERTEX_NORMAL:
-                parseVertexNormal(parts);
+                parseVertexNormal();
                 break;
             case FACE:
-                parseFace(parts);
+                parseFace();
                 break;
             default:
                 throw new ObjReaderException(ObjReaderExceptionType.PARSE, "unsupported token");
