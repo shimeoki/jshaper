@@ -25,7 +25,7 @@ public final class ObjModelReader implements ObjReader {
         final BufferedReader r;
         try {
             r = Files.newBufferedReader(p);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new ObjReaderException(ObjReaderExceptionType.IO, "error while opening the file");
         }
 
@@ -35,7 +35,7 @@ public final class ObjModelReader implements ObjReader {
     private float parseFloat(final String s) throws ObjReaderException {
         try {
             return Float.parseFloat(s);
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid float format");
         }
     }
