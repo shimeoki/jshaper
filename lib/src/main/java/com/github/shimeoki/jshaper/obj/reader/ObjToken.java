@@ -2,12 +2,12 @@ package com.github.shimeoki.jshaper.obj.reader;
 
 public enum ObjToken {
 
-    COMMENT("#"),
-    VERTEX("v"),
-    TEXTURE_VERTEX("vt"),
-    VERTEX_NORMAL("vn"),
-    PARAMETER_SPACE_VERTEX("vp"),
-    FACE("f");
+    COMMENT(ObjTokenizer.COMMENT),
+    VERTEX(ObjTokenizer.VERTEX),
+    TEXTURE_VERTEX(ObjTokenizer.TEXTURE_VERTEX),
+    VERTEX_NORMAL(ObjTokenizer.VERTEX_NORMAL),
+    PARAMETER_SPACE_VERTEX(ObjTokenizer.PARAMETER_SPACE_VERTEX),
+    FACE(ObjTokenizer.FACE);
 
     private final String txt;
 
