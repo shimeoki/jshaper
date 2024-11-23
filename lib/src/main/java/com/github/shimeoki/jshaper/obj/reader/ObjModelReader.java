@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
@@ -18,6 +19,9 @@ public final class ObjModelReader implements ObjReader {
     private List<ObjVertex> vertices;
     private List<ObjTextureVertex> textureVertices;
     private List<ObjVertexNormal> vertexNormals;
+
+    // TODO
+    private StringBuilder stringer;
 
     private BufferedReader reader(final File f) throws ObjReaderException {
         final Path p = f.toPath();
@@ -102,7 +106,62 @@ public final class ObjModelReader implements ObjReader {
         // TODO
     }
 
-    private void parseLine(final ObjToken token, final String line) throws ObjReaderException {
+    private void parseLine(final String line) throws ObjReaderException {
+        final int len = line.length();
+        if (len == 0) {
+            return;
+        }
+
+        stringer.setLength(0);
+        final List<String> strings = new ArrayList<>();
+        ObjToken lineToken = null, token = null;
+
+        char c;
+        String s;
+
+        for (int i = 0; i < len; i++) {
+            c = line.charAt(i);
+
+            if (c != ' ') {
+                stringer.append(c);
+                continue;
+            }
+
+            if (stringer.isEmpty()) {
+                continue;
+            }
+
+            s = flush();
+            token = ObjTokenizer.parse(s);
+
+            if (token == null) {
+                if (lineToken == null) {
+                    throw new ObjReaderException(ObjReaderExceptionType.PARSE,
+                            "invalid token at the start of the line");
+                }
+
+                strings.add(s);
+            }
+
+            if (token.equals(ObjToken.COMMENT)) {
+                break;
+            }
+
+            if (lineToken == null) {
+                lineToken = token;
+            } else {
+                throw new ObjReaderException(ObjReaderExceptionType.PARSE, "token found not at the start of the line");
+            }
+        }
+    }
+
+    private String flush() {
+        final String s = stringer.toString();
+        stringer.setLength(0);
+        return s;
+    }
+
+    private void redirectLine(final ObjToken token, final String line) throws ObjReaderException {
         // TODO
         final String[] parts = null;
 
