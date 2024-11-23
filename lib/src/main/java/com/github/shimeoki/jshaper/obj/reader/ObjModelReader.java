@@ -159,6 +159,8 @@ public final class ObjModelReader implements ObjReader {
                 throw new ObjReaderException(ObjReaderExceptionType.PARSE, "token found not at the start of the line");
             }
         }
+
+        parseStrings(lineToken);
     }
 
     private String flush() {
@@ -167,10 +169,7 @@ public final class ObjModelReader implements ObjReader {
         return s;
     }
 
-    private void redirectLine(final ObjToken token, final String line) throws ObjReaderException {
-        // TODO
-        final String[] parts = null;
-
+    private void parseStrings(final ObjToken token) throws ObjReaderException {
         switch (token) {
             case VERTEX:
                 parseVertex();
