@@ -66,23 +66,25 @@ public final class ObjModelReader implements ObjReader {
         vertices.add(v);
     }
 
-    private void parseTextureVertex(final String[] parts) throws ObjReaderException {
-        if (parts.length < 1 || parts.length > 3) {
+    private void parseTextureVertex() throws ObjReaderException {
+        final int len = strings.size();
+
+        if (len < 1 || len > 3) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for texture vertex");
         }
 
-        final float u = parseFloat(parts[0]);
+        final float u = parseFloat(strings.get(0));
 
         final Float v;
-        if (parts.length >= 2) {
-            v = parseFloat(parts[1]);
+        if (len >= 2) {
+            v = parseFloat(strings.get(1));
         } else {
             v = null;
         }
 
         final Float w;
-        if (parts.length == 3) {
-            w = parseFloat(parts[2]);
+        if (len == 3) {
+            w = parseFloat(strings.get(2));
         } else {
             w = null;
         }
