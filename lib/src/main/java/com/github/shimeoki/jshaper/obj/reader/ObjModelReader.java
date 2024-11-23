@@ -23,6 +23,41 @@ public final class ObjModelReader implements ObjReader {
         return r;
     }
 
+    private void parseVertex(final String line) {
+        // TODO
+    }
+
+    private void parseTextureVertex(final String line) {
+        // TODO
+    }
+
+    private void parseVertexNormal(final String line) {
+        // TODO
+    }
+
+    private void parseFace(final String line) {
+        // TODO
+    }
+
+    private void parseLine(final ObjToken token, final String line) throws ObjReaderException {
+        switch (token) {
+            case VERTEX:
+                parseVertex(line);
+                break;
+            case TEXTURE_VERTEX:
+                parseTextureVertex(line);
+                break;
+            case VERTEX_NORMAL:
+                parseVertexNormal(line);
+                break;
+            case FACE:
+                parseFace(line);
+                break;
+            default:
+                throw new ObjReaderException(ObjReaderExceptionType.PARSE, "unsupported token");
+        }
+    }
+
     @Override
     public ObjFile read(final File f) throws ObjReaderException {
         if (!f.canRead()) {
