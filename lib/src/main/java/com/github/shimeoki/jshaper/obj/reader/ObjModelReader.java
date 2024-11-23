@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
@@ -15,9 +14,10 @@ import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
 public final class ObjModelReader implements ObjReader {
 
-    private final List<ObjVertex> vertices = new ArrayList<>();
-    private final List<ObjTextureVertex> textureVertices = new ArrayList<>();
-    private final List<ObjVertexNormal> vertexNormals = new ArrayList<>();
+    // TODO
+    private List<ObjVertex> vertices;
+    private List<ObjTextureVertex> textureVertices;
+    private List<ObjVertexNormal> vertexNormals;
 
     private BufferedReader reader(final File f) throws ObjReaderException {
         final Path p = f.toPath();
