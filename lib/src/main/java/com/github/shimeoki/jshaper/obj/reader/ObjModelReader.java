@@ -9,7 +9,7 @@ public final class ObjModelReader implements ObjReader {
     @Override
     public ObjFile read(final File f) throws ObjReaderException {
         if (!f.canRead()) {
-            throw new IllegalArgumentException("ObjModelReader::read: file is not readable");
+            throw new ObjReaderException(ObjReaderExceptionType.IO, "file is not readable");
         }
 
         // TODO
