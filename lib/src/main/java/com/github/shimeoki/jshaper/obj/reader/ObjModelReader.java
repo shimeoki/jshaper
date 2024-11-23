@@ -23,19 +23,19 @@ public final class ObjModelReader implements ObjReader {
         return r;
     }
 
-    private void parseVertex(final String line) {
+    private void parseVertex(final String line) throws ObjReaderException {
         // TODO
     }
 
-    private void parseTextureVertex(final String line) {
+    private void parseTextureVertex(final String line) throws ObjReaderException {
         // TODO
     }
 
-    private void parseVertexNormal(final String line) {
+    private void parseVertexNormal(final String line) throws ObjReaderException {
         // TODO
     }
 
-    private void parseFace(final String line) {
+    private void parseFace(final String line) throws ObjReaderException {
         // TODO
     }
 
