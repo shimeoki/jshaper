@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
+import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 
 public final class ObjModelReader implements ObjReader {
 
     private final List<ObjVertex> vertices = new ArrayList<>();
+    private final List<ObjTextureVertex> textureVertices = new ArrayList<>();
 
     private BufferedReader reader(final File f) throws ObjReaderException {
         final Path p = f.toPath();
@@ -59,7 +61,30 @@ public final class ObjModelReader implements ObjReader {
     }
 
     private void parseTextureVertex(final String line) throws ObjReaderException {
-        // TODO
+        final String[] parts = line.split(" +");
+
+        if (parts.length < 1 || parts.length > 3) {
+            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for texture vertex");
+        }
+
+        final float u = parseFloat(parts[0]);
+
+        final Float v;
+        if (parts.length >= 2) {
+            v = parseFloat(parts[1]);
+        } else {
+            v = null;
+        }
+
+        final Float w;
+        if (parts.length == 3) {
+            w = parseFloat(parts[2]);
+        } else {
+            w = null;
+        }
+
+        final ObjTextureVertex vt = new ObjTextureVertex(u, v, w);
+        textureVertices.add(vt);
     }
 
     private void parseVertexNormal(final String line) throws ObjReaderException {
