@@ -235,6 +235,12 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
+    private void parseLines() throws ObjReaderException {
+        for (readLine(); line != null; readLine(), row++) {
+            parseLine();
+        }
+    }
+
     @Override
     public ObjFile read(final File f) throws ObjReaderException {
         if (!f.canRead()) {
@@ -243,7 +249,7 @@ public final class ObjModelReader implements ObjReader {
 
         openReader(f);
 
-        // code goes here
+        parseLines();
 
         closeReader();
 
