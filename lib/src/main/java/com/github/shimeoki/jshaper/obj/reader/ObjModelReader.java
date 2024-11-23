@@ -10,12 +10,7 @@ import com.github.shimeoki.jshaper.obj.data.ObjFile;
 
 public final class ObjModelReader implements ObjReader {
 
-    @Override
-    public ObjFile read(final File f) throws ObjReaderException {
-        if (!f.canRead()) {
-            throw new ObjReaderException(ObjReaderExceptionType.IO, "file is not readable");
-        }
-
+    private BufferedReader reader(final File f) throws ObjReaderException {
         final Path p = f.toPath();
 
         final BufferedReader r;
@@ -23,6 +18,15 @@ public final class ObjModelReader implements ObjReader {
             r = Files.newBufferedReader(p);
         } catch (IOException e) {
             throw new ObjReaderException(ObjReaderExceptionType.IO, "error while opening the file");
+        }
+
+        return r;
+    }
+
+    @Override
+    public ObjFile read(final File f) throws ObjReaderException {
+        if (!f.canRead()) {
+            throw new ObjReaderException(ObjReaderExceptionType.IO, "file is not readable");
         }
 
         // TODO
