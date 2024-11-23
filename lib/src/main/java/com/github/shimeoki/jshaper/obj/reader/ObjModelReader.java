@@ -5,10 +5,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
+import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 
 public final class ObjModelReader implements ObjReader {
+
+    private final List<ObjVertex> vertices = new ArrayList<>();
 
     private BufferedReader reader(final File f) throws ObjReaderException {
         final Path p = f.toPath();
@@ -23,8 +28,34 @@ public final class ObjModelReader implements ObjReader {
         return r;
     }
 
+    private float parseFloat(final String s) throws ObjReaderException {
+        try {
+            return Float.parseFloat(s);
+        } catch (NumberFormatException e) {
+            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid float format");
+        }
+    }
+
     private void parseVertex(final String line) throws ObjReaderException {
-        // TODO
+        final String[] parts = line.split(" +");
+
+        if (parts.length < 3 || parts.length > 4) {
+            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for vertex");
+        }
+
+        final float x = parseFloat(parts[0]);
+        final float y = parseFloat(parts[1]);
+        final float z = parseFloat(parts[2]);
+
+        final Float w;
+        if (parts.length == 4) {
+            w = parseFloat(parts[3]);
+        } else {
+            w = null;
+        }
+
+        final ObjVertex v = new ObjVertex(x, y, z, w);
+        vertices.add(v);
     }
 
     private void parseTextureVertex(final String line) throws ObjReaderException {
