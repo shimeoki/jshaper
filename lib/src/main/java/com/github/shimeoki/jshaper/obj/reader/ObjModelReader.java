@@ -93,14 +93,14 @@ public final class ObjModelReader implements ObjReader {
         textureVertices.add(vt);
     }
 
-    private void parseVertexNormal(final String[] parts) throws ObjReaderException {
-        if (parts.length != 3) {
+    private void parseVertexNormal() throws ObjReaderException {
+        if (strings.size() != 3) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid format for vertex normal");
         }
 
-        final float i = parseFloat(parts[0]);
-        final float j = parseFloat(parts[1]);
-        final float k = parseFloat(parts[2]);
+        final float i = parseFloat(strings.get(0));
+        final float j = parseFloat(strings.get(1));
+        final float k = parseFloat(strings.get(2));
 
         final ObjVertexNormal vn = new ObjVertexNormal(i, j, k);
         vertexNormals.add(vn);
