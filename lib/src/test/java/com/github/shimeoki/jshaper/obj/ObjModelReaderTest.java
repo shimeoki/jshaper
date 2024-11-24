@@ -45,4 +45,27 @@ public final class ObjModelReaderTest {
         assertEquals(31930, obj.elements().faces().size());
         assertEquals(30, obj.groupingData().groupNames().size());
     }
+
+    @Test
+    public void case2() {
+        final File f = file("002");
+        assertNotNull(f);
+
+        ObjFile obj = null;
+        try {
+            obj = reader.read(f);
+        } catch (final ObjReaderException e) {
+            fail(e.getMessage());
+        }
+
+        assertNotNull(obj);
+
+        final ObjVertexData vertexData = obj.vertexData();
+        assertNotNull(vertexData);
+
+        assertEquals(4, vertexData.vertices().size());
+        assertEquals(4, vertexData.textureVertices().size());
+        assertEquals(4, vertexData.vertexNormals().size());
+        // parameter space vertices are not supported yet
+    }
 }
