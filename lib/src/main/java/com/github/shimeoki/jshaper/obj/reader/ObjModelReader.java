@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
+import com.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
@@ -28,6 +30,7 @@ public final class ObjModelReader implements ObjReader {
 
     private StringBuilder tripleter;
     private String triplet;
+    private int[] indices;
 
     private int row, col;
     private String line;
@@ -181,6 +184,43 @@ public final class ObjModelReader implements ObjReader {
 
     private void parseFace() throws ObjReaderException {
         // TODO
+    }
+
+    private ObjTriplet parseTriplet() throws ObjReaderException {
+        final int len = triplet.length();
+        tripleter.setLength(0);
+
+        Arrays.fill(indices, 0);
+        int index = -1;
+
+        char c;
+        for (int i = 0; i < len; i++) {
+            c = line.charAt(i);
+
+            if (c == ' ') {
+                error(ObjReaderExceptionType.PARSE, "found a space in a triplet");
+            }
+
+            if (c != '/') {
+                tripleter.append(c);
+                continue;
+            }
+
+            index++;
+            if (index > 2) {
+                error(ObjReaderExceptionType.PARSE, "found more than three indices in a triplet");
+            }
+
+            if (tripleter.isEmpty()) {
+                continue;
+            }
+
+            indices[index] = parseInt(tripleter.toString());
+            tripleter.setLength(0);
+        }
+
+        // TODO
+        return null;
     }
 
     private void parseLine() throws ObjReaderException {
