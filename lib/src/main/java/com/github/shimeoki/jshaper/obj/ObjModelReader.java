@@ -7,11 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjElements;
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
 import com.github.shimeoki.jshaper.obj.data.ObjGroupName;
+import com.github.shimeoki.jshaper.obj.data.ObjGroupingData;
 import com.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import com.github.shimeoki.jshaper.obj.data.ObjTripletFormat;
 import com.github.shimeoki.jshaper.obj.data.ObjVertexData;
@@ -461,7 +463,7 @@ public final class ObjModelReader implements ObjReader {
 
         final ObjElements elements = new ObjElements(faces);
 
-        return new ObjFile(data, elements);
+        return new ObjFile(data, elements, new ObjGroupingData(new HashSet<>()));
     }
 
     @Override
