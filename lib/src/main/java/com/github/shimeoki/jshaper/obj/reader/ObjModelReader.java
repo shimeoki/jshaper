@@ -224,22 +224,22 @@ public final class ObjModelReader implements ObjReader {
     }
 
     private ObjVertex vertexByIndex() throws ObjReaderException {
-        int i1 = indices[0];
-        if (i1 == 0) {
+        int i = indices[0];
+        if (i == 0) {
             error(ObjReaderExceptionType.PARSE, "no vertex index in the triplet");
         }
 
         final int len = vertices.size();
 
-        if (i1 < 0) {
-            i1 += len;
+        if (i < 0) {
+            i += len;
         }
 
-        if (i1 < 0 || i1 >= len) {
+        if (i < 0 || i >= len) {
             error(ObjReaderExceptionType.PARSE, "invalid vertex index");
         }
 
-        return vertices.get(i1);
+        return vertices.get(i);
     }
 
     private void parseLine() throws ObjReaderException {
