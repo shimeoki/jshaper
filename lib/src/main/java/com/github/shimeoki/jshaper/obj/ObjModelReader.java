@@ -7,8 +7,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.github.shimeoki.jshaper.obj.data.ObjElements;
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
@@ -32,6 +35,7 @@ public final class ObjModelReader implements ObjReader {
     private List<ObjTextureVertex> textureVertices;
     private List<ObjVertexNormal> vertexNormals;
     private List<ObjFace> faces;
+    private Set<ObjGroupName> groupNames;
 
     private BufferedReader reader;
 
@@ -43,6 +47,9 @@ public final class ObjModelReader implements ObjReader {
     private String triplet;
     private ObjTripletFormat format;
     private int[] indices;
+
+    private String groupName;
+    private Map<String, ObjGroupName> groupNameMap;
 
     private int row, col;
     private String line;
@@ -91,12 +98,16 @@ public final class ObjModelReader implements ObjReader {
         vertices = new ArrayList<>();
         textureVertices = new ArrayList<>();
         vertexNormals = new ArrayList<>();
+        faces = new ArrayList<>();
+        groupNames = new HashSet<>();
 
         stringer = new StringBuilder();
         strings = new ArrayList<>();
 
         tripleter = new StringBuilder();
         triplets = new ArrayList<>();
+
+        groupNameMap = new HashMap<>();
 
         indices = new int[3];
     }
@@ -105,6 +116,8 @@ public final class ObjModelReader implements ObjReader {
         vertices = null;
         textureVertices = null;
         vertexNormals = null;
+        faces = null;
+        groupNames = null;
 
         stringer = null;
         strings = null;
@@ -114,6 +127,9 @@ public final class ObjModelReader implements ObjReader {
         triplet = null;
         format = null;
         indices = null;
+
+        groupName = null;
+        groupNameMap = null;
 
         row = 0;
         col = 0;
