@@ -3,9 +3,11 @@ package com.github.shimeoki.jshaper.obj.geom;
 import java.util.List;
 import java.util.Objects;
 
+import com.github.shimeoki.jshaper.obj.data.ObjElement;
+import com.github.shimeoki.jshaper.obj.data.ObjGroup;
 import com.github.shimeoki.jshaper.obj.data.ObjTriplet;
 
-public final class ObjFace {
+public final class ObjFace implements ObjElement {
 
     private final List<ObjTriplet> triplets;
 
@@ -21,5 +23,11 @@ public final class ObjFace {
 
     public List<ObjTriplet> triplets() {
         return triplets;
+    }
+
+    @Override
+    public ObjGroup group() {
+        // TODO
+        return null;
     }
 }
