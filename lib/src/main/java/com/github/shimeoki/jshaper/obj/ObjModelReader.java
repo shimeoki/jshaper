@@ -413,15 +413,17 @@ public final class ObjModelReader implements ObjReader {
             return;
         }
 
-        ObjToken token;
         char c;
-        String s;
-
         for (; col <= len; col++) {
             if (col == len) {
                 c = ' '; // artificially add a space at the end
             } else {
                 c = line.charAt(col);
+            }
+
+            if (String.valueOf(c).equals(ObjToken.COMMENT.toString())) {
+                strings.add(flushStringer());
+                break;
             }
 
             if (c != ' ') {
@@ -433,17 +435,7 @@ public final class ObjModelReader implements ObjReader {
                 continue;
             }
 
-            s = flushStringer();
-            token = ObjTokenizer.parse(s);
-
-            if (token == null) {
-                strings.add(s);
-                continue;
-            }
-
-            if (token.equals(ObjToken.COMMENT)) {
-                break;
-            }
+            strings.add(flushStringer());
         }
     }
 
