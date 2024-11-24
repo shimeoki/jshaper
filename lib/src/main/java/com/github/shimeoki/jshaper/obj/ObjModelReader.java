@@ -1,4 +1,4 @@
-package com.github.shimeoki.jshaper.obj.reader;
+package com.github.shimeoki.jshaper.obj;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,6 +18,10 @@ import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import com.github.shimeoki.jshaper.obj.reader.ObjReaderException;
+import com.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
+import com.github.shimeoki.jshaper.obj.reader.ObjToken;
+import com.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
 
 public final class ObjModelReader implements ObjReader {
 
