@@ -53,7 +53,7 @@ public final class ObjModelReader implements ObjReader {
     private int[] indices;
 
     // parse groups
-    private String groupName;
+    private Set<String> currentGroupNames;
     private Map<String, ObjGroupName> groupNameMap;
 
     // parse
@@ -255,6 +255,21 @@ public final class ObjModelReader implements ObjReader {
 
         final ObjFace f = new ObjFace(new ArrayList<>(triplets), new ObjGroupName("default"));
         faces.add(f);
+    }
+
+    private void parseGroupName() throws ObjReaderException {
+        if (strings.size() < 1) {
+            error(ObjReaderExceptionType.PARSE, "no names in group name statement");
+        }
+
+        currentGroupNames.clear();
+
+        ObjGroupName n;
+        for (final String s : strings) {
+            currentGroupNames.add(s);
+            n = groupNameMap.getOrDefault(s, new ObjGroupName(s));
+            groupNames.add(n);
+        }
     }
 
     private ObjTriplet parseTriplet() throws ObjReaderException {
