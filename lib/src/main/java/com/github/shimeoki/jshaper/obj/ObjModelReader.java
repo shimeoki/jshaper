@@ -505,15 +505,16 @@ public final class ObjModelReader implements ObjReader {
             parseLine();
         }
 
-        final ObjVertexData data = new ObjVertexData(
+        final ObjVertexData vertexData = new ObjVertexData(
                 vertices,
                 textureVertices,
                 vertexNormals,
                 new ArrayList<>());
 
         final ObjElements elements = new ObjElements(faces);
+        final ObjGroupingData groupingData = new ObjGroupingData(groupNames);
 
-        return new ObjFile(data, elements, new ObjGroupingData(new HashSet<>()));
+        return new ObjFile(vertexData, elements, groupingData);
     }
 
     @Override
