@@ -3,8 +3,8 @@ package com.github.shimeoki.jshaper.obj.reader;
 public enum ObjReaderExceptionType {
 
     NONE(""),
-    IO("io: "),
-    PARSE("parse: ");
+    IO("io:"),
+    PARSE("parse:");
 
     private final String txt;
 

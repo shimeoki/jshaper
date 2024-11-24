@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.github.shimeoki.jshaper.obj.data.ObjElements;
@@ -94,7 +95,9 @@ public final class ObjModelReader implements ObjReader {
 
     private void closeReader() throws ObjReaderException {
         try {
-            reader.close();
+            if (reader != null) {
+                reader.close();
+            }
         } catch (IOException e) {
             error(ObjReaderExceptionType.IO, "error while closing the file");
         } finally {
@@ -302,7 +305,7 @@ public final class ObjModelReader implements ObjReader {
 
         char c;
         for (int i = 0; i < len; i++) {
-            c = line.charAt(i);
+            c = triplet.charAt(i);
 
             if (c == ' ') {
                 error(ObjReaderExceptionType.PARSE, "found a space in a triplet");
@@ -339,6 +342,8 @@ public final class ObjModelReader implements ObjReader {
 
         if (i < 0) {
             i += len;
+        } else {
+            i--;
         }
 
         if (i < 0 || i >= len) {
@@ -358,6 +363,8 @@ public final class ObjModelReader implements ObjReader {
 
         if (i < 0) {
             i += len;
+        } else {
+            i--;
         }
 
         if (i < 0 || i >= len) {
@@ -377,6 +384,8 @@ public final class ObjModelReader implements ObjReader {
 
         if (i < 0) {
             i += len;
+        } else {
+            i--;
         }
 
         if (i < 0 || i >= len) {
@@ -411,6 +420,10 @@ public final class ObjModelReader implements ObjReader {
         col = 0;
 
         final ObjToken lineToken = parseLineToken();
+        if (lineToken == null) {
+            return;
+        }
+
         switch (lineToken) {
             case VERTEX, TEXTURE_VERTEX, VERTEX_NORMAL, FACE, GROUP_NAME:
                 break;
@@ -520,6 +533,8 @@ public final class ObjModelReader implements ObjReader {
 
     @Override
     public ObjFile read(final File f) throws ObjReaderException {
+        Objects.requireNonNull(f);
+
         if (!f.canRead()) {
             error(ObjReaderExceptionType.IO, "file is not readable");
         }
