@@ -4,7 +4,7 @@ plugins {
     id("java-library-distribution")
 }
 
-version = "0.5.0"
+version = "0.5.1"
 
 base {
     archivesName = rootProject.name
