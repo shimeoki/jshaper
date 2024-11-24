@@ -399,12 +399,7 @@ public final class ObjModelReader implements ObjReader {
             stringer.append(c);
         }
 
-        final ObjToken token = ObjTokenizer.parse(flushStringer());
-        if (token == null) {
-            error(ObjReaderExceptionType.PARSE, "unknown token at the start of the line");
-        }
-
-        return token;
+        return ObjTokenizer.parse(flushStringer());
     }
 
     private void parseStrings() throws ObjReaderException {
