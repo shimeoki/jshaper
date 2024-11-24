@@ -5,6 +5,8 @@ import com.github.shimeoki.jshaper.geom.Pos;
 
 public final class ObjVertex implements Pointf {
 
+    public static final float DEFAULT_W = 1;
+
     private final float[] values = new float[4];
 
     public ObjVertex(final float x, final float y, final float z, final Float w) {
@@ -15,7 +17,7 @@ public final class ObjVertex implements Pointf {
         if (w != null) {
             setW(w);
         } else {
-            setW(1);
+            setW(DEFAULT_W);
         }
     }
 
