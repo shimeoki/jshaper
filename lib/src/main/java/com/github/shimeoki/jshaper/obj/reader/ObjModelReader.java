@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
+import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
@@ -18,11 +19,15 @@ public final class ObjModelReader implements ObjReader {
     private List<ObjVertex> vertices;
     private List<ObjTextureVertex> textureVertices;
     private List<ObjVertexNormal> vertexNormals;
+    private List<ObjFace> faces;
 
     private BufferedReader reader;
 
     private StringBuilder stringer;
     private List<String> strings;
+
+    private StringBuilder tripleter;
+    private String triplet;
 
     private int row, col;
     private String line;
