@@ -261,6 +261,25 @@ public final class ObjModelReader implements ObjReader {
         return textureVertices.get(i);
     }
 
+    private ObjVertexNormal vertexNormalByIndex() throws ObjReaderException {
+        int i = indices[2];
+        if (i == 0) {
+            return null;
+        }
+
+        final int len = textureVertices.size();
+
+        if (i < 0) {
+            i += len;
+        }
+
+        if (i < 0 || i >= len) {
+            error(ObjReaderExceptionType.PARSE, "invalid vertex normal index");
+        }
+
+        return vertexNormals.get(i);
+    }
+
     private void parseLine() throws ObjReaderException {
         stringer.setLength(0);
         strings.clear();
