@@ -268,7 +268,12 @@ public final class ObjModelReader implements ObjReader {
         for (final String s : strings) {
             currentGroupNames.add(s);
             n = groupNameMap.getOrDefault(s, new ObjGroupName(s));
+
             groupNames.add(n);
+
+            if (!groupNameMap.containsKey(s)) {
+                groupNameMap.put(s, n);
+            }
         }
     }
 
