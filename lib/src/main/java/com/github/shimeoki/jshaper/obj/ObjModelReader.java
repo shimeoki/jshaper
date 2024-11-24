@@ -31,28 +31,37 @@ import com.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
 
 public final class ObjModelReader implements ObjReader {
 
+    // parse results
     private List<ObjVertex> vertices;
     private List<ObjTextureVertex> textureVertices;
     private List<ObjVertexNormal> vertexNormals;
     private List<ObjFace> faces;
     private Set<ObjGroupName> groupNames;
 
+    // input
     private BufferedReader reader;
 
+    // parse lines
     private StringBuilder stringer;
     private List<String> strings;
 
+    // parse faces
     private StringBuilder tripleter;
     private List<ObjTriplet> triplets;
     private String triplet;
     private ObjTripletFormat format;
     private int[] indices;
 
+    // parse groups
     private String groupName;
     private Map<String, ObjGroupName> groupNameMap;
 
+    // parse
     private int row, col;
     private String line;
+
+    public ObjModelReader() {
+    }
 
     private void open(final File f) throws ObjReaderException {
         cache();
