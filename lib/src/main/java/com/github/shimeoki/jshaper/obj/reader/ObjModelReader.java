@@ -258,10 +258,10 @@ public final class ObjModelReader implements ObjReader {
             tripleter.setLength(0);
         }
 
-        return tripletByIndices();
+        return parseTripletByIndices();
     }
 
-    private ObjVertex vertexByIndex() throws ObjReaderException {
+    private ObjVertex parseVertexByIndex() throws ObjReaderException {
         int i = indices[0];
         if (i == 0) {
             error(ObjReaderExceptionType.PARSE, "no vertex index in the triplet");
@@ -280,7 +280,7 @@ public final class ObjModelReader implements ObjReader {
         return vertices.get(i);
     }
 
-    private ObjTextureVertex textureVertexByIndex() throws ObjReaderException {
+    private ObjTextureVertex parseTextureVertexByIndex() throws ObjReaderException {
         int i = indices[1];
         if (i == 0) {
             return null;
@@ -299,7 +299,7 @@ public final class ObjModelReader implements ObjReader {
         return textureVertices.get(i);
     }
 
-    private ObjVertexNormal vertexNormalByIndex() throws ObjReaderException {
+    private ObjVertexNormal parseVertexNormalByIndex() throws ObjReaderException {
         int i = indices[2];
         if (i == 0) {
             return null;
@@ -318,10 +318,10 @@ public final class ObjModelReader implements ObjReader {
         return vertexNormals.get(i);
     }
 
-    private ObjTriplet tripletByIndices() throws ObjReaderException {
-        final ObjVertex v = vertexByIndex();
-        final ObjTextureVertex vt = textureVertexByIndex();
-        final ObjVertexNormal vn = vertexNormalByIndex();
+    private ObjTriplet parseTripletByIndices() throws ObjReaderException {
+        final ObjVertex v = parseVertexByIndex();
+        final ObjTextureVertex vt = parseTextureVertexByIndex();
+        final ObjVertexNormal vn = parseVertexNormalByIndex();
 
         final ObjTriplet t = new ObjTriplet(v, vt, vn);
         final ObjTripletFormat fmt = t.format();
@@ -342,17 +342,17 @@ public final class ObjModelReader implements ObjReader {
         strings.clear();
         col = 0;
 
-        final ObjToken lineToken = lineToken();
+        final ObjToken lineToken = parseLineToken();
         if (lineToken.equals(ObjToken.COMMENT)) {
             return;
         }
 
-        fillStrings();
+        parseStrings();
 
-        parseStrings(lineToken);
+        parseByToken(lineToken);
     }
 
-    private ObjToken lineToken() throws ObjReaderException {
+    private ObjToken parseLineToken() throws ObjReaderException {
         final int len = line.length();
 
         char c;
@@ -367,7 +367,7 @@ public final class ObjModelReader implements ObjReader {
             stringer.append(c);
         }
 
-        final ObjToken token = ObjTokenizer.parse(flush());
+        final ObjToken token = ObjTokenizer.parse(flushStringer());
         if (token == null) {
             error(ObjReaderExceptionType.PARSE, "unknown token at the start of the line");
         }
@@ -375,7 +375,7 @@ public final class ObjModelReader implements ObjReader {
         return token;
     }
 
-    private void fillStrings() throws ObjReaderException {
+    private void parseStrings() throws ObjReaderException {
         final int len = line.length();
         if (len == 0) {
             return;
@@ -401,7 +401,7 @@ public final class ObjModelReader implements ObjReader {
                 continue;
             }
 
-            s = flush();
+            s = flushStringer();
             token = ObjTokenizer.parse(s);
 
             if (token == null) {
@@ -418,13 +418,13 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
-    private String flush() {
+    private String flushStringer() {
         final String s = stringer.toString();
         stringer.setLength(0);
         return s;
     }
 
-    private void parseStrings(final ObjToken token) throws ObjReaderException {
+    private void parseByToken(final ObjToken token) throws ObjReaderException {
         switch (token) {
             case VERTEX:
                 parseVertex();
@@ -443,13 +443,11 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
-    private void parseLines() throws ObjReaderException {
+    private ObjFile parse() throws ObjReaderException {
         for (readLine(); line != null; readLine(), row++) {
             parseLine();
         }
-    }
 
-    private ObjFile file() {
         final ObjVertexData data = new ObjVertexData(
                 vertices,
                 textureVertices,
@@ -468,10 +466,7 @@ public final class ObjModelReader implements ObjReader {
         }
 
         open(f);
-
-        parseLines();
-        final ObjFile result = file();
-
+        final ObjFile result = parse();
         close();
 
         return result;
