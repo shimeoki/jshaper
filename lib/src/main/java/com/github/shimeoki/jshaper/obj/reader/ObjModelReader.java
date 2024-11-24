@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
 import com.github.shimeoki.jshaper.obj.data.ObjTriplet;
+import com.github.shimeoki.jshaper.obj.data.ObjTripletFormat;
 import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
@@ -30,6 +31,7 @@ public final class ObjModelReader implements ObjReader {
 
     private StringBuilder tripleter;
     private String triplet;
+    private ObjTripletFormat format;
     private int[] indices;
 
     private int row, col;
@@ -219,8 +221,7 @@ public final class ObjModelReader implements ObjReader {
             tripleter.setLength(0);
         }
 
-        // TODO
-        return null;
+        return tripletByIndices();
     }
 
     private ObjVertex vertexByIndex() throws ObjReaderException {
@@ -278,6 +279,25 @@ public final class ObjModelReader implements ObjReader {
         }
 
         return vertexNormals.get(i);
+    }
+
+    private ObjTriplet tripletByIndices() throws ObjReaderException {
+        final ObjVertex v = vertexByIndex();
+        final ObjTextureVertex vt = textureVertexByIndex();
+        final ObjVertexNormal vn = vertexNormalByIndex();
+
+        final ObjTriplet t = new ObjTriplet(v, vt, vn);
+        final ObjTripletFormat fmt = t.format();
+
+        if (format == null) {
+            format = fmt;
+        }
+
+        if (!format.equals(fmt)) {
+            error(ObjReaderExceptionType.PARSE, "multiple triplet formats in one face");
+        }
+
+        return t;
     }
 
     private void parseLine() throws ObjReaderException {
