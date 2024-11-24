@@ -1,6 +1,8 @@
 package com.github.shimeoki.jshaper.obj.data;
 
+import java.util.Set;
+
 public interface ObjElement {
 
-    public ObjGroupName groupName();
+    public Set<ObjGroupName> groupNames();
 }
