@@ -30,6 +30,7 @@ public final class ObjModelReader implements ObjReader {
     private List<String> strings;
 
     private StringBuilder tripleter;
+    private List<ObjTriplet> triplets;
     private String triplet;
     private ObjTripletFormat format;
     private int[] indices;
@@ -185,7 +186,21 @@ public final class ObjModelReader implements ObjReader {
     }
 
     private void parseFace() throws ObjReaderException {
-        // TODO
+        if (strings.size() < 3) {
+            error(ObjReaderExceptionType.PARSE, "less than three triplets in one face");
+        }
+
+        triplets.clear();
+
+        ObjTriplet t;
+        for (final String s : strings) {
+            triplet = s;
+            t = parseTriplet();
+            triplets.add(t);
+        }
+
+        final ObjFace f = new ObjFace(new ArrayList<>(triplets));
+        faces.add(f);
     }
 
     private ObjTriplet parseTriplet() throws ObjReaderException {
