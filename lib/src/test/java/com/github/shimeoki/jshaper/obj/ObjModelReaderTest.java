@@ -32,6 +32,8 @@ public final class ObjModelReaderTest {
             fail(e.getMessage());
         }
 
+        assertNotNull(f);
+
         final ObjVertexData vertexData = f.vertexData();
         assertNotNull(vertexData);
 
