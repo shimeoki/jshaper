@@ -242,6 +242,25 @@ public final class ObjModelReader implements ObjReader {
         return vertices.get(i);
     }
 
+    private ObjTextureVertex textureVertexByIndex() throws ObjReaderException {
+        int i = indices[1];
+        if (i == 0) {
+            return null;
+        }
+
+        final int len = textureVertices.size();
+
+        if (i < 0) {
+            i += len;
+        }
+
+        if (i < 0 || i >= len) {
+            error(ObjReaderExceptionType.PARSE, "invalid texture vertex index");
+        }
+
+        return textureVertices.get(i);
+    }
+
     private void parseLine() throws ObjReaderException {
         stringer.setLength(0);
         strings.clear();
