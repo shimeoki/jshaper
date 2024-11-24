@@ -22,4 +22,9 @@ public final class ObjFile {
     public ObjElements elements() {
         return elements;
     }
+
+    public ObjGroupingData groupingData() {
+        // TODO
+        return null;
+    }
 }
