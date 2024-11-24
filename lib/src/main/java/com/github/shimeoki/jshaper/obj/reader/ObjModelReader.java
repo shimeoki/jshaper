@@ -28,9 +28,13 @@ public final class ObjModelReader implements ObjReader {
     private String line;
 
     private void error(final ObjReaderExceptionType type, final String msg) throws ObjReaderException {
+        final int row = this.row + 1;
+
         uncache();
         closeReader();
-        throw new ObjReaderException(type, msg);
+
+        throw new ObjReaderException(
+                type, String.format("%s at row %d", msg, row));
     }
 
     private void openReader(final File f) throws ObjReaderException {
