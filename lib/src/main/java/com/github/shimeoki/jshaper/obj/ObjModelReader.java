@@ -472,6 +472,9 @@ public final class ObjModelReader implements ObjReader {
             case FACE:
                 parseFace();
                 break;
+            case GROUP_NAME:
+                parseGroupName();
+                break;
             default:
                 error(ObjReaderExceptionType.PARSE, "unsupported token");
         }
