@@ -15,6 +15,7 @@ import java.util.Set;
 
 import com.github.shimeoki.jshaper.obj.data.ObjElements;
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
+import com.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import com.github.shimeoki.jshaper.obj.data.ObjGroupingData;
 import com.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import com.github.shimeoki.jshaper.obj.data.ObjTripletFormat;
@@ -136,7 +137,7 @@ public final class ObjModelReader implements ObjReader {
         format = null;
         indices = null;
 
-        groupName = null;
+        currentGroupNames = null;
         groupNameMap = null;
 
         row = 0;
