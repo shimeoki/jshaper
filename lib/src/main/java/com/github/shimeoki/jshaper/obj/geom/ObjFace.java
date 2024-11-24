@@ -10,15 +10,18 @@ import com.github.shimeoki.jshaper.obj.data.ObjTriplet;
 public final class ObjFace implements ObjElement {
 
     private final List<ObjTriplet> triplets;
+    private final ObjGroupName groupName;
 
-    public ObjFace(final List<ObjTriplet> triplets) {
+    public ObjFace(final List<ObjTriplet> triplets, final ObjGroupName groupName) {
         Objects.requireNonNull(triplets);
+        Objects.requireNonNull(groupName);
 
         if (triplets.size() < 3) {
             throw new IllegalArgumentException("ObjFace: triplets.size() < 3");
         }
 
         this.triplets = triplets;
+        this.groupName = groupName;
     }
 
     public List<ObjTriplet> triplets() {
@@ -27,7 +30,6 @@ public final class ObjFace implements ObjElement {
 
     @Override
     public ObjGroupName groupName() {
-        // TODO
-        return null;
+        return groupName;
     }
 }

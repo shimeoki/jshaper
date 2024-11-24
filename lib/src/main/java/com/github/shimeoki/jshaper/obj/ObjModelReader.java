@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.github.shimeoki.jshaper.obj.data.ObjElements;
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
+import com.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import com.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import com.github.shimeoki.jshaper.obj.data.ObjTripletFormat;
 import com.github.shimeoki.jshaper.obj.data.ObjVertexData;
@@ -225,7 +226,7 @@ public final class ObjModelReader implements ObjReader {
             triplets.add(t);
         }
 
-        final ObjFace f = new ObjFace(new ArrayList<>(triplets));
+        final ObjFace f = new ObjFace(new ArrayList<>(triplets), new ObjGroupName("default"));
         faces.add(f);
     }
 
