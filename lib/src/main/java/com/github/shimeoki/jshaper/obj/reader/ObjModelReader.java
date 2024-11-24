@@ -48,6 +48,9 @@ public final class ObjModelReader implements ObjReader {
             reader.close();
         } catch (IOException e) {
             error(ObjReaderExceptionType.IO, "error while closing the file");
+        } finally {
+            // can be unsafe, but otherwise the recursion can occur
+            reader = null;
         }
     }
 
