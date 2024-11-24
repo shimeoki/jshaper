@@ -36,12 +36,12 @@ public final class ObjModelReaderTest {
 
         assertNotNull(obj);
 
-        final ObjVertexData vertexData = obj.vertexData();
-        assertNotNull(vertexData);
+        final ObjVertexData data = obj.vertexData();
+        assertNotNull(data);
 
-        assertEquals(15789, vertexData.vertices().size());
-        assertEquals(28209, vertexData.textureVertices().size());
-        assertEquals(26181, vertexData.vertexNormals().size());
+        assertEquals(15789, data.vertices().size());
+        assertEquals(28209, data.textureVertices().size());
+        assertEquals(26181, data.vertexNormals().size());
         assertEquals(31930, obj.elements().faces().size());
         assertEquals(30, obj.groupingData().groupNames().size());
     }
@@ -60,12 +60,12 @@ public final class ObjModelReaderTest {
 
         assertNotNull(obj);
 
-        final ObjVertexData vertexData = obj.vertexData();
-        assertNotNull(vertexData);
+        final ObjVertexData data = obj.vertexData();
+        assertNotNull(data);
 
-        assertEquals(4, vertexData.vertices().size());
-        assertEquals(4, vertexData.textureVertices().size());
-        assertEquals(4, vertexData.vertexNormals().size());
+        assertEquals(4, data.vertices().size());
+        assertEquals(4, data.textureVertices().size());
+        assertEquals(4, data.vertexNormals().size());
         // parameter space vertices are not supported yet
     }
 }
