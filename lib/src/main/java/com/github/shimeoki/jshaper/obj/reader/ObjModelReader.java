@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.github.shimeoki.jshaper.obj.data.ObjElements;
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
 import com.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import com.github.shimeoki.jshaper.obj.data.ObjTripletFormat;
+import com.github.shimeoki.jshaper.obj.data.ObjVertexData;
 import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
@@ -438,6 +440,18 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
+    private ObjFile file() {
+        final ObjVertexData data = new ObjVertexData(
+                vertices,
+                textureVertices,
+                vertexNormals,
+                new ArrayList<>());
+
+        final ObjElements elements = new ObjElements(faces);
+
+        return new ObjFile(data, elements);
+    }
+
     @Override
     public ObjFile read(final File f) throws ObjReaderException {
         if (!f.canRead()) {
@@ -448,11 +462,11 @@ public final class ObjModelReader implements ObjReader {
         openReader(f);
 
         parseLines();
+        final ObjFile result = file();
 
         uncache();
         closeReader();
 
-        // TODO
-        return null;
+        return result;
     }
 }
