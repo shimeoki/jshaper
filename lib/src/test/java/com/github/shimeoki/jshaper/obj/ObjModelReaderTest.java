@@ -19,14 +19,14 @@ public final class ObjModelReaderTest {
     private File file(final String name) {
         final String filename = String.format("%s/%s.obj", name, name);
         final String path = getClass().getResource(filename).getPath();
-        return new File(path);
-    }
 
-    @Test
-    public void case1() {
-        final File f = file("001");
+        final File f = new File(path);
         assertNotNull(f);
 
+        return f;
+    }
+
+    private ObjFile obj(final File f) {
         ObjFile obj = null;
         try {
             obj = reader.read(f);
@@ -35,6 +35,14 @@ public final class ObjModelReaderTest {
         }
 
         assertNotNull(obj);
+
+        return obj;
+    }
+
+    @Test
+    public void case1() {
+        final File f = file("001");
+        final ObjFile obj = obj(f);
 
         final ObjVertexData data = obj.vertexData();
         assertNotNull(data);
@@ -49,16 +57,7 @@ public final class ObjModelReaderTest {
     @Test
     public void case2() {
         final File f = file("002");
-        assertNotNull(f);
-
-        ObjFile obj = null;
-        try {
-            obj = reader.read(f);
-        } catch (final ObjReaderException e) {
-            fail(e.getMessage());
-        }
-
-        assertNotNull(obj);
+        final ObjFile obj = obj(f);
 
         final ObjVertexData data = obj.vertexData();
         assertNotNull(data);
