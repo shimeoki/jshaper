@@ -253,8 +253,23 @@ public final class ObjModelReader implements ObjReader {
             triplets.add(t);
         }
 
-        final ObjFace f = new ObjFace(new ArrayList<>(triplets), new HashSet<>());
+        final ObjFace f = new ObjFace(new ArrayList<>(triplets), groupNames());
         faces.add(f);
+    }
+
+    private Set<ObjGroupName> groupNames() {
+        final Set<ObjGroupName> names = new HashSet<>();
+
+        if (currentGroupNames.isEmpty()) {
+            names.add(new ObjGroupName("default"));
+            return names;
+        }
+
+        for (final String s : currentGroupNames) {
+            names.add(groupNameMap.get(s));
+        }
+
+        return names;
     }
 
     private void parseGroupName() throws ObjReaderException {
