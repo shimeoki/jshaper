@@ -23,24 +23,25 @@ public final class ObjModelReaderTest {
 
     @Test
     public void case1() {
-        final File file = file("001/001.obj");
+        final File f = file("001/001.obj");
+        assertNotNull(f);
 
-        ObjFile f = null;
+        ObjFile obj = null;
         try {
-            f = reader.read(file);
+            obj = reader.read(f);
         } catch (final ObjReaderException e) {
             fail(e.getMessage());
         }
 
-        assertNotNull(f);
+        assertNotNull(obj);
 
-        final ObjVertexData vertexData = f.vertexData();
+        final ObjVertexData vertexData = obj.vertexData();
         assertNotNull(vertexData);
 
         assertEquals(15789, vertexData.vertices().size());
         assertEquals(28209, vertexData.textureVertices().size());
         assertEquals(26181, vertexData.vertexNormals().size());
-        assertEquals(31930, f.elements().faces().size());
-        assertEquals(30, f.groupingData().groupNames().size());
+        assertEquals(31930, obj.elements().faces().size());
+        assertEquals(30, obj.groupingData().groupNames().size());
     }
 }
