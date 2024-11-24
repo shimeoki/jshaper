@@ -5,6 +5,9 @@ import com.github.shimeoki.jshaper.geom.Pos;
 
 public final class ObjTextureVertex implements Pointf {
 
+    public static final float DEFAULT_V = 0;
+    public static final float DEFAULT_W = 0;
+
     private final float[] values = new float[3];
 
     public ObjTextureVertex(final float u, final Float v, final Float w) {
@@ -13,13 +16,13 @@ public final class ObjTextureVertex implements Pointf {
         if (v != null) {
             setV(v);
         } else {
-            setV(0);
+            setV(DEFAULT_V);
         }
 
         if (w != null) {
             setW(w);
         } else {
-            setW(0);
+            setW(DEFAULT_W);
         }
     }
 
