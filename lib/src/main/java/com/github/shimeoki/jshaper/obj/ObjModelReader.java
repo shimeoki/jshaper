@@ -116,6 +116,7 @@ public final class ObjModelReader implements ObjReader {
         tripleter = new StringBuilder();
         triplets = new ArrayList<>();
 
+        currentGroupNames = new HashSet<>();
         groupNameMap = new HashMap<>();
 
         indices = new int[3];
