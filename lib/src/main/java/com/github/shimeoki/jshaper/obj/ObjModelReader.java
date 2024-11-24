@@ -443,9 +443,6 @@ public final class ObjModelReader implements ObjReader {
 
             if (token.equals(ObjToken.COMMENT)) {
                 break;
-            } else {
-                error(ObjReaderExceptionType.PARSE,
-                        "found a token not at the start of the line");
             }
         }
     }
