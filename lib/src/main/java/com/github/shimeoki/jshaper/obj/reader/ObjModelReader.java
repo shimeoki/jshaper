@@ -40,11 +40,20 @@ public final class ObjModelReader implements ObjReader {
     private int row, col;
     private String line;
 
+    private void open(final File f) throws ObjReaderException {
+        cache();
+        openReader(f);
+    }
+
+    private void close() throws ObjReaderException {
+        uncache();
+        closeReader();
+    }
+
     private void error(final ObjReaderExceptionType type, final String msg) throws ObjReaderException {
         final int row = this.row + 1;
 
-        uncache();
-        closeReader();
+        close();
 
         throw new ObjReaderException(
                 type, String.format("%s at row %d", msg, row));
@@ -458,14 +467,12 @@ public final class ObjModelReader implements ObjReader {
             error(ObjReaderExceptionType.IO, "file is not readable");
         }
 
-        cache();
-        openReader(f);
+        open(f);
 
         parseLines();
         final ObjFile result = file();
 
-        uncache();
-        closeReader();
+        close();
 
         return result;
     }
