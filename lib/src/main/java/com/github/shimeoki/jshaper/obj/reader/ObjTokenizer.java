@@ -8,6 +8,7 @@ public final class ObjTokenizer {
     public static final String VERTEX_NORMAL = "vn";
     public static final String PARAMETER_SPACE_VERTEX = "vp";
     public static final String FACE = "f";
+    public static final String GROUP_NAME = "g";
 
     public static ObjToken parse(final String s) {
         switch (s) {
@@ -23,6 +24,8 @@ public final class ObjTokenizer {
                 return ObjToken.PARAMETER_SPACE_VERTEX;
             case FACE:
                 return ObjToken.FACE;
+            case GROUP_NAME:
+                return ObjToken.GROUP_NAME;
             default:
                 return null;
         }

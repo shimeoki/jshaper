@@ -7,7 +7,8 @@ public enum ObjToken {
     TEXTURE_VERTEX(ObjTokenizer.TEXTURE_VERTEX),
     VERTEX_NORMAL(ObjTokenizer.VERTEX_NORMAL),
     PARAMETER_SPACE_VERTEX(ObjTokenizer.PARAMETER_SPACE_VERTEX),
-    FACE(ObjTokenizer.FACE);
+    FACE(ObjTokenizer.FACE),
+    GROUP_NAME(ObjTokenizer.GROUP_NAME);
 
     private final String txt;
 
