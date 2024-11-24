@@ -100,6 +100,18 @@ public final class ObjModelReader implements ObjReader {
         return 0;
     }
 
+    private int parseInt(final String s) throws ObjReaderException {
+        try {
+            return Integer.parseInt(s);
+        } catch (final NumberFormatException e) {
+            error(ObjReaderExceptionType.PARSE, "invalid int format");
+        }
+
+        // shouldn't reach.
+        // only for the compiler check
+        return 0;
+    }
+
     private void parseVertex() throws ObjReaderException {
         final int len = strings.size();
 
