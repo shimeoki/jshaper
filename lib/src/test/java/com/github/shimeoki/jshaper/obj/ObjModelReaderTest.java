@@ -23,7 +23,7 @@ public final class ObjModelReaderTest {
 
     @Test
     public void case1() {
-        final File file = file("001/cnc.obj");
+        final File file = file("001/001.obj");
 
         ObjFile f = null;
         try {
