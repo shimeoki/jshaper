@@ -11,7 +11,7 @@ public final class ObjElements {
     // are present
     private final List<ObjFace> faces;
 
-    private ObjElements(final List<ObjFace> faces) {
+    public ObjElements(final List<ObjFace> faces) {
         Objects.requireNonNull(faces);
 
         this.faces = faces;
