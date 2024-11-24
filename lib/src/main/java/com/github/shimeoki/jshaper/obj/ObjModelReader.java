@@ -375,8 +375,11 @@ public final class ObjModelReader implements ObjReader {
         col = 0;
 
         final ObjToken lineToken = parseLineToken();
-        if (lineToken.equals(ObjToken.COMMENT)) {
-            return;
+        switch (lineToken) {
+            case VERTEX, TEXTURE_VERTEX, VERTEX_NORMAL, FACE, GROUP_NAME:
+                break;
+            default:
+                return;
         }
 
         parseStrings();
