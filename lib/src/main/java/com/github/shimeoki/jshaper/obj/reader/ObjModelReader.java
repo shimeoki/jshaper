@@ -76,6 +76,11 @@ public final class ObjModelReader implements ObjReader {
 
         stringer = new StringBuilder();
         strings = new ArrayList<>();
+
+        tripleter = new StringBuilder();
+        triplets = new ArrayList<>();
+
+        indices = new int[3];
     }
 
     private void uncache() {
@@ -85,6 +90,12 @@ public final class ObjModelReader implements ObjReader {
 
         stringer = null;
         strings = null;
+
+        tripleter = null;
+        triplets = null;
+        triplet = null;
+        format = null;
+        indices = null;
 
         row = 0;
         col = 0;
