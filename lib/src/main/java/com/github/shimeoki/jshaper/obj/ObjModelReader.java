@@ -28,8 +28,8 @@ import com.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import com.github.shimeoki.jshaper.obj.reader.ObjToken;
 import com.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
-import com.github.shimeoki.jshaper.obj.reader.ObjTripletParser;
-import com.github.shimeoki.jshaper.obj.reader.ObjVertexParser;
+import com.github.shimeoki.jshaper.obj.reader.ObjTripletReader;
+import com.github.shimeoki.jshaper.obj.reader.ObjVertexReader;
 
 public final class ObjModelReader implements ObjReader {
 
@@ -48,7 +48,7 @@ public final class ObjModelReader implements ObjReader {
     private List<String> strings;
 
     // parse faces
-    private ObjTripletParser tripleter;
+    private ObjTripletReader tripleter;
     private List<ObjTriplet> triplets;
     private ObjTripletFormat format;
 
@@ -115,7 +115,7 @@ public final class ObjModelReader implements ObjReader {
         stringer = new StringBuilder();
         strings = new ArrayList<>();
 
-        tripleter = new ObjTripletParser(vertices, textureVertices, vertexNormals);
+        tripleter = new ObjTripletReader(vertices, textureVertices, vertexNormals);
         triplets = new ArrayList<>();
 
         currentGroupNames = new HashSet<>();
@@ -297,13 +297,13 @@ public final class ObjModelReader implements ObjReader {
     private void parseByToken(final ObjToken token) throws ObjReaderException {
         switch (token) {
             case VERTEX:
-                ObjVertexParser.parseVertex(strings);
+                ObjVertexReader.parseVertex(strings);
                 break;
             case TEXTURE_VERTEX:
-                ObjVertexParser.parseTextureVertex(strings);
+                ObjVertexReader.parseTextureVertex(strings);
                 break;
             case VERTEX_NORMAL:
-                ObjVertexParser.parseVertexNormal(strings);
+                ObjVertexReader.parseVertexNormal(strings);
                 break;
             case FACE:
                 parseFace();

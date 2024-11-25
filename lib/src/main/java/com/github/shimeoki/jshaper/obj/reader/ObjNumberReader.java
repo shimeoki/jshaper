@@ -1,6 +1,6 @@
 package com.github.shimeoki.jshaper.obj.reader;
 
-public final class ObjNumberParser {
+public final class ObjNumberReader {
 
     public static float parseFloat(final String s) throws ObjReaderException {
         try {
