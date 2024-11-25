@@ -158,6 +158,7 @@ public final class ObjModelReader implements ObjReader {
         }
 
         triplets.clear();
+        format = null;
 
         ObjTriplet t;
         ObjTripletFormat fmt;
@@ -297,13 +298,13 @@ public final class ObjModelReader implements ObjReader {
     private void parseByToken(final ObjToken token) throws ObjReaderException {
         switch (token) {
             case VERTEX:
-                ObjVertexReader.parseVertex(strings);
+                vertices.add(ObjVertexReader.parseVertex(strings));
                 break;
             case TEXTURE_VERTEX:
-                ObjVertexReader.parseTextureVertex(strings);
+                textureVertices.add(ObjVertexReader.parseTextureVertex(strings));
                 break;
             case VERTEX_NORMAL:
-                ObjVertexReader.parseVertexNormal(strings);
+                vertexNormals.add(ObjVertexReader.parseVertexNormal(strings));
                 break;
             case FACE:
                 parseFace();
