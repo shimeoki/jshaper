@@ -25,6 +25,7 @@ import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import com.github.shimeoki.jshaper.obj.reader.ObjNumberParser;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import com.github.shimeoki.jshaper.obj.reader.ObjToken;
@@ -157,30 +158,6 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
-    private float parseFloat(final String s) throws ObjReaderException {
-        try {
-            return Float.parseFloat(s);
-        } catch (final NumberFormatException e) {
-            error(ObjReaderExceptionType.PARSE, "invalid float format");
-        }
-
-        // shouldn't reach.
-        // only for the compiler check
-        return 0;
-    }
-
-    private int parseInt(final String s) throws ObjReaderException {
-        try {
-            return Integer.parseInt(s);
-        } catch (final NumberFormatException e) {
-            error(ObjReaderExceptionType.PARSE, "invalid int format");
-        }
-
-        // shouldn't reach.
-        // only for the compiler check
-        return 0;
-    }
-
     private void parseVertex() throws ObjReaderException {
         final int len = strings.size();
 
@@ -188,13 +165,13 @@ public final class ObjModelReader implements ObjReader {
             error(ObjReaderExceptionType.PARSE, "invalid format for vertex");
         }
 
-        final float x = parseFloat(strings.get(0));
-        final float y = parseFloat(strings.get(1));
-        final float z = parseFloat(strings.get(2));
+        final float x = ObjNumberParser.parseFloat(strings.get(0));
+        final float y = ObjNumberParser.parseFloat(strings.get(1));
+        final float z = ObjNumberParser.parseFloat(strings.get(2));
 
         final Float w;
         if (len == 4) {
-            w = parseFloat(strings.get(3));
+            w = ObjNumberParser.parseFloat(strings.get(3));
         } else {
             w = null;
         }
@@ -210,18 +187,18 @@ public final class ObjModelReader implements ObjReader {
             error(ObjReaderExceptionType.PARSE, "invalid format for texture vertex");
         }
 
-        final float u = parseFloat(strings.get(0));
+        final float u = ObjNumberParser.parseFloat(strings.get(0));
 
         final Float v;
         if (len >= 2) {
-            v = parseFloat(strings.get(1));
+            v = ObjNumberParser.parseFloat(strings.get(1));
         } else {
             v = null;
         }
 
         final Float w;
         if (len == 3) {
-            w = parseFloat(strings.get(2));
+            w = ObjNumberParser.parseFloat(strings.get(2));
         } else {
             w = null;
         }
@@ -235,9 +212,9 @@ public final class ObjModelReader implements ObjReader {
             error(ObjReaderExceptionType.PARSE, "invalid format for vertex normal");
         }
 
-        final float i = parseFloat(strings.get(0));
-        final float j = parseFloat(strings.get(1));
-        final float k = parseFloat(strings.get(2));
+        final float i = ObjNumberParser.parseFloat(strings.get(0));
+        final float j = ObjNumberParser.parseFloat(strings.get(1));
+        final float k = ObjNumberParser.parseFloat(strings.get(2));
 
         final ObjVertexNormal vn = new ObjVertexNormal(i, j, k);
         vertexNormals.add(vn);
@@ -325,7 +302,7 @@ public final class ObjModelReader implements ObjReader {
                 continue;
             }
 
-            indices[index] = parseInt(tripleter.toString());
+            indices[index] = ObjNumberParser.parseInt(tripleter.toString());
             tripleter.setLength(0);
         }
 
