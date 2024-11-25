@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,11 +24,11 @@ import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
-import com.github.shimeoki.jshaper.obj.reader.ObjNumberParser;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import com.github.shimeoki.jshaper.obj.reader.ObjToken;
 import com.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
+import com.github.shimeoki.jshaper.obj.reader.ObjTripletParser;
 import com.github.shimeoki.jshaper.obj.reader.ObjVertexParser;
 
 public final class ObjModelReader implements ObjReader {
@@ -49,11 +48,9 @@ public final class ObjModelReader implements ObjReader {
     private List<String> strings;
 
     // parse faces
-    private StringBuilder tripleter;
+    private ObjTripletParser tripleter;
     private List<ObjTriplet> triplets;
-    private String triplet;
     private ObjTripletFormat format;
-    private int[] indices;
 
     // parse groups
     private Set<String> currentGroupNames;
@@ -118,13 +115,11 @@ public final class ObjModelReader implements ObjReader {
         stringer = new StringBuilder();
         strings = new ArrayList<>();
 
-        tripleter = new StringBuilder();
+        tripleter = new ObjTripletParser(vertices, textureVertices, vertexNormals);
         triplets = new ArrayList<>();
 
         currentGroupNames = new HashSet<>();
         groupNameMap = new HashMap<>();
-
-        indices = new int[3];
     }
 
     private void uncache() {
@@ -139,9 +134,7 @@ public final class ObjModelReader implements ObjReader {
 
         tripleter = null;
         triplets = null;
-        triplet = null;
         format = null;
-        indices = null;
 
         currentGroupNames = null;
         groupNameMap = null;
@@ -167,9 +160,20 @@ public final class ObjModelReader implements ObjReader {
         triplets.clear();
 
         ObjTriplet t;
+        ObjTripletFormat fmt;
+
         for (final String s : strings) {
-            triplet = s;
-            t = parseTriplet();
+            t = tripleter.parseTriplet(s);
+            fmt = t.format();
+
+            if (format == null) {
+                format = fmt;
+            }
+
+            if (!format.equals(fmt)) {
+                error(ObjReaderExceptionType.PARSE, "multiple triplet formats in one face");
+            }
+
             triplets.add(t);
         }
 
@@ -210,124 +214,6 @@ public final class ObjModelReader implements ObjReader {
                 groupNameMap.put(s, n);
             }
         }
-    }
-
-    private ObjTriplet parseTriplet() throws ObjReaderException {
-        final int len = triplet.length();
-        tripleter.setLength(0);
-
-        Arrays.fill(indices, 0);
-        int index = -1;
-
-        char c;
-        for (int i = 0; i < len; i++) {
-            c = triplet.charAt(i);
-
-            if (c == ' ') {
-                error(ObjReaderExceptionType.PARSE, "found a space in a triplet");
-            }
-
-            if (c != '/') {
-                tripleter.append(c);
-                continue;
-            }
-
-            index++;
-            if (index > 2) {
-                error(ObjReaderExceptionType.PARSE, "found more than three indices in a triplet");
-            }
-
-            if (tripleter.isEmpty()) {
-                continue;
-            }
-
-            indices[index] = ObjNumberParser.parseInt(tripleter.toString());
-            tripleter.setLength(0);
-        }
-
-        return parseTripletByIndices();
-    }
-
-    private ObjVertex parseVertexByIndex() throws ObjReaderException {
-        int i = indices[0];
-        if (i == 0) {
-            error(ObjReaderExceptionType.PARSE, "no vertex index in the triplet");
-        }
-
-        final int len = vertices.size();
-
-        if (i < 0) {
-            i += len;
-        } else {
-            i--;
-        }
-
-        if (i < 0 || i >= len) {
-            error(ObjReaderExceptionType.PARSE, "invalid vertex index");
-        }
-
-        return vertices.get(i);
-    }
-
-    private ObjTextureVertex parseTextureVertexByIndex() throws ObjReaderException {
-        int i = indices[1];
-        if (i == 0) {
-            return null;
-        }
-
-        final int len = textureVertices.size();
-
-        if (i < 0) {
-            i += len;
-        } else {
-            i--;
-        }
-
-        if (i < 0 || i >= len) {
-            error(ObjReaderExceptionType.PARSE, "invalid texture vertex index");
-        }
-
-        return textureVertices.get(i);
-    }
-
-    private ObjVertexNormal parseVertexNormalByIndex() throws ObjReaderException {
-        int i = indices[2];
-        if (i == 0) {
-            return null;
-        }
-
-        final int len = textureVertices.size();
-
-        if (i < 0) {
-            i += len;
-        } else {
-            i--;
-        }
-
-        if (i < 0 || i >= len) {
-            error(ObjReaderExceptionType.PARSE, "invalid vertex normal index");
-        }
-
-        return vertexNormals.get(i);
-    }
-
-    private ObjTriplet parseTripletByIndices() throws ObjReaderException {
-        final ObjVertex v = parseVertexByIndex();
-        final ObjTextureVertex vt = parseTextureVertexByIndex();
-        final ObjVertexNormal vn = parseVertexNormalByIndex();
-
-        final ObjTriplet t = new ObjTriplet(v, vt, vn);
-        final ObjTripletFormat fmt = t.format();
-
-        if (format == null) {
-            format = fmt;
-        }
-
-        if (!format.equals(fmt)) {
-            error(ObjReaderExceptionType.PARSE, "multiple triplet formats in one face");
-        }
-
-        return t;
     }
 
     private void parseLine() throws ObjReaderException {
