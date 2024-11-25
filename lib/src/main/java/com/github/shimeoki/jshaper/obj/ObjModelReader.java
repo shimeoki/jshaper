@@ -30,6 +30,7 @@ import com.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import com.github.shimeoki.jshaper.obj.reader.ObjToken;
 import com.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
+import com.github.shimeoki.jshaper.obj.reader.ObjVertexParser;
 
 public final class ObjModelReader implements ObjReader {
 
@@ -156,68 +157,6 @@ public final class ObjModelReader implements ObjReader {
         } catch (IOException e) {
             error(ObjReaderExceptionType.IO, "error while reading the file");
         }
-    }
-
-    private void parseVertex() throws ObjReaderException {
-        final int len = strings.size();
-
-        if (len < 3 || len > 4) {
-            error(ObjReaderExceptionType.PARSE, "invalid format for vertex");
-        }
-
-        final float x = ObjNumberParser.parseFloat(strings.get(0));
-        final float y = ObjNumberParser.parseFloat(strings.get(1));
-        final float z = ObjNumberParser.parseFloat(strings.get(2));
-
-        final Float w;
-        if (len == 4) {
-            w = ObjNumberParser.parseFloat(strings.get(3));
-        } else {
-            w = null;
-        }
-
-        final ObjVertex v = new ObjVertex(x, y, z, w);
-        vertices.add(v);
-    }
-
-    private void parseTextureVertex() throws ObjReaderException {
-        final int len = strings.size();
-
-        if (len < 1 || len > 3) {
-            error(ObjReaderExceptionType.PARSE, "invalid format for texture vertex");
-        }
-
-        final float u = ObjNumberParser.parseFloat(strings.get(0));
-
-        final Float v;
-        if (len >= 2) {
-            v = ObjNumberParser.parseFloat(strings.get(1));
-        } else {
-            v = null;
-        }
-
-        final Float w;
-        if (len == 3) {
-            w = ObjNumberParser.parseFloat(strings.get(2));
-        } else {
-            w = null;
-        }
-
-        final ObjTextureVertex vt = new ObjTextureVertex(u, v, w);
-        textureVertices.add(vt);
-    }
-
-    private void parseVertexNormal() throws ObjReaderException {
-        if (strings.size() != 3) {
-            error(ObjReaderExceptionType.PARSE, "invalid format for vertex normal");
-        }
-
-        final float i = ObjNumberParser.parseFloat(strings.get(0));
-        final float j = ObjNumberParser.parseFloat(strings.get(1));
-        final float k = ObjNumberParser.parseFloat(strings.get(2));
-
-        final ObjVertexNormal vn = new ObjVertexNormal(i, j, k);
-        vertexNormals.add(vn);
     }
 
     private void parseFace() throws ObjReaderException {
@@ -472,13 +411,13 @@ public final class ObjModelReader implements ObjReader {
     private void parseByToken(final ObjToken token) throws ObjReaderException {
         switch (token) {
             case VERTEX:
-                parseVertex();
+                ObjVertexParser.parseVertex(strings);
                 break;
             case TEXTURE_VERTEX:
-                parseTextureVertex();
+                ObjVertexParser.parseTextureVertex(strings);
                 break;
             case VERTEX_NORMAL:
-                parseVertexNormal();
+                ObjVertexParser.parseVertexNormal(strings);
                 break;
             case FACE:
                 parseFace();
