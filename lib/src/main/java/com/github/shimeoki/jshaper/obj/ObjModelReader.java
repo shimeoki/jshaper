@@ -28,8 +28,8 @@ import com.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import com.github.shimeoki.jshaper.obj.reader.ObjToken;
 import com.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
-import com.github.shimeoki.jshaper.obj.reader.ObjTripletReader;
-import com.github.shimeoki.jshaper.obj.reader.ObjVertexReader;
+import com.github.shimeoki.jshaper.obj.reader.ObjTripleter;
+import com.github.shimeoki.jshaper.obj.reader.ObjVertexer;
 
 public final class ObjModelReader implements ObjReader {
 
@@ -48,7 +48,7 @@ public final class ObjModelReader implements ObjReader {
     private List<String> strings;
 
     // parse faces
-    private ObjTripletReader tripleter;
+    private ObjTripleter tripleter;
     private List<ObjTriplet> triplets;
     private ObjTripletFormat format;
 
@@ -115,7 +115,7 @@ public final class ObjModelReader implements ObjReader {
         stringer = new StringBuilder();
         strings = new ArrayList<>();
 
-        tripleter = new ObjTripletReader(vertices, textureVertices, vertexNormals);
+        tripleter = new ObjTripleter(vertices, textureVertices, vertexNormals);
         triplets = new ArrayList<>();
 
         currentGroupNames = new HashSet<>();
@@ -298,13 +298,13 @@ public final class ObjModelReader implements ObjReader {
     private void parseByToken(final ObjToken token) throws ObjReaderException {
         switch (token) {
             case VERTEX:
-                vertices.add(ObjVertexReader.parseVertex(strings));
+                vertices.add(ObjVertexer.parseVertex(strings));
                 break;
             case TEXTURE_VERTEX:
-                textureVertices.add(ObjVertexReader.parseTextureVertex(strings));
+                textureVertices.add(ObjVertexer.parseTextureVertex(strings));
                 break;
             case VERTEX_NORMAL:
-                vertexNormals.add(ObjVertexReader.parseVertexNormal(strings));
+                vertexNormals.add(ObjVertexer.parseVertexNormal(strings));
                 break;
             case FACE:
                 parseFace();

@@ -9,7 +9,7 @@ import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
-public final class ObjTripletReader {
+public final class ObjTripleter {
 
     private final List<ObjVertex> vertices;
     private final List<ObjTextureVertex> textureVertices;
@@ -18,7 +18,7 @@ public final class ObjTripletReader {
     private final StringBuilder builder = new StringBuilder();
     private final int[] indices = new int[3];
 
-    public ObjTripletReader(
+    public ObjTripleter(
             final List<ObjVertex> vertices,
             final List<ObjTextureVertex> textureVertices,
             final List<ObjVertexNormal> vertexNormals) {
@@ -62,7 +62,7 @@ public final class ObjTripletReader {
                 continue;
             }
 
-            indices[index] = ObjNumberReader.parseInt(builder.toString());
+            indices[index] = ObjNumberer.parseInt(builder.toString());
             builder.setLength(0);
         }
     }
