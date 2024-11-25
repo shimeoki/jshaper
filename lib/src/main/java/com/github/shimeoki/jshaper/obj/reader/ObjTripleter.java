@@ -130,7 +130,7 @@ public final class ObjTripleter {
         return vertexNormals.get(i);
     }
 
-    public ObjTriplet parseTriplet(final String triplet) throws ObjReaderException {
+    public ObjTriplet parse(final String triplet) throws ObjReaderException {
         parseIndices(triplet);
 
         final ObjVertex v = parseVertex();

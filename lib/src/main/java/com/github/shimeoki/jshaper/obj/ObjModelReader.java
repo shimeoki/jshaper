@@ -164,7 +164,7 @@ public final class ObjModelReader implements ObjReader {
         ObjTripletFormat fmt;
 
         for (final String s : strings) {
-            t = tripleter.parseTriplet(s);
+            t = tripleter.parse(s);
             fmt = t.format();
 
             if (format == null) {
