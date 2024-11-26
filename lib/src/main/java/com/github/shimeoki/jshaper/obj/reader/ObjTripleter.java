@@ -23,13 +23,9 @@ public final class ObjTripleter {
             final List<ObjTextureVertex> textureVertices,
             final List<ObjVertexNormal> vertexNormals) {
 
-        Objects.requireNonNull(vertices);
-        Objects.requireNonNull(textureVertices);
-        Objects.requireNonNull(vertexNormals);
-
-        this.vertices = vertices;
-        this.textureVertices = textureVertices;
-        this.vertexNormals = vertexNormals;
+        this.vertices = Objects.requireNonNull(vertices);
+        this.textureVertices = Objects.requireNonNull(textureVertices);
+        this.vertexNormals = Objects.requireNonNull(vertexNormals);
     }
 
     private void parseIndices(final String triplet) throws ObjReaderException {
@@ -131,6 +127,8 @@ public final class ObjTripleter {
     }
 
     public ObjTriplet parse(final String triplet) throws ObjReaderException {
+        Objects.requireNonNull(triplet);
+
         parseIndices(triplet);
 
         final ObjVertex v = parseVertex();
