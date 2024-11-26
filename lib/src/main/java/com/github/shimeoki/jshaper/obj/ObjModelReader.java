@@ -28,10 +28,20 @@ import com.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import com.github.shimeoki.jshaper.obj.reader.ObjToken;
 import com.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
+import com.github.shimeoki.jshaper.obj.reader.ObjTokenizerMode;
 import com.github.shimeoki.jshaper.obj.reader.ObjTripleter;
 import com.github.shimeoki.jshaper.obj.reader.ObjVertexer;
 
 public final class ObjModelReader implements ObjReader {
+
+    private static final ObjTokenizerMode TOKENIZER_MODE = ObjTokenizerMode.WHITELIST_ONLY;
+    private static final Set<ObjToken> TOKENIZER_BLACKLIST = new HashSet<>();
+    private static final Set<ObjToken> TOKENIZER_WHITELIST = ObjTokenizer.tokenSet(
+            ObjToken.VERTEX,
+            ObjToken.TEXTURE_VERTEX,
+            ObjToken.VERTEX_NORMAL,
+            ObjToken.FACE,
+            ObjToken.GROUP_NAME);
 
     // parse results
     private List<ObjVertex> vertices;
@@ -46,6 +56,8 @@ public final class ObjModelReader implements ObjReader {
     // parse lines
     private StringBuilder stringer;
     private List<String> strings;
+
+    private ObjTokenizer tokenizer;
 
     // parse faces
     private ObjTripleter tripleter;
@@ -112,6 +124,7 @@ public final class ObjModelReader implements ObjReader {
         faces = new ArrayList<>();
         groupNames = new HashSet<>();
 
+        tokenizer = new ObjTokenizer(TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
         stringer = new StringBuilder();
         strings = new ArrayList<>();
 
