@@ -1,6 +1,8 @@
 package com.github.shimeoki.jshaper.obj.reader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -34,6 +36,10 @@ public final class ObjTokenizer {
 
         this.whitelist = whitelist;
         this.blacklist = blacklist;
+    }
+
+    public static Set<ObjToken> tokenSet(final ObjToken... tokens) {
+        return new HashSet<>(Arrays.asList(tokens));
     }
 
     public static ObjToken parse(final String s) {
