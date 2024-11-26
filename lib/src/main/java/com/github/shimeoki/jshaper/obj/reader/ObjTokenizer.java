@@ -73,14 +73,15 @@ public final class ObjTokenizer {
         this.mode = mode;
     }
 
-    public List<ObjParsedString> parseLine(final String line) {
+    public void parseLine(final String line, List<ObjParsedString> output) {
         Objects.requireNonNull(line);
+        Objects.requireNonNull(output);
 
-        final List<ObjParsedString> parsedLine = new ArrayList<>();
+        output.clear();
 
         final int len = line.length();
         if (len == 0) {
-            return parsedLine;
+            return;
         }
 
         char c;
@@ -96,7 +97,7 @@ public final class ObjTokenizer {
 
             if (isComment(c)) {
                 if (!builder.isEmpty()) {
-                    parsedLine.add(flushAndParse());
+                    output.add(flushAndParse());
                 }
 
                 break;
@@ -112,11 +113,9 @@ public final class ObjTokenizer {
             if (!allowed(token) || token.equals(ObjToken.COMMENT)) {
                 break;
             } else {
-                parsedLine.add(parsed);
+                output.add(parsed);
             }
         }
-
-        return parsedLine;
     }
 
     private boolean isComment(final char c) {
