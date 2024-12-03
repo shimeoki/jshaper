@@ -15,9 +15,6 @@ import com.github.shimeoki.jshaper.obj.data.ObjElements;
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
 import com.github.shimeoki.jshaper.obj.data.ObjGroupingData;
 import com.github.shimeoki.jshaper.obj.data.ObjVertexData;
-import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
-import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
-import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import com.github.shimeoki.jshaper.obj.reader.ObjFacer;
 import com.github.shimeoki.jshaper.obj.reader.ObjGroupNamer;
 import com.github.shimeoki.jshaper.obj.reader.ObjParsedString;
@@ -40,13 +37,11 @@ public final class ObjModelReader implements ObjReader {
             ObjToken.FACE,
             ObjToken.GROUP_NAME);
 
-    // parse results
-    private List<ObjVertex> vertices;
-    private List<ObjTextureVertex> textureVertices;
-    private List<ObjVertexNormal> vertexNormals;
-
     // input
     private BufferedReader reader;
+
+    // parse vertices
+    private ObjVertexer vertexer;
 
     // parse lines
     private ObjTokenizer tokenizer;
@@ -109,23 +104,23 @@ public final class ObjModelReader implements ObjReader {
     }
 
     private void cache() {
-        vertices = new ArrayList<>();
-        textureVertices = new ArrayList<>();
-        vertexNormals = new ArrayList<>();
+        vertexer = new ObjVertexer();
 
         tokenizer = new ObjTokenizer(TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
         tokens = new ArrayList<>();
 
-        tripleter = new ObjTripleter(vertices, textureVertices, vertexNormals);
+        tripleter = new ObjTripleter(
+                vertexer.vertices(),
+                vertexer.textureVertices(),
+                vertexer.vertexNormals());
+
         facer = new ObjFacer(tripleter);
 
         groupNamer = new ObjGroupNamer();
     }
 
     private void uncache() {
-        vertices = null;
-        textureVertices = null;
-        vertexNormals = null;
+        vertexer = null;
 
         tokenizer = null;
         tokens = null;
@@ -150,13 +145,13 @@ public final class ObjModelReader implements ObjReader {
     private void parseByToken() throws ObjReaderException {
         switch (tokens.getFirst().token()) {
             case VERTEX:
-                vertices.add(ObjVertexer.parseVertex(tokens));
+                vertexer.parseVertex(tokens);
                 break;
             case TEXTURE_VERTEX:
-                textureVertices.add(ObjVertexer.parseTextureVertex(tokens));
+                vertexer.parseTextureVertex(tokens);
                 break;
             case VERTEX_NORMAL:
-                vertexNormals.add(ObjVertexer.parseVertexNormal(tokens));
+                vertexer.parseVertexNormal(tokens);
                 break;
             case FACE:
                 facer.parse(tokens, groupNamer.current());
@@ -182,9 +177,9 @@ public final class ObjModelReader implements ObjReader {
         }
 
         final ObjVertexData vertexData = new ObjVertexData(
-                vertices,
-                textureVertices,
-                vertexNormals,
+                vertexer.vertices(),
+                vertexer.textureVertices(),
+                vertexer.vertexNormals(),
                 new ArrayList<>());
 
         final ObjElements elements = new ObjElements(facer.faces());

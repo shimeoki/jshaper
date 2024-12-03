@@ -1,5 +1,6 @@
 package com.github.shimeoki.jshaper.obj.reader;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,7 +10,14 @@ import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
 public final class ObjVertexer {
 
-    public static ObjVertex parseVertex(final List<ObjParsedString> strings) throws ObjReaderException {
+    private List<ObjVertex> vertices = new ArrayList<>();
+    private List<ObjTextureVertex> textureVertices = new ArrayList<>();
+    private List<ObjVertexNormal> vertexNormals = new ArrayList<>();
+
+    public ObjVertexer() {
+    }
+
+    public void parseVertex(final List<ObjParsedString> strings) throws ObjReaderException {
         final int len = Objects.requireNonNull(strings).size();
         if (len < 4 || len > 5) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid vertex format");
@@ -30,10 +38,10 @@ public final class ObjVertexer {
             w = null;
         }
 
-        return new ObjVertex(x, y, z, w);
+        vertices.add(new ObjVertex(x, y, z, w));
     }
 
-    public static ObjTextureVertex parseTextureVertex(final List<ObjParsedString> strings) throws ObjReaderException {
+    public void parseTextureVertex(final List<ObjParsedString> strings) throws ObjReaderException {
         final int len = Objects.requireNonNull(strings).size();
         if (len < 2 || len > 4) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid texture vertex format");
@@ -59,10 +67,10 @@ public final class ObjVertexer {
             w = null;
         }
 
-        return new ObjTextureVertex(u, v, w);
+        textureVertices.add(new ObjTextureVertex(u, v, w));
     }
 
-    public static ObjVertexNormal parseVertexNormal(final List<ObjParsedString> strings) throws ObjReaderException {
+    public void parseVertexNormal(final List<ObjParsedString> strings) throws ObjReaderException {
         if (Objects.requireNonNull(strings).size() != 4) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid vertex normal format");
         }
@@ -75,10 +83,22 @@ public final class ObjVertexer {
         final float j = ObjNumberer.parseFloat(strings.get(2).value());
         final float k = ObjNumberer.parseFloat(strings.get(3).value());
 
-        return new ObjVertexNormal(i, j, k);
+        vertexNormals.add(new ObjVertexNormal(i, j, k));
     }
 
     private static boolean check(final List<ObjParsedString> strings, final ObjToken token) {
         return strings.getFirst().token().is(token);
+    }
+
+    public List<ObjVertex> vertices() {
+        return vertices;
+    }
+
+    public List<ObjTextureVertex> textureVertices() {
+        return textureVertices;
+    }
+
+    public List<ObjVertexNormal> vertexNormals() {
+        return vertexNormals;
     }
 }
