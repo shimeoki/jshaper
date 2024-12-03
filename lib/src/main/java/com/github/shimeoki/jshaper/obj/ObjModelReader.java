@@ -109,10 +109,7 @@ public final class ObjModelReader implements ObjReader {
         tokenizer = new ObjTokenizer(TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
         tokens = new ArrayList<>();
 
-        tripleter = new ObjTripleter(
-                vertexer.vertices(),
-                vertexer.textureVertices(),
-                vertexer.vertexNormals());
+        tripleter = new ObjTripleter(vertexer);
 
         facer = new ObjFacer(tripleter);
 

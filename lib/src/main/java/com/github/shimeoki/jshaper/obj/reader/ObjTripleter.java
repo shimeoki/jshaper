@@ -18,14 +18,10 @@ public final class ObjTripleter {
     private final StringBuilder builder = new StringBuilder();
     private final int[] indices = new int[3];
 
-    public ObjTripleter(
-            final List<ObjVertex> vertices,
-            final List<ObjTextureVertex> textureVertices,
-            final List<ObjVertexNormal> vertexNormals) {
-
-        this.vertices = Objects.requireNonNull(vertices);
-        this.textureVertices = Objects.requireNonNull(textureVertices);
-        this.vertexNormals = Objects.requireNonNull(vertexNormals);
+    public ObjTripleter(final ObjVertexer vertexer) {
+        this.vertices = Objects.requireNonNull(vertexer).vertices();
+        this.textureVertices = vertexer.textureVertices();
+        this.vertexNormals = vertexer.vertexNormals();
     }
 
     private void parseIndices(final String triplet) throws ObjReaderException {
