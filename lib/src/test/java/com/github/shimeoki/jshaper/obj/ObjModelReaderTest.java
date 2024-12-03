@@ -104,4 +104,12 @@ public final class ObjModelReaderTest {
         assertDataSize(19882, 21652, null, null);
         assertEquals(19882, obj.elements().faces().size());
     }
+
+    @Test
+    public void case5() {
+        readObjFile("005");
+
+        // no validation data atm.
+        // only time and "readability" check
+    }
 }
