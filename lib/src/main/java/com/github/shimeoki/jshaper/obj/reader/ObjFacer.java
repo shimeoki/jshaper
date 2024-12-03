@@ -14,13 +14,11 @@ public final class ObjFacer {
     private final ObjTripleter tripleter;
     private final List<ObjTriplet> triplets = new ArrayList<>();
 
-    private ObjTripletFormat format;
-
     public ObjFacer(final ObjTripleter tripleter) {
         this.tripleter = Objects.requireNonNull(tripleter);
     }
 
-    public ObjFace parse(List<ObjParsedString> tokens) throws ObjReaderException {
+    public ObjFace parse(final List<ObjParsedString> tokens) throws ObjReaderException {
         if (!tokens.getFirst().token().is(ObjToken.FACE)) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid face format");
         }
@@ -31,11 +29,11 @@ public final class ObjFacer {
         }
 
         triplets.clear();
-        format = null;
 
+        ObjTripletFormat format = null;
+        ObjTripletFormat fmt;
         ObjTriplet t;
         ObjParsedString parsed;
-        ObjTripletFormat fmt;
 
         for (int i = 1; i < len; i++) {
             parsed = tokens.get(i);
