@@ -74,7 +74,7 @@ public final class ObjModelReaderTest {
     }
 
     @Test
-    public void case1() {
+    public void case001() {
         readObjFile("001");
 
         assertDataSize(15789, 28209, 26181, null);
@@ -83,14 +83,14 @@ public final class ObjModelReaderTest {
     }
 
     @Test
-    public void case2() {
+    public void case002() {
         readObjFile("002");
 
         assertDataSize(4, 4, 4, null);
     }
 
     @Test
-    public void case3() {
+    public void case003() {
         readObjFile("003");
 
         assertDataSize(5958, 6295, null, null);
@@ -98,7 +98,7 @@ public final class ObjModelReaderTest {
     }
 
     @Test
-    public void case4() {
+    public void case004() {
         readObjFile("004");
 
         assertDataSize(19882, 21652, null, null);
@@ -106,7 +106,7 @@ public final class ObjModelReaderTest {
     }
 
     @Test
-    public void case5() {
+    public void case005() {
         readObjFile("005");
 
         // no validation data atm.
@@ -114,7 +114,7 @@ public final class ObjModelReaderTest {
     }
 
     @Test
-    public void case6() {
+    public void case006() {
         readObjFile("006");
 
         assertDataSize(4057, 4390, null, null);
@@ -122,7 +122,7 @@ public final class ObjModelReaderTest {
     }
 
     @Test
-    public void case7() {
+    public void case007() {
         readObjFile("007");
 
         assertDataSize(4939, 5165, null, null);
@@ -130,7 +130,7 @@ public final class ObjModelReaderTest {
     }
 
     @Test
-    public void case8() {
+    public void case008() {
         readObjFile("008");
 
         assertDataSize(6014, 6351, null, null);
@@ -138,7 +138,7 @@ public final class ObjModelReaderTest {
     }
 
     @Test
-    public void case9() {
+    public void case009() {
         readObjFile("009");
 
         // no validation data atm.
@@ -146,7 +146,7 @@ public final class ObjModelReaderTest {
     }
 
     @Test
-    public void case10() {
+    public void case010() {
         readObjFile("010");
 
         // no validation data atm.
