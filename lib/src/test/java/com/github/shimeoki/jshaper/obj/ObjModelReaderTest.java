@@ -168,4 +168,12 @@ public final class ObjModelReaderTest {
         // no validation data atm.
         // only time and "readability" check
     }
+
+    @Test
+    public void case013() {
+        readObjFile("013");
+
+        // no validation data atm.
+        // only time and "readability" check
+    }
 }
