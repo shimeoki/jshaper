@@ -15,7 +15,6 @@ import com.github.shimeoki.jshaper.obj.data.ObjElements;
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
 import com.github.shimeoki.jshaper.obj.data.ObjGroupingData;
 import com.github.shimeoki.jshaper.obj.data.ObjVertexData;
-import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
@@ -45,7 +44,6 @@ public final class ObjModelReader implements ObjReader {
     private List<ObjVertex> vertices;
     private List<ObjTextureVertex> textureVertices;
     private List<ObjVertexNormal> vertexNormals;
-    private List<ObjFace> faces;
 
     // input
     private BufferedReader reader;
@@ -114,7 +112,6 @@ public final class ObjModelReader implements ObjReader {
         vertices = new ArrayList<>();
         textureVertices = new ArrayList<>();
         vertexNormals = new ArrayList<>();
-        faces = new ArrayList<>();
 
         tokenizer = new ObjTokenizer(TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
         tokens = new ArrayList<>();
@@ -129,7 +126,6 @@ public final class ObjModelReader implements ObjReader {
         vertices = null;
         textureVertices = null;
         vertexNormals = null;
-        faces = null;
 
         tokenizer = null;
         tokens = null;
@@ -163,7 +159,7 @@ public final class ObjModelReader implements ObjReader {
                 vertexNormals.add(ObjVertexer.parseVertexNormal(tokens));
                 break;
             case FACE:
-                faces.add(facer.parse(tokens, groupNamer.current()));
+                facer.parse(tokens, groupNamer.current());
                 break;
             case GROUP_NAME:
                 groupNamer.parse(tokens);
@@ -191,7 +187,7 @@ public final class ObjModelReader implements ObjReader {
                 vertexNormals,
                 new ArrayList<>());
 
-        final ObjElements elements = new ObjElements(faces);
+        final ObjElements elements = new ObjElements(facer.faces());
         final ObjGroupingData groupingData = new ObjGroupingData(groupNamer.all());
 
         return new ObjFile(vertexData, elements, groupingData);

@@ -12,6 +12,8 @@ import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 
 public final class ObjFacer {
 
+    private final List<ObjFace> faces = new ArrayList<>();
+
     private final ObjTripleter tripleter;
     private final List<ObjTriplet> triplets = new ArrayList<>();
 
@@ -19,7 +21,7 @@ public final class ObjFacer {
         this.tripleter = Objects.requireNonNull(tripleter);
     }
 
-    public ObjFace parse(
+    public void parse(
             final List<ObjParsedString> tokens,
             final Set<ObjGroupName> groupNames)
             throws ObjReaderException {
@@ -35,27 +37,28 @@ public final class ObjFacer {
 
         triplets.clear();
 
-        ObjTripletFormat format = null;
-        ObjTripletFormat fmt;
-        ObjTriplet t;
-        ObjParsedString parsed;
+        ObjTripletFormat tripletFormat, faceFormat = null;
+        ObjTriplet triplet;
 
         for (int i = 1; i < len; i++) {
-            parsed = tokens.get(i);
-            t = tripleter.parse(parsed.value());
-            fmt = t.format();
+            triplet = tripleter.parse(tokens.get(i).value());
+            tripletFormat = triplet.format();
 
-            if (format == null) {
-                format = fmt;
+            if (faceFormat == null) {
+                faceFormat = tripletFormat;
             }
 
-            if (!format.equals(fmt)) {
+            if (!faceFormat.equals(tripletFormat)) {
                 throw new ObjReaderException(ObjReaderExceptionType.PARSE, "multiple triplet formats in one face");
             }
 
-            triplets.add(t);
+            triplets.add(triplet);
         }
 
-        return new ObjFace(new ArrayList<>(triplets), groupNames);
+        faces.add(new ObjFace(new ArrayList<>(triplets), groupNames));
+    }
+
+    public List<ObjFace> faces() {
+        return faces;
     }
 }
