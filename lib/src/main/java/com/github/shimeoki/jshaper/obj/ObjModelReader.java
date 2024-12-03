@@ -24,6 +24,7 @@ import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import com.github.shimeoki.jshaper.obj.reader.ObjParsedString;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import com.github.shimeoki.jshaper.obj.reader.ObjToken;
@@ -54,10 +55,8 @@ public final class ObjModelReader implements ObjReader {
     private BufferedReader reader;
 
     // parse lines
-    private StringBuilder stringer;
-    private List<String> strings;
-
     private ObjTokenizer tokenizer;
+    private List<ObjParsedString> tokens;
 
     // parse faces
     private ObjTripleter tripleter;
@@ -69,7 +68,7 @@ public final class ObjModelReader implements ObjReader {
     private Map<String, ObjGroupName> groupNameMap;
 
     // parse
-    private int row, col;
+    private int row;
     private String line;
 
     public ObjModelReader() {
@@ -125,8 +124,7 @@ public final class ObjModelReader implements ObjReader {
         groupNames = new HashSet<>();
 
         tokenizer = new ObjTokenizer(TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
-        stringer = new StringBuilder();
-        strings = new ArrayList<>();
+        tokens = new ArrayList<>();
 
         tripleter = new ObjTripleter(vertices, textureVertices, vertexNormals);
         triplets = new ArrayList<>();
@@ -142,8 +140,8 @@ public final class ObjModelReader implements ObjReader {
         faces = null;
         groupNames = null;
 
-        stringer = null;
-        strings = null;
+        tokenizer = null;
+        tokens = null;
 
         tripleter = null;
         triplets = null;
@@ -153,7 +151,6 @@ public final class ObjModelReader implements ObjReader {
         groupNameMap = null;
 
         row = 0;
-        col = 0;
         line = null;
     }
 
@@ -166,7 +163,7 @@ public final class ObjModelReader implements ObjReader {
     }
 
     private void parseFace() throws ObjReaderException {
-        if (strings.size() < 3) {
+        if (tokens.size() < 3) {
             error(ObjReaderExceptionType.PARSE, "less than three triplets in one face");
         }
 
@@ -176,8 +173,8 @@ public final class ObjModelReader implements ObjReader {
         ObjTriplet t;
         ObjTripletFormat fmt;
 
-        for (final String s : strings) {
-            t = tripleter.parse(s);
+        for (final ObjParsedString parsed : tokens) {
+            t = tripleter.parse(parsed.value());
             fmt = t.format();
 
             if (format == null) {
@@ -211,14 +208,18 @@ public final class ObjModelReader implements ObjReader {
     }
 
     private void parseGroupName() throws ObjReaderException {
-        if (strings.size() < 1) {
+        if (tokens.size() < 1) {
             error(ObjReaderExceptionType.PARSE, "no names in group name statement");
         }
 
         currentGroupNames.clear();
 
         ObjGroupName n;
-        for (final String s : strings) {
+        String s;
+
+        for (final ObjParsedString parsed : tokens) {
+            s = parsed.value();
+
             currentGroupNames.add(s);
             n = groupNameMap.getOrDefault(s, new ObjGroupName(s));
 
@@ -230,94 +231,16 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
-    private void parseLine() throws ObjReaderException {
-        stringer.setLength(0);
-        strings.clear();
-        col = 0;
-
-        final ObjToken lineToken = parseLineToken();
-        if (lineToken == null) {
-            return;
-        }
-
-        switch (lineToken) {
-            case VERTEX, TEXTURE_VERTEX, VERTEX_NORMAL, FACE, GROUP_NAME:
-                break;
-            default:
-                return;
-        }
-
-        parseStrings();
-
-        parseByToken(lineToken);
-    }
-
-    private ObjToken parseLineToken() throws ObjReaderException {
-        final int len = line.length();
-
-        char c;
-        for (; col < len; col++) {
-            c = line.charAt(col);
-
-            // the line token cannot be prefixed with spaces
-            if (c == ' ') {
-                break;
-            }
-
-            stringer.append(c);
-        }
-
-        return ObjTokenizer.parse(flushStringer());
-    }
-
-    private void parseStrings() throws ObjReaderException {
-        final int len = line.length();
-        if (len == 0) {
-            return;
-        }
-
-        char c;
-        for (; col <= len; col++) {
-            if (col == len) {
-                c = ' '; // artificially add a space at the end
-            } else {
-                c = line.charAt(col);
-            }
-
-            if (String.valueOf(c).equals(ObjToken.COMMENT.toString())) {
-                strings.add(flushStringer());
-                break;
-            }
-
-            if (c != ' ') {
-                stringer.append(c);
-                continue;
-            }
-
-            if (stringer.isEmpty()) {
-                continue;
-            }
-
-            strings.add(flushStringer());
-        }
-    }
-
-    private String flushStringer() {
-        final String s = stringer.toString();
-        stringer.setLength(0);
-        return s;
-    }
-
-    private void parseByToken(final ObjToken token) throws ObjReaderException {
-        switch (token) {
+    private void parseByToken() throws ObjReaderException {
+        switch (tokens.getFirst().token()) {
             case VERTEX:
-                vertices.add(ObjVertexer.parseVertex(strings));
+                vertices.add(ObjVertexer.parseVertex(tokens));
                 break;
             case TEXTURE_VERTEX:
-                textureVertices.add(ObjVertexer.parseTextureVertex(strings));
+                textureVertices.add(ObjVertexer.parseTextureVertex(tokens));
                 break;
             case VERTEX_NORMAL:
-                vertexNormals.add(ObjVertexer.parseVertexNormal(strings));
+                vertexNormals.add(ObjVertexer.parseVertexNormal(tokens));
                 break;
             case FACE:
                 parseFace();
@@ -332,7 +255,13 @@ public final class ObjModelReader implements ObjReader {
 
     private ObjFile parse() throws ObjReaderException {
         for (readLine(); line != null; readLine(), row++) {
-            parseLine();
+            tokenizer.parseLine(line, tokens);
+
+            if (tokens.isEmpty()) {
+                continue;
+            }
+
+            parseByToken();
         }
 
         final ObjVertexData vertexData = new ObjVertexData(

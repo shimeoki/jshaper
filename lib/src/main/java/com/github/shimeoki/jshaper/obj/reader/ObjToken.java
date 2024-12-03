@@ -2,6 +2,7 @@ package com.github.shimeoki.jshaper.obj.reader;
 
 public enum ObjToken {
 
+    NIL(""),
     COMMENT(ObjTokenizer.COMMENT),
     VERTEX(ObjTokenizer.VERTEX),
     TEXTURE_VERTEX(ObjTokenizer.TEXTURE_VERTEX),
@@ -19,5 +20,13 @@ public enum ObjToken {
     @Override
     public String toString() {
         return txt;
+    }
+
+    public boolean is(final ObjToken other) {
+        if (other == null) {
+            return false;
+        } else {
+            return equals(other);
+        }
     }
 }

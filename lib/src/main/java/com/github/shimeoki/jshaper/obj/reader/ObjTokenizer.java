@@ -35,11 +35,11 @@ public final class ObjTokenizer {
     }
 
     public static Set<ObjToken> tokenSet(final ObjToken... tokens) {
-        return new HashSet<>(Arrays.asList(tokens));
+        return new HashSet<>(Arrays.asList(Objects.requireNonNull(tokens)));
     }
 
     public static ObjToken parse(final String s) {
-        switch (s) {
+        switch (Objects.requireNonNull(s)) {
             case COMMENT:
                 return ObjToken.COMMENT;
             case VERTEX:
@@ -55,7 +55,7 @@ public final class ObjTokenizer {
             case GROUP_NAME:
                 return ObjToken.GROUP_NAME;
             default:
-                return null;
+                return ObjToken.NIL;
         }
     }
 
@@ -68,19 +68,16 @@ public final class ObjTokenizer {
     }
 
     public void parseLine(final String line, List<ObjParsedString> output) {
-        Objects.requireNonNull(line);
-        Objects.requireNonNull(output);
+        Objects.requireNonNull(output).clear();
+        builder.setLength(0);
 
-        output.clear();
-
-        final int len = line.length();
+        final int len = Objects.requireNonNull(line).length();
         if (len == 0) {
             return;
         }
 
         char c;
         ObjParsedString parsed;
-        ObjToken token;
 
         for (int i = 0; i <= len; i++) {
             if (i == len) {
@@ -89,7 +86,8 @@ public final class ObjTokenizer {
                 c = line.charAt(i);
             }
 
-            if (isComment(c)) {
+            parsed = new ObjParsedString(String.valueOf(c));
+            if (parsed.token().is(ObjToken.COMMENT)) {
                 if (!builder.isEmpty()) {
                     output.add(flushAndParse());
                 }
@@ -102,19 +100,12 @@ public final class ObjTokenizer {
             }
 
             parsed = flushAndParse();
-            token = parsed.token();
-
-            if (!allowed(token) || token.equals(ObjToken.COMMENT)) {
+            if (!allowed(parsed.token())) {
                 break;
             } else {
                 output.add(parsed);
             }
         }
-    }
-
-    private boolean isComment(final char c) {
-        final ObjParsedString parsed = new ObjParsedString(String.valueOf(c));
-        return parsed.token().equals(ObjToken.COMMENT);
     }
 
     private String flushBuilder() {
@@ -143,6 +134,14 @@ public final class ObjTokenizer {
     public boolean allowed(final ObjToken token) {
         if (token == null) {
             return true;
+        }
+
+        if (token.is(ObjToken.NIL)) {
+            return true;
+        }
+
+        if (token.is(ObjToken.COMMENT)) {
+            return false;
         }
 
         switch (mode) {

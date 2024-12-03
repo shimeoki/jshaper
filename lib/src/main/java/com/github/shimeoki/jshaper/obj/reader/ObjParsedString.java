@@ -8,10 +8,8 @@ public final class ObjParsedString {
     private final String value;
 
     public ObjParsedString(final String value) {
-        Objects.requireNonNull(value);
-
+        this.value = Objects.requireNonNull(value);
         this.token = ObjTokenizer.parse(value);
-        this.value = value;
     }
 
     public ObjToken token() {
@@ -20,5 +18,10 @@ public final class ObjParsedString {
 
     public String value() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("token \"%s\": value \"%s\"", token, value);
     }
 }
