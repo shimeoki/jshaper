@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -23,6 +21,7 @@ import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import com.github.shimeoki.jshaper.obj.reader.ObjFacer;
+import com.github.shimeoki.jshaper.obj.reader.ObjGroupNamer;
 import com.github.shimeoki.jshaper.obj.reader.ObjParsedString;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
@@ -48,7 +47,6 @@ public final class ObjModelReader implements ObjReader {
     private List<ObjTextureVertex> textureVertices;
     private List<ObjVertexNormal> vertexNormals;
     private List<ObjFace> faces;
-    private Set<ObjGroupName> groupNames;
 
     // input
     private BufferedReader reader;
@@ -62,8 +60,7 @@ public final class ObjModelReader implements ObjReader {
     private ObjFacer facer;
 
     // parse groups
-    private Set<String> currentGroupNames;
-    private Map<String, ObjGroupName> groupNameMap;
+    private ObjGroupNamer groupNamer;
 
     // parse
     private int row;
@@ -119,7 +116,6 @@ public final class ObjModelReader implements ObjReader {
         textureVertices = new ArrayList<>();
         vertexNormals = new ArrayList<>();
         faces = new ArrayList<>();
-        groupNames = new HashSet<>();
 
         tokenizer = new ObjTokenizer(TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
         tokens = new ArrayList<>();
@@ -127,8 +123,7 @@ public final class ObjModelReader implements ObjReader {
         tripleter = new ObjTripleter(vertices, textureVertices, vertexNormals);
         facer = new ObjFacer(tripleter);
 
-        currentGroupNames = new HashSet<>();
-        groupNameMap = new HashMap<>();
+        groupNamer = new ObjGroupNamer();
     }
 
     private void uncache() {
@@ -136,7 +131,6 @@ public final class ObjModelReader implements ObjReader {
         textureVertices = null;
         vertexNormals = null;
         faces = null;
-        groupNames = null;
 
         tokenizer = null;
         tokens = null;
@@ -144,8 +138,7 @@ public final class ObjModelReader implements ObjReader {
         tripleter = null;
         facer = null;
 
-        currentGroupNames = null;
-        groupNameMap = null;
+        groupNamer = null;
 
         row = 0;
         line = null;
@@ -156,46 +149,6 @@ public final class ObjModelReader implements ObjReader {
             line = reader.readLine();
         } catch (IOException e) {
             error(ObjReaderExceptionType.IO, "error while reading the file");
-        }
-    }
-
-    private Set<ObjGroupName> groupNames() {
-        final Set<ObjGroupName> names = new HashSet<>();
-
-        if (currentGroupNames.isEmpty()) {
-            names.add(new ObjGroupName("default"));
-            return names;
-        }
-
-        for (final String s : currentGroupNames) {
-            names.add(groupNameMap.get(s));
-        }
-
-        return names;
-    }
-
-    // TODO
-    private void parseGroupName() throws ObjReaderException {
-        if (tokens.size() < 1) {
-            error(ObjReaderExceptionType.PARSE, "no names in group name statement");
-        }
-
-        currentGroupNames.clear();
-
-        ObjGroupName n;
-        String s;
-
-        for (final ObjParsedString parsed : tokens) {
-            s = parsed.value();
-
-            currentGroupNames.add(s);
-            n = groupNameMap.getOrDefault(s, new ObjGroupName(s));
-
-            groupNames.add(n);
-
-            if (!groupNameMap.containsKey(s)) {
-                groupNameMap.put(s, n);
-            }
         }
     }
 
@@ -211,10 +164,10 @@ public final class ObjModelReader implements ObjReader {
                 vertexNormals.add(ObjVertexer.parseVertexNormal(tokens));
                 break;
             case FACE:
-                faces.add(facer.parse(tokens));
+                faces.add(facer.parse(tokens, groupNamer.current()));
                 break;
             case GROUP_NAME:
-                // parseGroupName();
+                groupNamer.parse(tokens);
                 break;
             default:
                 // skip unsupported tokens
@@ -240,7 +193,7 @@ public final class ObjModelReader implements ObjReader {
                 new ArrayList<>());
 
         final ObjElements elements = new ObjElements(faces);
-        final ObjGroupingData groupingData = new ObjGroupingData(groupNames);
+        final ObjGroupingData groupingData = new ObjGroupingData(groupNamer.all());
 
         return new ObjFile(vertexData, elements, groupingData);
     }

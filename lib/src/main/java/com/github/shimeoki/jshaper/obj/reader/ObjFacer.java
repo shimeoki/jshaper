@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
+import com.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import com.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import com.github.shimeoki.jshaper.obj.data.ObjTripletFormat;
 import com.github.shimeoki.jshaper.obj.geom.ObjFace;
@@ -18,7 +20,11 @@ public final class ObjFacer {
         this.tripleter = Objects.requireNonNull(tripleter);
     }
 
-    public ObjFace parse(final List<ObjParsedString> tokens) throws ObjReaderException {
+    public ObjFace parse(
+            final List<ObjParsedString> tokens,
+            final Set<ObjGroupName> groupNames)
+            throws ObjReaderException {
+
         if (!tokens.getFirst().token().is(ObjToken.FACE)) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid face format");
         }
@@ -51,7 +57,6 @@ public final class ObjFacer {
             triplets.add(t);
         }
 
-        // TODO group names
-        return new ObjFace(new ArrayList<>(triplets), new HashSet<>());
+        return new ObjFace(new ArrayList<>(triplets), groupNames);
     }
 }
