@@ -18,20 +18,19 @@ public final class ObjModelReaderTest {
 
     private File file;
     private ObjFile obj;
-
     private ObjVertexData data;
 
-    private File file(final String name) {
+    private void readFile(final String name) {
         final String filename = String.format("%s/%s.obj", name, name);
         final String path = getClass().getResource(filename).getPath();
 
         final File f = new File(path);
         assertNotNull(f);
 
-        return f;
+        file = f;
     }
 
-    private ObjFile obj(final File f) {
+    private void readObj(final File f) {
         ObjFile obj = null;
         try {
             obj = reader.read(f);
@@ -40,50 +39,69 @@ public final class ObjModelReaderTest {
         }
 
         assertNotNull(obj);
+        this.obj = obj;
 
-        return obj;
+        data = obj.vertexData();
+        assertNotNull(data);
+    }
+
+    private void readObjFile(final String name) {
+        readFile(name);
+        readObj(file);
+    }
+
+    private void assertDataSize(
+            final Integer verticesSize,
+            final Integer textureVerticesSize,
+            final Integer vertexNormalsSize,
+            final Integer parameterSpaceVerticesSize) {
+
+        if (verticesSize != null) {
+            assertEquals(verticesSize, data.vertices().size());
+        }
+
+        if (textureVerticesSize != null) {
+            assertEquals(textureVerticesSize, data.textureVertices().size());
+        }
+
+        if (vertexNormalsSize != null) {
+            assertEquals(vertexNormalsSize, data.vertexNormals().size());
+        }
+
+        if (parameterSpaceVerticesSize != null) {
+            assertEquals(parameterSpaceVerticesSize, data.parameterSpaceVertices().size());
+        }
     }
 
     @Test
     public void case1() {
-        file = file("001");
-        obj = obj(file);
+        readObjFile("001");
 
-        data = obj.vertexData();
-        assertNotNull(data);
-
-        assertEquals(15789, data.vertices().size());
-        assertEquals(28209, data.textureVertices().size());
-        assertEquals(26181, data.vertexNormals().size());
+        assertDataSize(15789, 28209, 26181, null);
         assertEquals(31930, obj.elements().faces().size());
         assertEquals(30, obj.groupingData().groupNames().size());
     }
 
     @Test
     public void case2() {
-        file = file("002");
-        obj = obj(file);
+        readObjFile("002");
 
-        data = obj.vertexData();
-        assertNotNull(data);
-
-        assertEquals(4, data.vertices().size());
-        assertEquals(4, data.textureVertices().size());
-        assertEquals(4, data.vertexNormals().size());
-        // parameter space vertices are not supported yet
+        assertDataSize(4, 4, 4, null);
     }
 
     @Test
     public void case3() {
-        file = file("003");
-        obj = obj(file);
+        readObjFile("003");
 
-        data = obj.vertexData();
-        assertNotNull(data);
-
-        assertEquals(5958, data.vertices().size());
-        assertEquals(6295, data.textureVertices().size());
+        assertDataSize(5958, 6295, null, null);
         assertEquals(5922, obj.elements().faces().size());
-        // group name count is unknown
+    }
+
+    @Test
+    public void case4() {
+        readObjFile("004");
+
+        assertDataSize(19882, 21652, null, null);
+        assertEquals(19882, obj.elements().faces().size());
     }
 }
