@@ -128,4 +128,12 @@ public final class ObjModelReaderTest {
         assertDataSize(4939, 5165, null, null);
         assertEquals(4868 + 36, obj.elements().faces().size());
     }
+
+    @Test
+    public void case8() {
+        readObjFile("008");
+
+        assertDataSize(6014, 6351, null, null);
+        assertEquals(5964 + 36, obj.elements().faces().size());
+    }
 }
