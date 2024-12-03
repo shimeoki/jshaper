@@ -17,13 +17,12 @@ import com.github.shimeoki.jshaper.obj.data.ObjElements;
 import com.github.shimeoki.jshaper.obj.data.ObjFile;
 import com.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import com.github.shimeoki.jshaper.obj.data.ObjGroupingData;
-import com.github.shimeoki.jshaper.obj.data.ObjTriplet;
-import com.github.shimeoki.jshaper.obj.data.ObjTripletFormat;
 import com.github.shimeoki.jshaper.obj.data.ObjVertexData;
 import com.github.shimeoki.jshaper.obj.geom.ObjFace;
 import com.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import com.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import com.github.shimeoki.jshaper.obj.reader.ObjFacer;
 import com.github.shimeoki.jshaper.obj.reader.ObjParsedString;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import com.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
@@ -60,8 +59,7 @@ public final class ObjModelReader implements ObjReader {
 
     // parse faces
     private ObjTripleter tripleter;
-    private List<ObjTriplet> triplets;
-    private ObjTripletFormat format;
+    private ObjFacer facer;
 
     // parse groups
     private Set<String> currentGroupNames;
@@ -127,7 +125,7 @@ public final class ObjModelReader implements ObjReader {
         tokens = new ArrayList<>();
 
         tripleter = new ObjTripleter(vertices, textureVertices, vertexNormals);
-        triplets = new ArrayList<>();
+        facer = new ObjFacer(tripleter);
 
         currentGroupNames = new HashSet<>();
         groupNameMap = new HashMap<>();
@@ -144,8 +142,7 @@ public final class ObjModelReader implements ObjReader {
         tokens = null;
 
         tripleter = null;
-        triplets = null;
-        format = null;
+        facer = null;
 
         currentGroupNames = null;
         groupNameMap = null;
@@ -160,36 +157,6 @@ public final class ObjModelReader implements ObjReader {
         } catch (IOException e) {
             error(ObjReaderExceptionType.IO, "error while reading the file");
         }
-    }
-
-    private void parseFace() throws ObjReaderException {
-        if (tokens.size() < 3) {
-            error(ObjReaderExceptionType.PARSE, "less than three triplets in one face");
-        }
-
-        triplets.clear();
-        format = null;
-
-        ObjTriplet t;
-        ObjTripletFormat fmt;
-
-        for (final ObjParsedString parsed : tokens) {
-            t = tripleter.parse(parsed.value());
-            fmt = t.format();
-
-            if (format == null) {
-                format = fmt;
-            }
-
-            if (!format.equals(fmt)) {
-                error(ObjReaderExceptionType.PARSE, "multiple triplet formats in one face");
-            }
-
-            triplets.add(t);
-        }
-
-        final ObjFace f = new ObjFace(new ArrayList<>(triplets), groupNames());
-        faces.add(f);
     }
 
     private Set<ObjGroupName> groupNames() {
@@ -207,6 +174,7 @@ public final class ObjModelReader implements ObjReader {
         return names;
     }
 
+    // TODO
     private void parseGroupName() throws ObjReaderException {
         if (tokens.size() < 1) {
             error(ObjReaderExceptionType.PARSE, "no names in group name statement");
@@ -243,13 +211,14 @@ public final class ObjModelReader implements ObjReader {
                 vertexNormals.add(ObjVertexer.parseVertexNormal(tokens));
                 break;
             case FACE:
-                parseFace();
+                faces.add(facer.parse(tokens));
                 break;
             case GROUP_NAME:
-                parseGroupName();
+                // parseGroupName();
                 break;
             default:
-                error(ObjReaderExceptionType.PARSE, "unsupported token");
+                // skip unsupported tokens
+                return;
         }
     }
 

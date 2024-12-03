@@ -25,7 +25,8 @@ public final class ObjFacer {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid face format");
         }
 
-        if (tokens.size() < 4) {
+        final int len = tokens.size();
+        if (len < 4) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "less than three triplets in one face");
         }
 
@@ -33,9 +34,11 @@ public final class ObjFacer {
         format = null;
 
         ObjTriplet t;
+        ObjParsedString parsed;
         ObjTripletFormat fmt;
 
-        for (final ObjParsedString parsed : tokens) {
+        for (int i = 1; i < len; i++) {
+            parsed = tokens.get(i);
             t = tripleter.parse(parsed.value());
             fmt = t.format();
 
