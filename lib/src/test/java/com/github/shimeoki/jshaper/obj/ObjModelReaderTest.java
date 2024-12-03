@@ -185,4 +185,13 @@ public final class ObjModelReaderTest {
         assertEquals(1416, obj.elements().faces().size());
         assertEquals(1, obj.groupingData().groupNames().size());
     }
+
+    @Test
+    public void case015() {
+        readObjFile("015");
+
+        assertDataSize(5289, 10601, 10451, null);
+        assertEquals(10670, obj.elements().faces().size());
+        assertEquals(6, obj.groupingData().groupNames().size());
+    }
 }
