@@ -16,6 +16,11 @@ public final class ObjModelReaderTest {
 
     private final ObjModelReader reader = new ObjModelReader();
 
+    private File file;
+    private ObjFile obj;
+
+    private ObjVertexData data;
+
     private File file(final String name) {
         final String filename = String.format("%s/%s.obj", name, name);
         final String path = getClass().getResource(filename).getPath();
@@ -41,10 +46,10 @@ public final class ObjModelReaderTest {
 
     @Test
     public void case1() {
-        final File f = file("001");
-        final ObjFile obj = obj(f);
+        file = file("001");
+        obj = obj(file);
 
-        final ObjVertexData data = obj.vertexData();
+        data = obj.vertexData();
         assertNotNull(data);
 
         assertEquals(15789, data.vertices().size());
@@ -56,15 +61,29 @@ public final class ObjModelReaderTest {
 
     @Test
     public void case2() {
-        final File f = file("002");
-        final ObjFile obj = obj(f);
+        file = file("002");
+        obj = obj(file);
 
-        final ObjVertexData data = obj.vertexData();
+        data = obj.vertexData();
         assertNotNull(data);
 
         assertEquals(4, data.vertices().size());
         assertEquals(4, data.textureVertices().size());
         assertEquals(4, data.vertexNormals().size());
         // parameter space vertices are not supported yet
+    }
+
+    @Test
+    public void case3() {
+        file = file("003");
+        obj = obj(file);
+
+        data = obj.vertexData();
+        assertNotNull(data);
+
+        assertEquals(5958, data.vertices().size());
+        assertEquals(6295, data.textureVertices().size());
+        assertEquals(5922, obj.elements().faces().size());
+        // group name count is unknown
     }
 }
