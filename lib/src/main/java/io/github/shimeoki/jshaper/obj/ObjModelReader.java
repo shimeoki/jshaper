@@ -17,7 +17,7 @@ import io.github.shimeoki.jshaper.obj.data.ObjGroupingData;
 import io.github.shimeoki.jshaper.obj.data.ObjVertexData;
 import io.github.shimeoki.jshaper.obj.reader.ObjFacer;
 import io.github.shimeoki.jshaper.obj.reader.ObjGroupNamer;
-import io.github.shimeoki.jshaper.obj.reader.ObjParsedString;
+import io.github.shimeoki.jshaper.obj.reader.ObjTokenized;
 import io.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import io.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import io.github.shimeoki.jshaper.obj.reader.ObjToken;
@@ -45,7 +45,7 @@ public final class ObjModelReader implements ObjReader {
 
     // parse lines
     private ObjTokenizer tokenizer;
-    private List<ObjParsedString> tokens;
+    private List<ObjTokenized> tokens;
 
     // parse faces
     private ObjTripleter tripleter;
