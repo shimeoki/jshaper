@@ -17,10 +17,10 @@ import io.github.shimeoki.jshaper.obj.data.ObjGroupingData;
 import io.github.shimeoki.jshaper.obj.data.ObjVertexData;
 import io.github.shimeoki.jshaper.obj.reader.ObjFacer;
 import io.github.shimeoki.jshaper.obj.reader.ObjGroupNamer;
-import io.github.shimeoki.jshaper.obj.reader.ObjTokenized;
 import io.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import io.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import io.github.shimeoki.jshaper.obj.reader.ObjToken;
+import io.github.shimeoki.jshaper.obj.reader.ObjTokenized;
 import io.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
 import io.github.shimeoki.jshaper.obj.reader.ObjTokenizerMode;
 import io.github.shimeoki.jshaper.obj.reader.ObjTripleter;
@@ -45,7 +45,6 @@ public final class ObjModelReader implements ObjReader {
 
     // parse lines
     private ObjTokenizer tokenizer;
-    private List<ObjTokenized> tokens;
 
     // parse faces
     private ObjTripleter tripleter;
@@ -107,7 +106,6 @@ public final class ObjModelReader implements ObjReader {
         vertexer = new ObjVertexer();
 
         tokenizer = new ObjTokenizer(TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
-        tokens = new ArrayList<>();
 
         tripleter = new ObjTripleter(vertexer);
 
@@ -120,7 +118,6 @@ public final class ObjModelReader implements ObjReader {
         vertexer = null;
 
         tokenizer = null;
-        tokens = null;
 
         tripleter = null;
         facer = null;
@@ -139,38 +136,38 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
-    private void parseByToken() throws ObjReaderException {
-        switch (tokens.getFirst().token()) {
-            case VERTEX:
-                vertexer.parseVertex(tokens);
-                break;
-            case TEXTURE_VERTEX:
-                vertexer.parseTextureVertex(tokens);
-                break;
-            case VERTEX_NORMAL:
-                vertexer.parseVertexNormal(tokens);
-                break;
-            case FACE:
-                facer.parse(tokens, groupNamer.current());
-                break;
-            case GROUP_NAME:
-                groupNamer.parse(tokens);
-                break;
-            default:
-                // skip unsupported tokens
-                return;
-        }
-    }
-
     private ObjFile parse() throws ObjReaderException {
-        for (readLine(); line != null; readLine(), row++) {
-            tokenizer.parseLine(line, tokens);
+        final List<ObjTokenized> tokens = tokenizer.tokens();
 
-            if (tokens.isEmpty()) {
+        ObjToken lineToken;
+        for (readLine(); line != null; readLine(), row++) {
+            tokenizer.parseLine(line);
+
+            lineToken = tokenizer.lineToken();
+            if (lineToken == null) {
                 continue;
             }
 
-            parseByToken();
+            switch (lineToken) {
+                case VERTEX:
+                    vertexer.parseVertex(tokens);
+                    break;
+                case TEXTURE_VERTEX:
+                    vertexer.parseTextureVertex(tokens);
+                    break;
+                case VERTEX_NORMAL:
+                    vertexer.parseVertexNormal(tokens);
+                    break;
+                case FACE:
+                    facer.parse(tokens, groupNamer.current());
+                    break;
+                case GROUP_NAME:
+                    groupNamer.parse(tokens);
+                    break;
+                default:
+                    // skip unsupported tokens
+                    continue;
+            }
         }
 
         final ObjVertexData vertexData = new ObjVertexData(

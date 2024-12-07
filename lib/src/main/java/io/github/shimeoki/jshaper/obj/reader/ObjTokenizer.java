@@ -1,5 +1,6 @@
 package io.github.shimeoki.jshaper.obj.reader;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +23,8 @@ public final class ObjTokenizer {
     private final Set<ObjToken> blacklist;
 
     private final StringBuilder builder = new StringBuilder();
+
+    private final List<ObjTokenized> tokens = new ArrayList<>();
 
     public ObjTokenizer(
             final ObjTokenizerMode mode,
@@ -67,14 +70,14 @@ public final class ObjTokenizer {
         this.mode = Objects.requireNonNull(mode);
     }
 
-    public void parseLine(final String line, List<ObjTokenized> output) {
-        Objects.requireNonNull(output).clear();
-        builder.setLength(0);
-
+    public void parseLine(final String line) {
         final int len = Objects.requireNonNull(line).length();
         if (len == 0) {
             return;
         }
+
+        tokens.clear();
+        builder.setLength(0);
 
         char c;
         ObjTokenized parsed;
@@ -89,7 +92,7 @@ public final class ObjTokenizer {
             parsed = new ObjTokenized(String.valueOf(c));
             if (parsed.token().is(ObjToken.COMMENT)) {
                 if (!builder.isEmpty()) {
-                    output.add(flushAndParse());
+                    tokens.add(flushAndParse());
                 }
 
                 break;
@@ -103,7 +106,7 @@ public final class ObjTokenizer {
             if (!allowed(parsed.token())) {
                 break;
             } else {
-                output.add(parsed);
+                tokens.add(parsed);
             }
         }
     }
@@ -164,5 +167,17 @@ public final class ObjTokenizer {
             default:
                 return false; // subject to change
         }
+    }
+
+    public List<ObjTokenized> tokens() {
+        return tokens;
+    }
+
+    public ObjToken lineToken() {
+        if (tokens.isEmpty()) {
+            return null;
+        }
+
+        return tokens.getFirst().token();
     }
 }
