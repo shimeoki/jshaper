@@ -21,7 +21,7 @@ public final class ObjGroupNamer {
     public ObjGroupNamer() {
     }
 
-    public void parse(final List<ObjParsedString> tokens) throws ObjReaderException {
+    public void parse(final List<ObjTokenized> tokens) throws ObjReaderException {
         if (!tokens.getFirst().token().is(ObjToken.GROUP_NAME)) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid group name format");
         }

@@ -2,12 +2,12 @@ package io.github.shimeoki.jshaper.obj.reader;
 
 import java.util.Objects;
 
-public final class ObjParsedString {
+public final class ObjTokenized {
 
     private final ObjToken token;
     private final String value;
 
-    public ObjParsedString(final String value) {
+    public ObjTokenized(final String value) {
         this.value = Objects.requireNonNull(value);
         this.token = ObjTokenizer.parse(value);
     }

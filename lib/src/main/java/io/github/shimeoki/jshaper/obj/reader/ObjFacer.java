@@ -22,7 +22,7 @@ public final class ObjFacer {
     }
 
     public void parse(
-            final List<ObjParsedString> tokens,
+            final List<ObjTokenized> tokens,
             final Set<ObjGroupName> groupNames)
             throws ObjReaderException {
 

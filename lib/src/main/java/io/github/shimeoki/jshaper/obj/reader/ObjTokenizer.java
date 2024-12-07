@@ -67,7 +67,7 @@ public final class ObjTokenizer {
         this.mode = Objects.requireNonNull(mode);
     }
 
-    public void parseLine(final String line, List<ObjParsedString> output) {
+    public void parseLine(final String line, List<ObjTokenized> output) {
         Objects.requireNonNull(output).clear();
         builder.setLength(0);
 
@@ -77,7 +77,7 @@ public final class ObjTokenizer {
         }
 
         char c;
-        ObjParsedString parsed;
+        ObjTokenized parsed;
 
         for (int i = 0; i <= len; i++) {
             if (i == len) {
@@ -86,7 +86,7 @@ public final class ObjTokenizer {
                 c = line.charAt(i);
             }
 
-            parsed = new ObjParsedString(String.valueOf(c));
+            parsed = new ObjTokenized(String.valueOf(c));
             if (parsed.token().is(ObjToken.COMMENT)) {
                 if (!builder.isEmpty()) {
                     output.add(flushAndParse());
@@ -127,8 +127,8 @@ public final class ObjTokenizer {
         return false;
     }
 
-    private ObjParsedString flushAndParse() {
-        return new ObjParsedString(flushBuilder());
+    private ObjTokenized flushAndParse() {
+        return new ObjTokenized(flushBuilder());
     }
 
     public boolean allowed(final ObjToken token) {

@@ -17,7 +17,7 @@ public final class ObjVertexer {
     public ObjVertexer() {
     }
 
-    public void parseVertex(final List<ObjParsedString> strings) throws ObjReaderException {
+    public void parseVertex(final List<ObjTokenized> strings) throws ObjReaderException {
         final int len = Objects.requireNonNull(strings).size();
         if (len < 4 || len > 5) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid vertex format");
@@ -41,7 +41,7 @@ public final class ObjVertexer {
         vertices.add(new ObjVertex(x, y, z, w));
     }
 
-    public void parseTextureVertex(final List<ObjParsedString> strings) throws ObjReaderException {
+    public void parseTextureVertex(final List<ObjTokenized> strings) throws ObjReaderException {
         final int len = Objects.requireNonNull(strings).size();
         if (len < 2 || len > 4) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid texture vertex format");
@@ -70,7 +70,7 @@ public final class ObjVertexer {
         textureVertices.add(new ObjTextureVertex(u, v, w));
     }
 
-    public void parseVertexNormal(final List<ObjParsedString> strings) throws ObjReaderException {
+    public void parseVertexNormal(final List<ObjTokenized> strings) throws ObjReaderException {
         if (Objects.requireNonNull(strings).size() != 4) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid vertex normal format");
         }
@@ -86,7 +86,7 @@ public final class ObjVertexer {
         vertexNormals.add(new ObjVertexNormal(i, j, k));
     }
 
-    private static boolean check(final List<ObjParsedString> strings, final ObjToken token) {
+    private static boolean check(final List<ObjTokenized> strings, final ObjToken token) {
         return strings.getFirst().token().is(token);
     }
 
