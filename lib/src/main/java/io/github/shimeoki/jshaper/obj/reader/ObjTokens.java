@@ -14,6 +14,10 @@ public final class ObjTokens {
         return tokens.isEmpty();
     }
 
+    public void clear() {
+        tokens.clear();
+    }
+
     public ObjToken lineToken() {
         if (empty()) {
             return null;
