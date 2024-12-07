@@ -12,21 +12,17 @@ import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 
 public final class ObjFacer {
 
-    private final List<ObjFace> faces = new ArrayList<>();
-
-    private final ObjTripleter tripleter;
     private final List<ObjTriplet> triplets = new ArrayList<>();
+    private final ObjTripleter tripleter;
 
     public ObjFacer(final ObjTripleter tripleter) {
         this.tripleter = Objects.requireNonNull(tripleter);
     }
 
-    public void parse(
-            final List<ObjTokenized> tokens,
-            final Set<ObjGroupName> groupNames)
+    public ObjFace parse(final ObjTokens tokens, final Set<ObjGroupName> groupNames)
             throws ObjReaderException {
 
-        if (!tokens.getFirst().token().is(ObjToken.FACE)) {
+        if (!tokens.lineTokenIs(ObjToken.FACE)) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid face format");
         }
 
@@ -41,7 +37,7 @@ public final class ObjFacer {
         ObjTriplet triplet;
 
         for (int i = 1; i < len; i++) {
-            triplet = tripleter.parse(tokens.get(i).value());
+            triplet = tripleter.parse(tokens.value(i));
             tripletFormat = triplet.format();
 
             if (faceFormat == null) {
@@ -55,10 +51,6 @@ public final class ObjFacer {
             triplets.add(triplet);
         }
 
-        faces.add(new ObjFace(new ArrayList<>(triplets), groupNames));
-    }
-
-    public List<ObjFace> faces() {
-        return faces;
+        return new ObjFace(new ArrayList<>(triplets), groupNames);
     }
 }

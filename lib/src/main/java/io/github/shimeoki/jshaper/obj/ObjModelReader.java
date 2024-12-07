@@ -15,14 +15,18 @@ import io.github.shimeoki.jshaper.obj.data.ObjElements;
 import io.github.shimeoki.jshaper.obj.data.ObjFile;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupingData;
 import io.github.shimeoki.jshaper.obj.data.ObjVertexData;
+import io.github.shimeoki.jshaper.obj.geom.ObjFace;
+import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
+import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
+import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import io.github.shimeoki.jshaper.obj.reader.ObjFacer;
 import io.github.shimeoki.jshaper.obj.reader.ObjGroupNamer;
 import io.github.shimeoki.jshaper.obj.reader.ObjReaderException;
 import io.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import io.github.shimeoki.jshaper.obj.reader.ObjToken;
-import io.github.shimeoki.jshaper.obj.reader.ObjTokenized;
 import io.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
 import io.github.shimeoki.jshaper.obj.reader.ObjTokenizerMode;
+import io.github.shimeoki.jshaper.obj.reader.ObjTokens;
 import io.github.shimeoki.jshaper.obj.reader.ObjTripleter;
 import io.github.shimeoki.jshaper.obj.reader.ObjVertexer;
 
@@ -37,23 +41,17 @@ public final class ObjModelReader implements ObjReader {
             ObjToken.FACE,
             ObjToken.GROUP_NAME);
 
-    // input
-    private BufferedReader reader;
+    private List<ObjVertex> vertices;
+    private List<ObjTextureVertex> textureVertices;
+    private List<ObjVertexNormal> vertexNormals;
+    private List<ObjFace> faces;
 
-    // parse vertices
-    private ObjVertexer vertexer;
-
-    // parse lines
     private ObjTokenizer tokenizer;
-
-    // parse faces
     private ObjTripleter tripleter;
     private ObjFacer facer;
-
-    // parse groups
     private ObjGroupNamer groupNamer;
 
-    // parse
+    private BufferedReader reader;
     private int row;
     private String line;
 
@@ -99,33 +97,34 @@ public final class ObjModelReader implements ObjReader {
         } finally {
             // can be unsafe, but otherwise the recursion can occur
             reader = null;
+            row = 0;
+            line = null;
         }
     }
 
     private void cache() {
-        vertexer = new ObjVertexer();
+        vertices = new ArrayList<>();
+        textureVertices = new ArrayList<>();
+        vertexNormals = new ArrayList<>();
+        faces = new ArrayList<>();
 
-        tokenizer = new ObjTokenizer(TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
-
-        tripleter = new ObjTripleter(vertexer);
-
+        tokenizer = new ObjTokenizer(
+                TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
+        tripleter = new ObjTripleter(vertices, textureVertices, vertexNormals);
         facer = new ObjFacer(tripleter);
-
         groupNamer = new ObjGroupNamer();
     }
 
     private void uncache() {
-        vertexer = null;
+        vertices = null;
+        textureVertices = null;
+        vertexNormals = null;
+        faces = null;
 
         tokenizer = null;
-
         tripleter = null;
         facer = null;
-
         groupNamer = null;
-
-        row = 0;
-        line = null;
     }
 
     private void readLine() throws ObjReaderException {
@@ -136,30 +135,30 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
-    private ObjFile parse() throws ObjReaderException {
-        final List<ObjTokenized> tokens = tokenizer.tokens();
+    private void parse() throws ObjReaderException {
+        final ObjTokens tokens = tokenizer.tokens();
 
         ObjToken lineToken;
         for (readLine(); line != null; readLine(), row++) {
             tokenizer.parseLine(line);
 
-            lineToken = tokenizer.lineToken();
+            lineToken = tokens.lineToken();
             if (lineToken == null) {
                 continue;
             }
 
             switch (lineToken) {
                 case VERTEX:
-                    vertexer.parseVertex(tokens);
+                    vertices.add(ObjVertexer.parseVertex(tokens));
                     break;
                 case TEXTURE_VERTEX:
-                    vertexer.parseTextureVertex(tokens);
+                    textureVertices.add(ObjVertexer.parseTextureVertex(tokens));
                     break;
                 case VERTEX_NORMAL:
-                    vertexer.parseVertexNormal(tokens);
+                    vertexNormals.add(ObjVertexer.parseVertexNormal(tokens));
                     break;
                 case FACE:
-                    facer.parse(tokens, groupNamer.current());
+                    faces.add(facer.parse(tokens, groupNamer.current()));
                     break;
                 case GROUP_NAME:
                     groupNamer.parse(tokens);
@@ -169,14 +168,16 @@ public final class ObjModelReader implements ObjReader {
                     continue;
             }
         }
+    }
 
+    private ObjFile obj() {
         final ObjVertexData vertexData = new ObjVertexData(
-                vertexer.vertices(),
-                vertexer.textureVertices(),
-                vertexer.vertexNormals(),
+                vertices,
+                textureVertices,
+                vertexNormals,
                 new ArrayList<>());
 
-        final ObjElements elements = new ObjElements(facer.faces());
+        final ObjElements elements = new ObjElements(faces);
         final ObjGroupingData groupingData = new ObjGroupingData(groupNamer.all());
 
         return new ObjFile(vertexData, elements, groupingData);
@@ -191,9 +192,12 @@ public final class ObjModelReader implements ObjReader {
         }
 
         open(f);
-        final ObjFile result = parse();
+
+        parse();
+        final ObjFile obj = obj();
+
         close();
 
-        return result;
+        return obj;
     }
 }

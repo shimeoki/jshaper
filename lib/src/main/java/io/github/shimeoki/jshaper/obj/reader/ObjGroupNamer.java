@@ -2,7 +2,6 @@ package io.github.shimeoki.jshaper.obj.reader;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,8 +20,8 @@ public final class ObjGroupNamer {
     public ObjGroupNamer() {
     }
 
-    public void parse(final List<ObjTokenized> tokens) throws ObjReaderException {
-        if (!tokens.getFirst().token().is(ObjToken.GROUP_NAME)) {
+    public void parse(final ObjTokens tokens) throws ObjReaderException {
+        if (!tokens.lineTokenIs(ObjToken.GROUP_NAME)) {
             throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid group name format");
         }
 
@@ -38,7 +37,7 @@ public final class ObjGroupNamer {
         String s;
 
         for (int i = 1; i < len; i++) {
-            s = tokens.get(i).value();
+            s = tokens.value(i);
 
             currentNames.add(s);
             n = nameMap.getOrDefault(s, new ObjGroupName(s));

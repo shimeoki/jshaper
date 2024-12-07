@@ -16,12 +16,18 @@ public final class ObjTripleter {
     private final List<ObjVertexNormal> vertexNormals;
 
     private final StringBuilder builder = new StringBuilder();
-    private final int[] indices = new int[3];
 
-    public ObjTripleter(final ObjVertexer vertexer) {
-        this.vertices = Objects.requireNonNull(vertexer).vertices();
-        this.textureVertices = vertexer.textureVertices();
-        this.vertexNormals = vertexer.vertexNormals();
+    private final int[] indices = new int[3];
+    private int index;
+
+    public ObjTripleter(
+            final List<ObjVertex> vertices,
+            final List<ObjTextureVertex> textureVertices,
+            final List<ObjVertexNormal> vertexNormals) {
+
+        this.vertices = Objects.requireNonNull(vertices);
+        this.textureVertices = Objects.requireNonNull(textureVertices);
+        this.vertexNormals = Objects.requireNonNull(vertexNormals);
     }
 
     private void parseIndices(final String triplet) throws ObjReaderException {
@@ -60,72 +66,52 @@ public final class ObjTripleter {
     }
 
     private ObjVertex parseVertex() throws ObjReaderException {
-        int i = indices[0];
-        if (i == 0) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "no vertex index in the triplet");
-        }
+        parseIndex(indices[0], vertices.size());
 
-        final int len = vertices.size();
-
-        if (i < 0) {
-            i += len;
+        if (index < 0) {
+            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "no vertex in a triplet");
         } else {
-            i--;
+            return vertices.get(index);
         }
-
-        if (i < 0 || i >= len) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid vertex index");
-        }
-
-        return vertices.get(i);
     }
 
     private ObjTextureVertex parseTextureVertex() throws ObjReaderException {
-        int i = indices[1];
-        if (i == 0) {
+        parseIndex(indices[1], textureVertices.size());
+
+        if (index < 0) {
             return null;
-        }
-
-        final int len = textureVertices.size();
-
-        if (i < 0) {
-            i += len;
         } else {
-            i--;
+            return textureVertices.get(index);
         }
-
-        if (i < 0 || i >= len) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid texture vertex index");
-        }
-
-        return textureVertices.get(i);
     }
 
     private ObjVertexNormal parseVertexNormal() throws ObjReaderException {
-        int i = indices[2];
-        if (i == 0) {
+        parseIndex(indices[2], vertexNormals.size());
+
+        if (index < 0) {
             return null;
-        }
-
-        final int len = textureVertices.size();
-
-        if (i < 0) {
-            i += len;
         } else {
-            i--;
+            return vertexNormals.get(index);
+        }
+    }
+
+    private void parseIndex(final int i, final int len) throws ObjReaderException {
+        if (i < 0) {
+            index = i + len;
+        } else if (i > 0) {
+            index = i - 1;
+        } else {
+            index = -1;
+            return;
         }
 
-        if (i < 0 || i >= len) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid vertex normal index");
+        if (index < 0 || index >= len) {
+            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid vertex index");
         }
-
-        return vertexNormals.get(i);
     }
 
     public ObjTriplet parse(final String triplet) throws ObjReaderException {
-        Objects.requireNonNull(triplet);
-
-        parseIndices(triplet);
+        parseIndices(Objects.requireNonNull(triplet));
 
         final ObjVertex v = parseVertex();
         final ObjTextureVertex vt = parseTextureVertex();

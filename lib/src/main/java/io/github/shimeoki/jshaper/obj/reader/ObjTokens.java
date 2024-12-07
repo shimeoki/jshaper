@@ -27,8 +27,12 @@ public final class ObjTokens {
         }
     }
 
-    public void add(final ObjTokenized token) {
-        tokens.add(Objects.requireNonNull(token));
+    public boolean lineTokenIs(final ObjToken t) {
+        return lineToken().is(t);
+    }
+
+    public void add(final ObjTokenized t) {
+        tokens.add(Objects.requireNonNull(t));
     }
 
     public ObjTokenized tokenized(final int index) {
@@ -59,10 +63,10 @@ public final class ObjTokens {
         return tokens.size();
     }
 
-    public boolean validIndex(final int index) {
-        if (index < 0) {
+    public boolean validIndex(final int i) {
+        if (i < 0) {
             return false;
-        } else if (index >= size()) {
+        } else if (i >= size()) {
             return false;
         } else {
             return true;

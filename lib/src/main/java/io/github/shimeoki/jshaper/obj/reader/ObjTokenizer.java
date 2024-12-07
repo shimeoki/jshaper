@@ -1,9 +1,7 @@
 package io.github.shimeoki.jshaper.obj.reader;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -24,7 +22,7 @@ public final class ObjTokenizer {
 
     private final StringBuilder builder = new StringBuilder();
 
-    private final List<ObjTokenized> tokens = new ArrayList<>();
+    private final ObjTokens tokens = new ObjTokens();
 
     public ObjTokenizer(
             final ObjTokenizerMode mode,
@@ -169,15 +167,7 @@ public final class ObjTokenizer {
         }
     }
 
-    public List<ObjTokenized> tokens() {
+    public ObjTokens tokens() {
         return tokens;
-    }
-
-    public ObjToken lineToken() {
-        if (tokens.isEmpty()) {
-            return null;
-        }
-
-        return tokens.getFirst().token();
     }
 }
