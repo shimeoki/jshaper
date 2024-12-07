@@ -1,12 +1,12 @@
-module com.github.shimeoki.jshaper {
+module io.github.shimeoki.jshaper {
 
     // shared
-    exports com.github.shimeoki.jshaper.data;
-    exports com.github.shimeoki.jshaper.geom;
+    exports io.github.shimeoki.jshaper.data;
+    exports io.github.shimeoki.jshaper.geom;
 
     // obj
-    exports com.github.shimeoki.jshaper.obj;
-    exports com.github.shimeoki.jshaper.obj.reader;
-    exports com.github.shimeoki.jshaper.obj.data;
-    exports com.github.shimeoki.jshaper.obj.geom;
+    exports io.github.shimeoki.jshaper.obj;
+    exports io.github.shimeoki.jshaper.obj.reader;
+    exports io.github.shimeoki.jshaper.obj.data;
+    exports io.github.shimeoki.jshaper.obj.geom;
 }
