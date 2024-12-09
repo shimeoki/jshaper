@@ -62,6 +62,8 @@ public final class ObjTokenizerTest {
 
     @Test
     public void parseNumber() {
+        final ObjToken nil = ObjToken.NIL;
+
         final ObjToken t1 = ObjTokenizer.parse("0");
         final ObjToken t2 = ObjTokenizer.parse("1");
         final ObjToken t3 = ObjTokenizer.parse("0.0");
@@ -69,23 +71,25 @@ public final class ObjTokenizerTest {
         final ObjToken t5 = ObjTokenizer.parse("0.1234");
         final ObjToken t6 = ObjTokenizer.parse("100.000");
 
-        assertTrue(t1.is(ObjToken.NIL));
-        assertTrue(t2.is(ObjToken.NIL));
-        assertTrue(t3.is(ObjToken.NIL));
-        assertTrue(t4.is(ObjToken.NIL));
-        assertTrue(t5.is(ObjToken.NIL));
-        assertTrue(t6.is(ObjToken.NIL));
+        assertTrue(t1.is(nil));
+        assertTrue(t2.is(nil));
+        assertTrue(t3.is(nil));
+        assertTrue(t4.is(nil));
+        assertTrue(t5.is(nil));
+        assertTrue(t6.is(nil));
     }
 
     @Test
     public void parseSpace() {
+        final ObjToken nil = ObjToken.NIL;
+
         final ObjToken t1 = ObjTokenizer.parse(" ");
         final ObjToken t2 = ObjTokenizer.parse("   ");
         final ObjToken t3 = ObjTokenizer.parse("     ");
 
-        assertTrue(t1.is(ObjToken.NIL));
-        assertTrue(t2.is(ObjToken.NIL));
-        assertTrue(t3.is(ObjToken.NIL));
+        assertTrue(t1.is(nil));
+        assertTrue(t2.is(nil));
+        assertTrue(t3.is(nil));
     }
 
     @Test
@@ -96,29 +100,33 @@ public final class ObjTokenizerTest {
 
     @Test
     public void parseWithSpaces() {
+        final ObjToken nil = ObjToken.NIL;
+
         final ObjToken t1 = ObjTokenizer.parse(" v");
         final ObjToken t2 = ObjTokenizer.parse("v ");
         final ObjToken t3 = ObjTokenizer.parse(" v ");
         final ObjToken t4 = ObjTokenizer.parse("  v  ");
 
-        assertTrue(t1.is(ObjToken.NIL));
-        assertTrue(t2.is(ObjToken.NIL));
-        assertTrue(t3.is(ObjToken.NIL));
-        assertTrue(t4.is(ObjToken.NIL));
+        assertTrue(t1.is(nil));
+        assertTrue(t2.is(nil));
+        assertTrue(t3.is(nil));
+        assertTrue(t4.is(nil));
     }
 
     @Test
     public void parseInvalid() {
+        final ObjToken nil = ObjToken.NIL;
+
         final ObjToken t1 = ObjTokenizer.parse("-");
         final ObjToken t2 = ObjTokenizer.parse("+");
         final ObjToken t3 = ObjTokenizer.parse("!");
         final ObjToken t4 = ObjTokenizer.parse(":");
         final ObjToken t5 = ObjTokenizer.parse("?");
 
-        assertTrue(t1.is(ObjToken.NIL));
-        assertTrue(t2.is(ObjToken.NIL));
-        assertTrue(t3.is(ObjToken.NIL));
-        assertTrue(t4.is(ObjToken.NIL));
-        assertTrue(t5.is(ObjToken.NIL));
+        assertTrue(t1.is(nil));
+        assertTrue(t2.is(nil));
+        assertTrue(t3.is(nil));
+        assertTrue(t4.is(nil));
+        assertTrue(t5.is(nil));
     }
 }
