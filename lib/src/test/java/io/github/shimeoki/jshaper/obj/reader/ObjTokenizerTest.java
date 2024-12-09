@@ -20,44 +20,65 @@ public final class ObjTokenizerTest {
 
     @Test
     public void parseComment() {
-        final ObjToken t = ObjTokenizer.parse(ObjTokenizer.COMMENT);
-        assertTrue(t.is(ObjToken.COMMENT));
+        final ObjToken t1 = ObjTokenizer.parse(ObjTokenizer.COMMENT);
+        final ObjToken t2 = ObjTokenizer.parse("#");
+
+        assertTrue(t1.is(t2));
+        assertTrue(t1.is(ObjToken.COMMENT));
     }
 
     @Test
     public void parseVertex() {
-        final ObjToken t = ObjTokenizer.parse(ObjTokenizer.VERTEX);
-        assertTrue(t.is(ObjToken.VERTEX));
+        final ObjToken t1 = ObjTokenizer.parse(ObjTokenizer.VERTEX);
+        final ObjToken t2 = ObjTokenizer.parse("v");
+
+        assertTrue(t1.is(t2));
+        assertTrue(t1.is(ObjToken.VERTEX));
     }
 
     @Test
     public void parseTextureVertex() {
-        final ObjToken t = ObjTokenizer.parse(ObjTokenizer.TEXTURE_VERTEX);
-        assertTrue(t.is(ObjToken.TEXTURE_VERTEX));
+        final ObjToken t1 = ObjTokenizer.parse(ObjTokenizer.TEXTURE_VERTEX);
+        final ObjToken t2 = ObjTokenizer.parse("vt");
+
+        assertTrue(t1.is(t2));
+        assertTrue(t1.is(ObjToken.TEXTURE_VERTEX));
     }
 
     @Test
     public void parseVertexNormal() {
-        final ObjToken t = ObjTokenizer.parse(ObjTokenizer.VERTEX_NORMAL);
-        assertTrue(t.is(ObjToken.VERTEX_NORMAL));
+        final ObjToken t1 = ObjTokenizer.parse(ObjTokenizer.VERTEX_NORMAL);
+        final ObjToken t2 = ObjTokenizer.parse("vn");
+
+        assertTrue(t1.is(t2));
+        assertTrue(t1.is(ObjToken.VERTEX_NORMAL));
     }
 
     @Test
     public void parseParameterSpaceVertex() {
-        final ObjToken t = ObjTokenizer.parse(ObjTokenizer.PARAMETER_SPACE_VERTEX);
-        assertTrue(t.is(ObjToken.PARAMETER_SPACE_VERTEX));
+        final ObjToken t1 = ObjTokenizer.parse(ObjTokenizer.PARAMETER_SPACE_VERTEX);
+        final ObjToken t2 = ObjTokenizer.parse("vp");
+
+        assertTrue(t1.is(t2));
+        assertTrue(t1.is(ObjToken.PARAMETER_SPACE_VERTEX));
     }
 
     @Test
     public void parseFace() {
-        final ObjToken t = ObjTokenizer.parse(ObjTokenizer.FACE);
-        assertTrue(t.is(ObjToken.FACE));
+        final ObjToken t1 = ObjTokenizer.parse(ObjTokenizer.FACE);
+        final ObjToken t2 = ObjTokenizer.parse("f");
+
+        assertTrue(t1.is(t2));
+        assertTrue(t1.is(ObjToken.FACE));
     }
 
     @Test
     public void parseGroupName() {
-        final ObjToken t = ObjTokenizer.parse(ObjTokenizer.GROUP_NAME);
-        assertTrue(t.is(ObjToken.GROUP_NAME));
+        final ObjToken t1 = ObjTokenizer.parse(ObjTokenizer.GROUP_NAME);
+        final ObjToken t2 = ObjTokenizer.parse("g");
+
+        assertTrue(t1.is(t2));
+        assertTrue(t1.is(ObjToken.GROUP_NAME));
     }
 
     @Test
@@ -94,8 +115,7 @@ public final class ObjTokenizerTest {
 
     @Test
     public void parseBlank() {
-        final ObjToken t = ObjTokenizer.parse("");
-        assertTrue(t.is(ObjToken.NIL));
+        assertTrue(ObjTokenizer.parse("").is(ObjToken.NIL));
     }
 
     @Test
