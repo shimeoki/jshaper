@@ -17,7 +17,7 @@ public final class ObjTokenizedTest {
             return;
         }
 
-        fail("no null pointer exception caught");
+        fail("no NullPointerException caught");
     }
 
     @Test
