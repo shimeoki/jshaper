@@ -1,5 +1,7 @@
 package io.github.shimeoki.jshaper.obj.reader;
 
+import java.util.Objects;
+
 public enum ObjToken {
 
     NIL(""),
@@ -14,7 +16,7 @@ public enum ObjToken {
     private final String txt;
 
     private ObjToken(final String txt) {
-        this.txt = txt;
+        this.txt = Objects.requireNonNull(txt);
     }
 
     @Override
