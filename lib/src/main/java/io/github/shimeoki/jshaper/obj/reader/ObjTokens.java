@@ -28,7 +28,7 @@ public final class ObjTokens {
     }
 
     public boolean lineTokenIs(final ObjToken t) {
-        return lineToken().is(t);
+        return t.is(lineToken());
     }
 
     public void add(final ObjTokenized t) {
