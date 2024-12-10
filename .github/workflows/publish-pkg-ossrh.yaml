@@ -11,7 +11,7 @@ permissions:
     packages: write
 
 jobs:
-    publish-pkg-github:
+    publish-pkg-ossrh:
         runs-on: ubuntu-latest
         steps:
           - name: Checkout
