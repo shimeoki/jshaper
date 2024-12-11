@@ -57,7 +57,7 @@ deployer {
             fromGithub("shimeoki", "jshaper")
         }
 
-        license("MIT License", "https://github.com/shimeoki/jshaper/blob/main/LICENSE")
+        license(MIT)
 
         developer("shimeoki", "shimeoki@gmail.com")
     }
