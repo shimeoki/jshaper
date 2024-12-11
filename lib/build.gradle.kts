@@ -1,11 +1,11 @@
 plugins {
     id("base")
+    `kotlin-dsl`
 
     id("java-library")
     id("java-library-distribution")
 
-    id("maven-publish")
-    id("signing")
+    id("io.deepmedia.tools.deployer") version "0.15.0"
 }
 
 group = "io.github.shimeoki"
@@ -39,57 +39,53 @@ distributions {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            artifactId = rootProject.name
-
-            pom {
-                name = rootProject.name
-                description = "A 3D model parsing library for Java."
-                url = "https://shimeoki.github.io/jshaper"
-
-                licenses {
-                    license {
-                        name = "MIT License"
-                        url = "https://github.com/shimeoki/jshaper/blob/main/LICENSE"
-                    }
-                }
-
-                scm {
-                    connection = "scm:git:git://github.com/shimeoki/jshaper.git"
-                    developerConnection = "scm:git:ssh://github.com/shimeoki/jshaper.git"
-                    url = "https://github.com/shimeoki/jshaper"
-                }
-            }
-
-            from(components["java"])
+deployer {
+    content {
+        component {
+            fromJava()
         }
     }
 
-    repositories {
-        maven {
-            name = "ossrh"
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+    projectInfo {
+        name.set(rootProject.name)
+        description.set("A 3D model parsing library for Java.")
+        url.set("https://github.com/shimeoki/jshaper")
 
-            credentials {
-                username = System.getenv("OSSRH_USERNAME")
-                password = System.getenv("OSSRH_PASSWORD")
-            }
+        artifactId.set(rootProject.name)
+
+        scm {
+            fromGithub("shimeoki", "jshaper")
+        }
+
+        license("MIT License", "https://github.com/shimeoki/jshaper/blob/main/LICENSE")
+
+        developer("shimeoki", "shimeoki@gmail.com")
+    }
+
+    localSpec("m2") {
+    }
+
+    localSpec("artifact") {
+        directory.set(file("build/artifact"))
+    }
+
+    centralPortalSpec {
+        auth.user.set(secret("CENTRAL_PORTAL_USERNAME"))
+        auth.password.set(secret("CENTRAL_PORTAL_PASSWORD"))
+
+        signing {
+            key.set(secret("GPG_KEY"))
+            password.set(secret("GPG_PWD"))
         }
     }
-}
 
-signing {
-    val signingKey: String? by project
-    // env: ORG_GRADLE_PROJECT_signingKey
+    githubSpec {
+        owner.set("shimeoki")
+        repository.set("jshaper")
 
-    val signingPassword: String? by project
-    // env: ORG_GRADLE_PROJECT_signingPassword
-
-    useInMemoryPgpKeys(signingKey, signingPassword)
-
-    sign(publishing.publications["maven"])
+        auth.user.set(secret("GITHUB_ACTOR"))
+        auth.token.set(secret("GITHUB_TOKEN"))
+    }
 }
 
 tasks.test {
