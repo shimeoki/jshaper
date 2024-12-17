@@ -8,6 +8,6 @@ public final class ObjModelWriter implements ObjWriter {
 
     @Override
     public void write(final ObjFile src, final File dst) {
-
+        // TODO
     }
 }
