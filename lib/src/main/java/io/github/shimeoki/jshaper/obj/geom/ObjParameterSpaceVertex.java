@@ -1,12 +1,12 @@
 package io.github.shimeoki.jshaper.obj.geom;
 
+import io.github.shimeoki.jshaper.data.Clearable;
 import io.github.shimeoki.jshaper.geom.Pointf;
 import io.github.shimeoki.jshaper.geom.Pos;
 
-public final class ObjParameterSpaceVertex implements Pointf {
+public final class ObjParameterSpaceVertex implements Clearable, Pointf {
 
-    // the specification doesn't say anything about the default "v" value.
-    // so i default it to float's zero value: 0.
+    public static final float DEFAULT_U = 0;
     public static final float DEFAULT_V = 0;
     public static final float DEFAULT_W = 1;
 
@@ -86,5 +86,12 @@ public final class ObjParameterSpaceVertex implements Pointf {
 
     public void setW(final float w) {
         values[2] = w;
+    }
+
+    @Override
+    public void clear() {
+        setU(DEFAULT_U);
+        setV(DEFAULT_V);
+        setW(DEFAULT_W);
     }
 }
