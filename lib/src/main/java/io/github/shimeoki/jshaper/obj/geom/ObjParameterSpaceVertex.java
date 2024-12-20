@@ -12,20 +12,10 @@ public final class ObjParameterSpaceVertex implements Clearable, Pointf {
 
     private final float[] values = new float[3];
 
-    public ObjParameterSpaceVertex(final float u, final Float v, final Float w) {
+    public ObjParameterSpaceVertex(final float u, final float v, final float w) {
         setU(u);
-
-        if (v != null) {
-            setV(v);
-        } else {
-            setV(DEFAULT_V);
-        }
-
-        if (w != null) {
-            setW(w);
-        } else {
-            setW(DEFAULT_W);
-        }
+        setV(v);
+        setW(w);
     }
 
     @Override
