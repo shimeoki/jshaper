@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.github.shimeoki"
-version = "0.9.7"
+version = "0.9.8"
 
 base {
     archivesName = rootProject.name
