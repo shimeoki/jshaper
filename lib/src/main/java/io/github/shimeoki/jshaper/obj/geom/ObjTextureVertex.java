@@ -1,10 +1,12 @@
 package io.github.shimeoki.jshaper.obj.geom;
 
+import io.github.shimeoki.jshaper.data.Clearable;
 import io.github.shimeoki.jshaper.geom.Pointf;
 import io.github.shimeoki.jshaper.geom.Pos;
 
-public final class ObjTextureVertex implements Pointf {
+public final class ObjTextureVertex implements Clearable, Pointf {
 
+    public static final float DEFAULT_U = 0;
     public static final float DEFAULT_V = 0;
     public static final float DEFAULT_W = 0;
 
@@ -84,5 +86,12 @@ public final class ObjTextureVertex implements Pointf {
 
     public void setW(final float w) {
         values[2] = w;
+    }
+
+    @Override
+    public void clear() {
+        setU(DEFAULT_U);
+        setV(DEFAULT_V);
+        setW(DEFAULT_W);
     }
 }
