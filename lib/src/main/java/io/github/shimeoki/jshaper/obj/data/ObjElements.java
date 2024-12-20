@@ -12,9 +12,7 @@ public final class ObjElements {
     private final List<ObjFace> faces;
 
     public ObjElements(final List<ObjFace> faces) {
-        Objects.requireNonNull(faces);
-
-        this.faces = faces;
+        this.faces = Objects.requireNonNull(faces);
     }
 
     public List<ObjFace> faces() {

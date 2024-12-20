@@ -13,13 +13,9 @@ public final class ObjFile {
             final ObjElements elements,
             final ObjGroupingData groupingData) {
 
-        Objects.requireNonNull(vertexData);
-        Objects.requireNonNull(elements);
-        Objects.requireNonNull(groupingData);
-
-        this.vertexData = vertexData;
-        this.elements = elements;
-        this.groupingData = groupingData;
+        this.vertexData = Objects.requireNonNull(vertexData);
+        this.elements = Objects.requireNonNull(elements);
+        this.groupingData = Objects.requireNonNull(groupingData);
     }
 
     public ObjVertexData vertexData() {

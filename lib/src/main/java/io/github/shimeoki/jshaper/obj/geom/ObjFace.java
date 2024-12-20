@@ -13,16 +13,16 @@ public final class ObjFace implements ObjElement {
     private final List<ObjTriplet> triplets;
     private final Set<ObjGroupName> groupNames;
 
-    public ObjFace(final List<ObjTriplet> triplets, final Set<ObjGroupName> groupNames) {
-        Objects.requireNonNull(triplets);
-        Objects.requireNonNull(groupNames);
+    public ObjFace(
+            final List<ObjTriplet> triplets, final Set<ObjGroupName> groupNames) {
 
+        // FIXME no null safety
         if (triplets.size() < 3) {
             throw new IllegalArgumentException("ObjFace: triplets.size() < 3");
         }
 
-        this.triplets = triplets;
-        this.groupNames = groupNames;
+        this.triplets = Objects.requireNonNull(triplets);
+        this.groupNames = Objects.requireNonNull(groupNames);
     }
 
     public List<ObjTriplet> triplets() {

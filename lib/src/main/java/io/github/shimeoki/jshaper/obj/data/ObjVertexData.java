@@ -21,15 +21,10 @@ public final class ObjVertexData {
             final List<ObjVertexNormal> vertexNormals,
             final List<ObjParameterSpaceVertex> parameterSpaceVertices) {
 
-        Objects.requireNonNull(vertices);
-        Objects.requireNonNull(textureVertices);
-        Objects.requireNonNull(vertexNormals);
-        Objects.requireNonNull(parameterSpaceVertices);
-
-        this.vertices = vertices;
-        this.textureVertices = textureVertices;
-        this.vertexNormals = vertexNormals;
-        this.parameterSpaceVertices = parameterSpaceVertices;
+        this.vertices = Objects.requireNonNull(vertices);
+        this.textureVertices = Objects.requireNonNull(textureVertices);
+        this.vertexNormals = Objects.requireNonNull(vertexNormals);
+        this.parameterSpaceVertices = Objects.requireNonNull(parameterSpaceVertices);
     }
 
     public List<ObjVertex> vertices() {
