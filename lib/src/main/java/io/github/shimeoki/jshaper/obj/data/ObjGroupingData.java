@@ -10,9 +10,7 @@ public final class ObjGroupingData {
     private final Set<ObjGroupName> groupNames;
 
     public ObjGroupingData(final Set<ObjGroupName> groupNames) {
-        Objects.requireNonNull(groupNames);
-
-        this.groupNames = groupNames;
+        this.groupNames = Objects.requireNonNull(groupNames);
     }
 
     public Set<ObjGroupName> groupNames() {
