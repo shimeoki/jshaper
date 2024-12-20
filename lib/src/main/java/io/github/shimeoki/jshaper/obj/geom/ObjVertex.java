@@ -13,16 +13,11 @@ public final class ObjVertex implements Clearable, Pointf {
 
     private final float[] values = new float[4];
 
-    public ObjVertex(final float x, final float y, final float z, final Float w) {
+    public ObjVertex(final float x, final float y, final float z, final float w) {
         setX(x);
         setY(y);
         setZ(z);
-
-        if (w != null) {
-            setW(w);
-        } else {
-            setW(DEFAULT_W);
-        }
+        setW(w);
     }
 
     @Override

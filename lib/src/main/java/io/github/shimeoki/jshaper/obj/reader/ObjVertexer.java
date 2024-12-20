@@ -22,11 +22,11 @@ public final class ObjVertexer {
         final float y = ObjNumberer.parseFloat(tokens.value(2));
         final float z = ObjNumberer.parseFloat(tokens.value(3));
 
-        final Float w;
+        final float w;
         if (len == 5) {
             w = ObjNumberer.parseFloat(tokens.value(4));
         } else {
-            w = null;
+            w = ObjVertex.DEFAULT_W;
         }
 
         return new ObjVertex(x, y, z, w);
