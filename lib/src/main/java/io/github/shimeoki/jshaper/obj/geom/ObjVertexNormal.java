@@ -1,9 +1,14 @@
 package io.github.shimeoki.jshaper.obj.geom;
 
+import io.github.shimeoki.jshaper.data.Clearable;
 import io.github.shimeoki.jshaper.geom.Pointf;
 import io.github.shimeoki.jshaper.geom.Pos;
 
-public final class ObjVertexNormal implements Pointf {
+public final class ObjVertexNormal implements Clearable, Pointf {
+
+    public static final float DEFAULT_I = 0;
+    public static final float DEFAULT_J = 0;
+    public static final float DEFAULT_K = 0;
 
     private final float[] values = new float[3];
 
@@ -71,5 +76,12 @@ public final class ObjVertexNormal implements Pointf {
 
     public void setK(final float k) {
         values[2] = k;
+    }
+
+    @Override
+    public void clear() {
+        setI(DEFAULT_I);
+        setJ(DEFAULT_J);
+        setK(DEFAULT_K);
     }
 }
