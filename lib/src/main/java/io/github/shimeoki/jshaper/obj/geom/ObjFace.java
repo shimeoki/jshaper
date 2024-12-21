@@ -16,11 +16,6 @@ public final class ObjFace implements ObjElement {
     public ObjFace(
             final List<ObjTriplet> triplets, final Set<ObjGroupName> groupNames) {
 
-        // FIXME no null safety
-        if (triplets.size() < 3) {
-            throw new IllegalArgumentException("ObjFace: triplets.size() < 3");
-        }
-
         this.triplets = Objects.requireNonNull(triplets);
         this.groupNames = Objects.requireNonNull(groupNames);
     }
