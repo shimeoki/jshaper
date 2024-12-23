@@ -30,7 +30,7 @@ public final class ObjTripleter {
         this.vertexNormals = Objects.requireNonNull(vertexNormals);
     }
 
-    private void parseIndices(final String triplet) throws ObjReaderException {
+    private void parseIndices(final String triplet) throws ShaperError {
         final int len = triplet.length();
         builder.setLength(0);
 
@@ -42,7 +42,7 @@ public final class ObjTripleter {
             c = triplet.charAt(i);
 
             if (c == ' ') {
-                throw new ObjReaderException(ObjReaderExceptionType.PARSE, "found a space in a triplet");
+                throw new ShaperError(ObjReaderExceptionType.PARSE, "found a space in a triplet");
             }
 
             if (c != '/') {
@@ -52,7 +52,7 @@ public final class ObjTripleter {
 
             index++;
             if (index > 2) {
-                throw new ObjReaderException(ObjReaderExceptionType.PARSE,
+                throw new ShaperError(ObjReaderExceptionType.PARSE,
                         "found more than three indices in a triplet");
             }
 
@@ -65,17 +65,17 @@ public final class ObjTripleter {
         }
     }
 
-    private ObjVertex parseVertex() throws ObjReaderException {
+    private ObjVertex parseVertex() throws ShaperError {
         parseIndex(indices[0], vertices.size());
 
         if (index < 0) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "no vertex in a triplet");
+            throw new ShaperError(ObjReaderExceptionType.PARSE, "no vertex in a triplet");
         } else {
             return vertices.get(index);
         }
     }
 
-    private ObjTextureVertex parseTextureVertex() throws ObjReaderException {
+    private ObjTextureVertex parseTextureVertex() throws ShaperError {
         parseIndex(indices[1], textureVertices.size());
 
         if (index < 0) {
@@ -85,7 +85,7 @@ public final class ObjTripleter {
         }
     }
 
-    private ObjVertexNormal parseVertexNormal() throws ObjReaderException {
+    private ObjVertexNormal parseVertexNormal() throws ShaperError {
         parseIndex(indices[2], vertexNormals.size());
 
         if (index < 0) {
@@ -95,7 +95,7 @@ public final class ObjTripleter {
         }
     }
 
-    private void parseIndex(final int i, final int len) throws ObjReaderException {
+    private void parseIndex(final int i, final int len) throws ShaperError {
         if (i < 0) {
             index = i + len;
         } else if (i > 0) {
@@ -106,11 +106,11 @@ public final class ObjTripleter {
         }
 
         if (index < 0 || index >= len) {
-            throw new ObjReaderException(ObjReaderExceptionType.PARSE, "invalid vertex index");
+            throw new ShaperError(ObjReaderExceptionType.PARSE, "invalid vertex index");
         }
     }
 
-    public ObjTriplet parse(final String triplet) throws ObjReaderException {
+    public ObjTriplet parse(final String triplet) throws ShaperError {
         parseIndices(Objects.requireNonNull(triplet));
 
         final ObjVertex v = parseVertex();

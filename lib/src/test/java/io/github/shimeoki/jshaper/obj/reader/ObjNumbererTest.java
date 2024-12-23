@@ -13,7 +13,7 @@ public final class ObjNumbererTest {
             ObjNumberer.parseFloat(null);
         } catch (final NullPointerException e) {
             return;
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             fail("caught ObjReaderException");
         }
 
@@ -26,7 +26,7 @@ public final class ObjNumbererTest {
             ObjNumberer.parseInt(null);
         } catch (final NullPointerException e) {
             return;
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             fail("caught ObjReaderException");
         }
 
@@ -44,7 +44,7 @@ public final class ObjNumbererTest {
             assertEquals(-84f, ObjNumberer.parseFloat("-84"));
             assertEquals(-0.789f, ObjNumberer.parseFloat("-0.789"));
             assertEquals(-0.0f, ObjNumberer.parseFloat("-0.0"));
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             fail("caught ObjReaderException");
         }
     }
@@ -59,7 +59,7 @@ public final class ObjNumbererTest {
             assertEquals(-84, ObjNumberer.parseInt("-84"));
             assertEquals(-789, ObjNumberer.parseInt("-789"));
             assertEquals(0, ObjNumberer.parseInt("-0"));
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             fail("caught ObjReaderException");
         }
     }
@@ -68,7 +68,7 @@ public final class ObjNumbererTest {
     public void parseBlankFloat() {
         try {
             ObjNumberer.parseFloat("");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             return;
         }
 
@@ -79,7 +79,7 @@ public final class ObjNumbererTest {
     public void parseBlankInt() {
         try {
             ObjNumberer.parseInt("");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             return;
         }
 
@@ -90,7 +90,7 @@ public final class ObjNumbererTest {
     public void parseSpaceFloat() {
         try {
             ObjNumberer.parseFloat(" ");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             return;
         }
 
@@ -101,7 +101,7 @@ public final class ObjNumbererTest {
     public void parseSpaceInt() {
         try {
             ObjNumberer.parseInt(" ");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             return;
         }
 
@@ -114,25 +114,25 @@ public final class ObjNumbererTest {
 
         try {
             ObjNumberer.parseFloat("0.123 ");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat(" 0.123");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat(" 0.123 ");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat("   0.123   ");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
@@ -145,25 +145,25 @@ public final class ObjNumbererTest {
 
         try {
             ObjNumberer.parseInt("123 ");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseInt(" 123");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseInt(" 123 ");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseInt("   123   ");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
@@ -176,25 +176,25 @@ public final class ObjNumbererTest {
 
         try {
             ObjNumberer.parseFloat("0. 123");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat("0 .123");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat("0 . 123");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat("0  .  123");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
@@ -205,7 +205,7 @@ public final class ObjNumbererTest {
     public void parseCommaFloat() {
         try {
             ObjNumberer.parseFloat("0,123");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             return;
         }
 
@@ -216,7 +216,7 @@ public final class ObjNumbererTest {
     public void parseStringAsFloat() {
         try {
             ObjNumberer.parseFloat("value");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             return;
         }
 
@@ -227,7 +227,7 @@ public final class ObjNumbererTest {
     public void parseStringAsInt() {
         try {
             ObjNumberer.parseInt("value");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             return;
         }
 
@@ -240,37 +240,37 @@ public final class ObjNumbererTest {
 
         try {
             ObjNumberer.parseFloat("!");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat("+");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat(":");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat(";");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat("?");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseFloat("-");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
@@ -283,37 +283,37 @@ public final class ObjNumbererTest {
 
         try {
             ObjNumberer.parseInt("!");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseInt("+");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseInt(":");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseInt(";");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseInt("?");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 
         try {
             ObjNumberer.parseInt("-");
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             count++;
         }
 

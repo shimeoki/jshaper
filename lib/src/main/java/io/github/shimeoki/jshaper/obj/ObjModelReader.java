@@ -21,7 +21,7 @@ import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import io.github.shimeoki.jshaper.obj.reader.ObjFacer;
 import io.github.shimeoki.jshaper.obj.reader.ObjGroupNamer;
-import io.github.shimeoki.jshaper.obj.reader.ObjReaderException;
+import io.github.shimeoki.jshaper.obj.reader.ShaperError;
 import io.github.shimeoki.jshaper.obj.reader.ObjReaderExceptionType;
 import io.github.shimeoki.jshaper.obj.reader.ObjToken;
 import io.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
@@ -58,26 +58,26 @@ public final class ObjModelReader implements ObjReader {
     public ObjModelReader() {
     }
 
-    private void open(final File f) throws ObjReaderException {
+    private void open(final File f) throws ShaperError {
         cache();
         openReader(f);
     }
 
-    private void close() throws ObjReaderException {
+    private void close() throws ShaperError {
         uncache();
         closeReader();
     }
 
-    private void error(final ObjReaderExceptionType type, final String msg) throws ObjReaderException {
+    private void error(final ObjReaderExceptionType type, final String msg) throws ShaperError {
         final int row = this.row + 1;
 
         close();
 
-        throw new ObjReaderException(
+        throw new ShaperError(
                 type, String.format("%s at row %d", msg, row));
     }
 
-    private void openReader(final File f) throws ObjReaderException {
+    private void openReader(final File f) throws ShaperError {
         final Path p = f.toPath();
 
         try {
@@ -87,7 +87,7 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
-    private void closeReader() throws ObjReaderException {
+    private void closeReader() throws ShaperError {
         try {
             if (reader != null) {
                 reader.close();
@@ -127,7 +127,7 @@ public final class ObjModelReader implements ObjReader {
         groupNamer = null;
     }
 
-    private void readLine() throws ObjReaderException {
+    private void readLine() throws ShaperError {
         try {
             line = reader.readLine();
         } catch (IOException e) {
@@ -135,7 +135,7 @@ public final class ObjModelReader implements ObjReader {
         }
     }
 
-    private void parse() throws ObjReaderException {
+    private void parse() throws ShaperError {
         final ObjTokens tokens = tokenizer.tokens();
 
         ObjToken lineToken;
@@ -184,7 +184,7 @@ public final class ObjModelReader implements ObjReader {
     }
 
     @Override
-    public ObjFile read(final File f) throws ObjReaderException {
+    public ObjFile read(final File f) throws ShaperError {
         Objects.requireNonNull(f);
 
         if (!f.canRead()) {
