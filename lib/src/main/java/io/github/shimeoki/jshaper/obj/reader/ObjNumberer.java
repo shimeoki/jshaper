@@ -8,7 +8,7 @@ public final class ObjNumberer {
         try {
             return Float.parseFloat(Objects.requireNonNull(s));
         } catch (final NumberFormatException e) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE,
+            throw new ShaperError(ShaperError.Type.PARSE,
                     "invalid float format");
         }
     }
@@ -17,7 +17,7 @@ public final class ObjNumberer {
         try {
             return Integer.parseInt(Objects.requireNonNull(s));
         } catch (final NumberFormatException e) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE,
+            throw new ShaperError(ShaperError.Type.PARSE,
                     "invalid int format");
         }
     }

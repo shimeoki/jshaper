@@ -23,12 +23,12 @@ public final class ObjFacer {
             throws ShaperError {
 
         if (!tokens.lineTokenIs(ObjToken.FACE)) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "invalid face format");
+            throw new ShaperError(ShaperError.Type.PARSE, "invalid face format");
         }
 
         final int len = tokens.size();
         if (len < 4) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "less than three triplets in one face");
+            throw new ShaperError(ShaperError.Type.PARSE, "less than three triplets in one face");
         }
 
         triplets.clear();
@@ -45,7 +45,7 @@ public final class ObjFacer {
             }
 
             if (!faceFormat.equals(tripletFormat)) {
-                throw new ShaperError(ObjReaderExceptionType.PARSE, "multiple triplet formats in one face");
+                throw new ShaperError(ShaperError.Type.PARSE, "multiple triplet formats in one face");
             }
 
             triplets.add(triplet);

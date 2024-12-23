@@ -11,11 +11,11 @@ public final class ObjVertexer {
     public static ObjVertex parseVertex(final ObjTokens tokens) throws ShaperError {
         final int len = Objects.requireNonNull(tokens).size();
         if (len < 4 || len > 5) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "invalid vertex format");
+            throw new ShaperError(ShaperError.Type.PARSE, "invalid vertex format");
         }
 
         if (!tokens.lineTokenIs(ObjToken.VERTEX)) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "no vertex token");
+            throw new ShaperError(ShaperError.Type.PARSE, "no vertex token");
         }
 
         final float x = ObjNumberer.parseFloat(tokens.value(1));
@@ -35,11 +35,11 @@ public final class ObjVertexer {
     public static ObjTextureVertex parseTextureVertex(final ObjTokens tokens) throws ShaperError {
         final int len = Objects.requireNonNull(tokens).size();
         if (len < 2 || len > 4) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "invalid texture vertex format");
+            throw new ShaperError(ShaperError.Type.PARSE, "invalid texture vertex format");
         }
 
         if (!tokens.lineTokenIs(ObjToken.TEXTURE_VERTEX)) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "no texture vertex token");
+            throw new ShaperError(ShaperError.Type.PARSE, "no texture vertex token");
         }
 
         final float u = ObjNumberer.parseFloat(tokens.value(1));
@@ -63,11 +63,11 @@ public final class ObjVertexer {
 
     public static ObjVertexNormal parseVertexNormal(final ObjTokens tokens) throws ShaperError {
         if (Objects.requireNonNull(tokens).size() != 4) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "invalid vertex normal format");
+            throw new ShaperError(ShaperError.Type.PARSE, "invalid vertex normal format");
         }
 
         if (!tokens.lineTokenIs(ObjToken.VERTEX_NORMAL)) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "no vertex normal token");
+            throw new ShaperError(ShaperError.Type.PARSE, "no vertex normal token");
         }
 
         final float i = ObjNumberer.parseFloat(tokens.value(1));

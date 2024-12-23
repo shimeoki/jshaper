@@ -1,16 +1,19 @@
 package io.github.shimeoki.jshaper.obj.reader;
 
+import java.util.Objects;
+
 public class ShaperError extends Exception {
 
     private static final String err = "ObjReader";
-    private final ObjReaderExceptionType type;
+    private final Type type;
 
-    public ShaperError(final ObjReaderExceptionType type, final String msg) {
-        super(String.format("%s: %s %s", err, type, msg));
-        this.type = type;
+    public ShaperError(final Type t, final String msg) {
+        super(String.format("%s: %s %s",
+                err, Objects.requireNonNull(t), Objects.requireNonNull(msg)));
+        type = t;
     }
 
-    public ObjReaderExceptionType type() {
+    public Type type() {
         return type;
     }
 

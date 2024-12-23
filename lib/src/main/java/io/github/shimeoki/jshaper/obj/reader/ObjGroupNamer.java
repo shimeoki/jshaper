@@ -22,12 +22,12 @@ public final class ObjGroupNamer {
 
     public void parse(final ObjTokens tokens) throws ShaperError {
         if (!tokens.lineTokenIs(ObjToken.GROUP_NAME)) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "invalid group name format");
+            throw new ShaperError(ShaperError.Type.PARSE, "invalid group name format");
         }
 
         final int len = tokens.size();
         if (len < 2) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "no names in group name statement");
+            throw new ShaperError(ShaperError.Type.PARSE, "no names in group name statement");
         }
 
         currentNames.clear();

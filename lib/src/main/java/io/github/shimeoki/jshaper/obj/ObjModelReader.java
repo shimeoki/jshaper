@@ -68,13 +68,13 @@ public final class ObjModelReader implements ObjReader {
         closeReader();
     }
 
-    private void error(final ObjReaderExceptionType type, final String msg) throws ShaperError {
+    private void error(final ShaperError.Type t, final String msg) throws ShaperError {
         final int row = this.row + 1;
 
         close();
 
         throw new ShaperError(
-                type, String.format("%s at row %d", msg, row));
+                t, String.format("%s at row %d", msg, row));
     }
 
     private void openReader(final File f) throws ShaperError {
@@ -83,7 +83,7 @@ public final class ObjModelReader implements ObjReader {
         try {
             reader = Files.newBufferedReader(p);
         } catch (final IOException e) {
-            error(ObjReaderExceptionType.IO, "error while opening the file");
+            error(ShaperError.Type.IO, "error while opening the file");
         }
     }
 
@@ -93,7 +93,7 @@ public final class ObjModelReader implements ObjReader {
                 reader.close();
             }
         } catch (IOException e) {
-            error(ObjReaderExceptionType.IO, "error while closing the file");
+            error(ShaperError.Type.IO, "error while closing the file");
         } finally {
             // can be unsafe, but otherwise the recursion can occur
             reader = null;
@@ -131,7 +131,7 @@ public final class ObjModelReader implements ObjReader {
         try {
             line = reader.readLine();
         } catch (IOException e) {
-            error(ObjReaderExceptionType.IO, "error while reading the file");
+            error(ShaperError.Type.IO, "error while reading the file");
         }
     }
 
@@ -188,7 +188,7 @@ public final class ObjModelReader implements ObjReader {
         Objects.requireNonNull(f);
 
         if (!f.canRead()) {
-            error(ObjReaderExceptionType.IO, "file is not readable");
+            error(ShaperError.Type.IO, "file is not readable");
         }
 
         open(f);

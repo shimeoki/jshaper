@@ -42,7 +42,8 @@ public final class ObjTripleter {
             c = triplet.charAt(i);
 
             if (c == ' ') {
-                throw new ShaperError(ObjReaderExceptionType.PARSE, "found a space in a triplet");
+                throw new ShaperError(ShaperError.Type.PARSE,
+                        "found a space in a triplet");
             }
 
             if (c != '/') {
@@ -52,7 +53,7 @@ public final class ObjTripleter {
 
             index++;
             if (index > 2) {
-                throw new ShaperError(ObjReaderExceptionType.PARSE,
+                throw new ShaperError(ShaperError.Type.PARSE,
                         "found more than three indices in a triplet");
             }
 
@@ -69,7 +70,7 @@ public final class ObjTripleter {
         parseIndex(indices[0], vertices.size());
 
         if (index < 0) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "no vertex in a triplet");
+            throw new ShaperError(ShaperError.Type.PARSE, "no vertex in a triplet");
         } else {
             return vertices.get(index);
         }
@@ -106,7 +107,7 @@ public final class ObjTripleter {
         }
 
         if (index < 0 || index >= len) {
-            throw new ShaperError(ObjReaderExceptionType.PARSE, "invalid vertex index");
+            throw new ShaperError(ShaperError.Type.PARSE, "invalid vertex index");
         }
     }
 
