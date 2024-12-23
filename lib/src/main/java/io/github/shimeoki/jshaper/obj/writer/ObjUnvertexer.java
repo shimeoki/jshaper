@@ -30,8 +30,20 @@ public final class ObjUnvertexer {
     }
 
     public String parseTextureVertex(final ObjTextureVertex vt) {
-        // TODO
-        return null;
+        builder.setLength(0);
+
+        builder.append(ObjTokenizer.TEXTURE_VERTEX);
+
+        builder.append(' ');
+        builder.append(vt.u());
+
+        builder.append(' ');
+        builder.append(vt.v());
+
+        builder.append(' ');
+        builder.append(vt.w());
+
+        return builder.toString();
     }
 
     public String parseVertexNormal(final ObjVertexNormal vn) {
