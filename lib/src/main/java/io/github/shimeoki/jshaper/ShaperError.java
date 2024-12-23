@@ -1,4 +1,4 @@
-package io.github.shimeoki.jshaper.obj.reader;
+package io.github.shimeoki.jshaper;
 
 import java.util.Objects;
 

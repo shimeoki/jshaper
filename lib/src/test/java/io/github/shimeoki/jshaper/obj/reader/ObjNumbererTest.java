@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.shimeoki.jshaper.ShaperError;
+
 public final class ObjNumbererTest {
 
     @Test

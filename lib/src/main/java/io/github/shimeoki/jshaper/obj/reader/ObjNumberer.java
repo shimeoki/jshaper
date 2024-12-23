@@ -2,6 +2,8 @@ package io.github.shimeoki.jshaper.obj.reader;
 
 import java.util.Objects;
 
+import io.github.shimeoki.jshaper.ShaperError;
+
 public final class ObjNumberer {
 
     public static float parseFloat(final String s) throws ShaperError {

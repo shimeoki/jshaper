@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 
 public final class ObjGroupNamer {

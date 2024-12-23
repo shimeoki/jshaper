@@ -3,7 +3,7 @@ package io.github.shimeoki.jshaper.obj;
 import java.io.File;
 
 import io.github.shimeoki.jshaper.obj.data.ObjFile;
-import io.github.shimeoki.jshaper.obj.reader.ShaperError;
+import io.github.shimeoki.jshaper.ShaperError;
 
 @FunctionalInterface
 public interface ObjReader {
