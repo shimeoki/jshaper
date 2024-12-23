@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import io.github.shimeoki.jshaper.obj.data.ObjFile;
 import io.github.shimeoki.jshaper.obj.data.ObjVertexData;
-import io.github.shimeoki.jshaper.obj.reader.ObjReaderException;
+import io.github.shimeoki.jshaper.ShaperError;
 
 public final class ObjModelReaderTest {
 
@@ -34,7 +34,7 @@ public final class ObjModelReaderTest {
         ObjFile obj = null;
         try {
             obj = reader.read(f);
-        } catch (final ObjReaderException e) {
+        } catch (final ShaperError e) {
             fail(e.getMessage());
         }
 
