@@ -11,6 +11,9 @@ public final class ObjUnvertexer {
 
     private final StringBuilder builder = new StringBuilder();
 
+    public ObjUnvertexer() {
+    }
+
     public String parseVertex(final ObjVertex v) {
         Objects.requireNonNull(v);
         builder.setLength(0);
