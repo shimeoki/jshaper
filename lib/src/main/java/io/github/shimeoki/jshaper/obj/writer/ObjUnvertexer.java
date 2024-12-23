@@ -47,7 +47,19 @@ public final class ObjUnvertexer {
     }
 
     public String parseVertexNormal(final ObjVertexNormal vn) {
-        // TODO
-        return null;
+        builder.setLength(0);
+
+        builder.append(ObjTokenizer.VERTEX_NORMAL);
+
+        builder.append(' ');
+        builder.append(vn.i());
+
+        builder.append(' ');
+        builder.append(vn.j());
+
+        builder.append(' ');
+        builder.append(vn.j());
+
+        return builder.toString();
     }
 }
