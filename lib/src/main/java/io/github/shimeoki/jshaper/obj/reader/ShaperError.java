@@ -13,4 +13,22 @@ public class ShaperError extends Exception {
     public ObjReaderExceptionType type() {
         return type;
     }
+
+    public enum Type {
+
+        NONE(""),
+        IO("io:"),
+        PARSE("parse:");
+
+        private final String txt;
+
+        private Type(final String txt) {
+            this.txt = txt;
+        }
+
+        @Override
+        public String toString() {
+            return txt;
+        }
+    }
 }
