@@ -8,23 +8,56 @@ import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
 public final class ObjTriplet {
 
-    private final ObjVertex v;
-    private final ObjTextureVertex vt;
-    private final ObjVertexNormal vn;
+    private ObjVertex v;
+    private ObjTextureVertex vt;
+    private ObjVertexNormal vn;
 
-    private final ObjTripletFormat fmt;
+    private ObjTripletFormat fmt;
 
     public ObjTriplet(
             final ObjVertex v,
             final ObjTextureVertex vt,
             final ObjVertexNormal vn) {
 
-        Objects.requireNonNull(v);
-
-        this.v = v;
+        this.v = Objects.requireNonNull(v);
         this.vt = vt;
         this.vn = vn;
 
+        update();
+    }
+
+    public ObjVertex vertex() {
+        return v;
+    }
+
+    public void setVertex(final ObjVertex v) {
+        this.v = Objects.requireNonNull(v);
+        update();
+    }
+
+    public ObjTextureVertex textureVertex() {
+        return vt;
+    }
+
+    public void setTextureVertex(final ObjTextureVertex vt) {
+        this.vt = vt;
+        update();
+    }
+
+    public ObjVertexNormal vertexNormal() {
+        return vn;
+    }
+
+    public void setVertexNormal(final ObjVertexNormal vn) {
+        this.vn = vn;
+        update();
+    }
+
+    public ObjTripletFormat format() {
+        return fmt;
+    }
+
+    private void update() {
         if (vt != null && vn != null) {
             fmt = ObjTripletFormat.ALL;
         } else if (vn != null) {
@@ -34,21 +67,5 @@ public final class ObjTriplet {
         } else {
             fmt = ObjTripletFormat.VERTEX;
         }
-    }
-
-    public ObjVertex vertex() {
-        return v;
-    }
-
-    public ObjTextureVertex textureVertex() {
-        return vt;
-    }
-
-    public ObjVertexNormal vertexNormal() {
-        return vn;
-    }
-
-    public ObjTripletFormat format() {
-        return fmt;
     }
 }

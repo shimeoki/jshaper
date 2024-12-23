@@ -22,11 +22,11 @@ public final class ObjVertexer {
         final float y = ObjNumberer.parseFloat(tokens.value(2));
         final float z = ObjNumberer.parseFloat(tokens.value(3));
 
-        final Float w;
+        final float w;
         if (len == 5) {
             w = ObjNumberer.parseFloat(tokens.value(4));
         } else {
-            w = null;
+            w = ObjVertex.DEFAULT_W;
         }
 
         return new ObjVertex(x, y, z, w);
@@ -44,18 +44,18 @@ public final class ObjVertexer {
 
         final float u = ObjNumberer.parseFloat(tokens.value(1));
 
-        final Float v;
+        final float v;
         if (len >= 3) {
             v = ObjNumberer.parseFloat(tokens.value(2));
         } else {
-            v = null;
+            v = ObjTextureVertex.DEFAULT_V;
         }
 
-        final Float w;
+        final float w;
         if (len == 4) {
             w = ObjNumberer.parseFloat(tokens.value(3));
         } else {
-            w = null;
+            w = ObjTextureVertex.DEFAULT_W;
         }
 
         return new ObjTextureVertex(u, v, w);
