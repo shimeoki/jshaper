@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class ShaperError extends Exception {
 
-    private static final String err = "ObjReader";
+    private static final String err = "jshaper";
     private final Type type;
 
     public ShaperError(final Type t, final String msg) {
