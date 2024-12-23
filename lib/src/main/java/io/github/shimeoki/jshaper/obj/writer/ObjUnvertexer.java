@@ -1,5 +1,7 @@
 package io.github.shimeoki.jshaper.obj.writer;
 
+import java.util.Objects;
+
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
@@ -10,6 +12,7 @@ public final class ObjUnvertexer {
     private final StringBuilder builder = new StringBuilder();
 
     public String parseVertex(final ObjVertex v) {
+        Objects.requireNonNull(v);
         builder.setLength(0);
 
         builder.append(ObjTokenizer.VERTEX);
@@ -30,6 +33,7 @@ public final class ObjUnvertexer {
     }
 
     public String parseTextureVertex(final ObjTextureVertex vt) {
+        Objects.requireNonNull(vt);
         builder.setLength(0);
 
         builder.append(ObjTokenizer.TEXTURE_VERTEX);
@@ -47,6 +51,7 @@ public final class ObjUnvertexer {
     }
 
     public String parseVertexNormal(final ObjVertexNormal vn) {
+        Objects.requireNonNull(vn);
         builder.setLength(0);
 
         builder.append(ObjTokenizer.VERTEX_NORMAL);
