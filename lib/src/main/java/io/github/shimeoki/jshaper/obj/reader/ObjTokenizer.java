@@ -5,29 +5,31 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import io.github.shimeoki.jshaper.obj.ObjToken;
+import io.github.shimeoki.jshaper.obj.ObjTokens;
+
 public final class ObjTokenizer {
 
-    public static final String COMMENT = "#";
-    public static final String VERTEX = "v";
-    public static final String TEXTURE_VERTEX = "vt";
-    public static final String VERTEX_NORMAL = "vn";
-    public static final String PARAMETER_SPACE_VERTEX = "vp";
-    public static final String FACE = "f";
-    public static final String GROUP_NAME = "g";
+    public enum Mode {
+        WHITELIST_ONLY,
+        BLACKLIST_ONLY,
+        WHITELIST_FIRST,
+        BLACKLIST_FIRST
+    }
 
-    private ObjTokenizerMode mode;
+    private Mode mode;
 
-    private final Set<ObjToken> whitelist;
-    private final Set<ObjToken> blacklist;
+    private final Set<ObjToken.Type> whitelist;
+    private final Set<ObjToken.Type> blacklist;
 
     private final StringBuilder builder = new StringBuilder();
 
     private final ObjTokens tokens = new ObjTokens();
 
     public ObjTokenizer(
-            final ObjTokenizerMode mode,
-            final Set<ObjToken> whitelist,
-            final Set<ObjToken> blacklist) {
+            final Mode mode,
+            final Set<ObjToken.Type> whitelist,
+            final Set<ObjToken.Type> blacklist) {
 
         setMode(mode);
 
@@ -35,36 +37,15 @@ public final class ObjTokenizer {
         this.blacklist = Objects.requireNonNull(blacklist);
     }
 
-    public static Set<ObjToken> tokenSet(final ObjToken... tokens) {
-        return new HashSet<>(Arrays.asList(Objects.requireNonNull(tokens)));
+    public static Set<ObjToken.Type> typeSet(final ObjToken.Type... types) {
+        return new HashSet<>(Arrays.asList(Objects.requireNonNull(types)));
     }
 
-    public static ObjToken parse(final String s) {
-        switch (Objects.requireNonNull(s)) {
-            case COMMENT:
-                return ObjToken.COMMENT;
-            case VERTEX:
-                return ObjToken.VERTEX;
-            case TEXTURE_VERTEX:
-                return ObjToken.TEXTURE_VERTEX;
-            case VERTEX_NORMAL:
-                return ObjToken.VERTEX_NORMAL;
-            case PARAMETER_SPACE_VERTEX:
-                return ObjToken.PARAMETER_SPACE_VERTEX;
-            case FACE:
-                return ObjToken.FACE;
-            case GROUP_NAME:
-                return ObjToken.GROUP_NAME;
-            default:
-                return ObjToken.NIL;
-        }
-    }
-
-    public ObjTokenizerMode mode() {
+    public Mode mode() {
         return mode;
     }
 
-    public void setMode(final ObjTokenizerMode mode) {
+    public void setMode(final Mode mode) {
         this.mode = Objects.requireNonNull(mode);
     }
 
@@ -78,7 +59,7 @@ public final class ObjTokenizer {
         builder.setLength(0);
 
         char c;
-        ObjTokenized parsed;
+        ObjToken token;
 
         for (int i = 0; i <= len; i++) {
             if (i == len) {
@@ -87,8 +68,8 @@ public final class ObjTokenizer {
                 c = line.charAt(i);
             }
 
-            parsed = new ObjTokenized(String.valueOf(c));
-            if (parsed.token().is(ObjToken.COMMENT)) {
+            token = new ObjToken(String.valueOf(c));
+            if (token.typeIs(ObjToken.Type.COMMENT)) {
                 if (!builder.isEmpty()) {
                     tokens.add(flushAndParse());
                 }
@@ -100,11 +81,11 @@ public final class ObjTokenizer {
                 continue;
             }
 
-            parsed = flushAndParse();
-            if (!allowed(parsed.token())) {
+            token = flushAndParse();
+            if (!allowed(token)) {
                 break;
             } else {
-                tokens.add(parsed);
+                tokens.add(token);
             }
         }
     }
@@ -128,8 +109,8 @@ public final class ObjTokenizer {
         return false;
     }
 
-    private ObjTokenized flushAndParse() {
-        return new ObjTokenized(flushBuilder());
+    private ObjToken flushAndParse() {
+        return new ObjToken(flushBuilder());
     }
 
     public boolean allowed(final ObjToken token) {
@@ -137,30 +118,30 @@ public final class ObjTokenizer {
             return true;
         }
 
-        if (token.is(ObjToken.NIL)) {
+        if (token.typeIs(ObjToken.Type.NIL)) {
             return true;
         }
 
-        if (token.is(ObjToken.COMMENT)) {
+        if (token.typeIs(ObjToken.Type.COMMENT)) {
             return false;
         }
 
         switch (mode) {
             case WHITELIST_ONLY:
-                return whitelist.contains(token);
+                return whitelist.contains(token.type());
             case BLACKLIST_ONLY:
-                return !blacklist.contains(token);
+                return !blacklist.contains(token.type());
             case WHITELIST_FIRST:
-                if (whitelist.contains(token)) {
+                if (whitelist.contains(token.type())) {
                     return true;
                 } else {
-                    return !blacklist.contains(token);
+                    return !blacklist.contains(token.type());
                 }
             case BLACKLIST_FIRST:
-                if (blacklist.contains(token)) {
+                if (blacklist.contains(token.type())) {
                     return false;
                 } else {
-                    return whitelist.contains(token);
+                    return whitelist.contains(token.type());
                 }
             default:
                 return false; // subject to change

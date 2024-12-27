@@ -22,23 +22,20 @@ import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import io.github.shimeoki.jshaper.obj.reader.ObjFacer;
 import io.github.shimeoki.jshaper.obj.reader.ObjGroupNamer;
 import io.github.shimeoki.jshaper.ShaperError;
-import io.github.shimeoki.jshaper.obj.reader.ObjToken;
 import io.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
-import io.github.shimeoki.jshaper.obj.reader.ObjTokenizerMode;
-import io.github.shimeoki.jshaper.obj.reader.ObjTokens;
 import io.github.shimeoki.jshaper.obj.reader.ObjTripleter;
 import io.github.shimeoki.jshaper.obj.reader.ObjVertexer;
 
 public final class ObjModelReader implements ObjReader {
 
-    private static final ObjTokenizerMode TOKENIZER_MODE = ObjTokenizerMode.WHITELIST_ONLY;
-    private static final Set<ObjToken> TOKENIZER_BLACKLIST = new HashSet<>();
-    private static final Set<ObjToken> TOKENIZER_WHITELIST = ObjTokenizer.tokenSet(
-            ObjToken.VERTEX,
-            ObjToken.TEXTURE_VERTEX,
-            ObjToken.VERTEX_NORMAL,
-            ObjToken.FACE,
-            ObjToken.GROUP_NAME);
+    private static final ObjTokenizer.Mode TOKENIZER_MODE = ObjTokenizer.Mode.WHITELIST_ONLY;
+    private static final Set<ObjToken.Type> TOKENIZER_BLACKLIST = new HashSet<>();
+    private static final Set<ObjToken.Type> TOKENIZER_WHITELIST = ObjTokenizer.typeSet(
+            ObjToken.Type.VERTEX,
+            ObjToken.Type.TEXTURE_VERTEX,
+            ObjToken.Type.VERTEX_NORMAL,
+            ObjToken.Type.FACE,
+            ObjToken.Type.GROUP_NAME);
 
     private List<ObjVertex> vertices;
     private List<ObjTextureVertex> textureVertices;
@@ -146,7 +143,7 @@ public final class ObjModelReader implements ObjReader {
                 continue;
             }
 
-            switch (lineToken) {
+            switch (lineToken.type()) {
                 case VERTEX:
                     vertices.add(ObjVertexer.parseVertex(tokens));
                     break;
