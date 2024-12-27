@@ -2,6 +2,7 @@ package io.github.shimeoki.jshaper.obj.reader;
 
 import java.util.Objects;
 
+import io.github.shimeoki.jshaper.Numberer;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.ObjTokens;
 import io.github.shimeoki.jshaper.obj.ObjToken;
@@ -21,13 +22,13 @@ public final class ObjVertexer {
             throw new ShaperError(ShaperError.Type.PARSE, "no vertex token");
         }
 
-        final float x = ObjNumberer.parseFloat(tokens.get(1).text());
-        final float y = ObjNumberer.parseFloat(tokens.get(2).text());
-        final float z = ObjNumberer.parseFloat(tokens.get(3).text());
+        final float x = Numberer.parseFloat(tokens.get(1).text());
+        final float y = Numberer.parseFloat(tokens.get(2).text());
+        final float z = Numberer.parseFloat(tokens.get(3).text());
 
         final float w;
         if (len == 5) {
-            w = ObjNumberer.parseFloat(tokens.get(4).text());
+            w = Numberer.parseFloat(tokens.get(4).text());
         } else {
             w = ObjVertex.DEFAULT_W;
         }
@@ -45,18 +46,18 @@ public final class ObjVertexer {
             throw new ShaperError(ShaperError.Type.PARSE, "no texture vertex token");
         }
 
-        final float u = ObjNumberer.parseFloat(tokens.get(1).text());
+        final float u = Numberer.parseFloat(tokens.get(1).text());
 
         final float v;
         if (len >= 3) {
-            v = ObjNumberer.parseFloat(tokens.get(2).text());
+            v = Numberer.parseFloat(tokens.get(2).text());
         } else {
             v = ObjTextureVertex.DEFAULT_V;
         }
 
         final float w;
         if (len == 4) {
-            w = ObjNumberer.parseFloat(tokens.get(3).text());
+            w = Numberer.parseFloat(tokens.get(3).text());
         } else {
             w = ObjTextureVertex.DEFAULT_W;
         }
@@ -73,9 +74,9 @@ public final class ObjVertexer {
             throw new ShaperError(ShaperError.Type.PARSE, "no vertex normal token");
         }
 
-        final float i = ObjNumberer.parseFloat(tokens.get(1).text());
-        final float j = ObjNumberer.parseFloat(tokens.get(2).text());
-        final float k = ObjNumberer.parseFloat(tokens.get(3).text());
+        final float i = Numberer.parseFloat(tokens.get(1).text());
+        final float j = Numberer.parseFloat(tokens.get(2).text());
+        final float k = Numberer.parseFloat(tokens.get(3).text());
 
         return new ObjVertexNormal(i, j, k);
     }

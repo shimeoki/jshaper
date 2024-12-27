@@ -1,10 +1,8 @@
-package io.github.shimeoki.jshaper.obj.reader;
+package io.github.shimeoki.jshaper;
 
 import java.util.Objects;
 
-import io.github.shimeoki.jshaper.ShaperError;
-
-public final class ObjNumberer {
+public final class Numberer {
 
     public static float parseFloat(final String s) throws ShaperError {
         try {
