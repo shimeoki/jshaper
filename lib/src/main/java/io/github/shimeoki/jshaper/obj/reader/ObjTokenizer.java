@@ -7,7 +7,14 @@ import java.util.Set;
 
 public final class ObjTokenizer {
 
-    private ObjTokenizerMode mode;
+    public enum Mode {
+        WHITELIST_ONLY,
+        BLACKLIST_ONLY,
+        WHITELIST_FIRST,
+        BLACKLIST_FIRST
+    }
+
+    private Mode mode;
 
     private final Set<ObjToken.Type> whitelist;
     private final Set<ObjToken.Type> blacklist;
@@ -17,7 +24,7 @@ public final class ObjTokenizer {
     private final ObjTokens tokens = new ObjTokens();
 
     public ObjTokenizer(
-            final ObjTokenizerMode mode,
+            final Mode mode,
             final Set<ObjToken.Type> whitelist,
             final Set<ObjToken.Type> blacklist) {
 
@@ -31,11 +38,11 @@ public final class ObjTokenizer {
         return new HashSet<>(Arrays.asList(Objects.requireNonNull(types)));
     }
 
-    public ObjTokenizerMode mode() {
+    public Mode mode() {
         return mode;
     }
 
-    public void setMode(final ObjTokenizerMode mode) {
+    public void setMode(final Mode mode) {
         this.mode = Objects.requireNonNull(mode);
     }
 
