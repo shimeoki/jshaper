@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import io.github.shimeoki.jshaper.Numberer;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
@@ -62,7 +63,7 @@ public final class ObjTripleter {
                 continue;
             }
 
-            indices[index] = ObjNumberer.parseInt(builder.toString());
+            indices[index] = Numberer.parseInt(builder.toString());
             builder.setLength(0);
         }
     }
