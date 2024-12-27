@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public final class ObjTokens {
 
-    private final List<ObjTokenized> tokens = new ArrayList<>();
+    private final List<ObjToken> tokens = new ArrayList<>();
 
     public ObjTokens() {
     }
@@ -23,40 +23,28 @@ public final class ObjTokens {
         if (empty()) {
             return null;
         } else {
-            return tokens.getFirst().token();
+            return tokens.getFirst();
         }
     }
 
-    public boolean lineTokenIs(final ObjToken t) {
-        return t.is(lineToken());
+    public boolean lineTokenTypeIs(final ObjToken.Type type) {
+        if (empty()) {
+            return false;
+        } else {
+            return lineToken().typeIs(type);
+        }
     }
 
-    public void add(final ObjTokenized t) {
+    public void add(final ObjToken t) {
         tokens.add(Objects.requireNonNull(t));
     }
 
-    public ObjTokenized tokenized(final int index) {
+    public ObjToken get(final int index) {
         if (!validIndex(index)) {
             throw new IllegalArgumentException("invalid index");
         }
 
         return tokens.get(index);
-    }
-
-    public ObjToken token(final int index) {
-        if (!validIndex(index)) {
-            throw new IllegalArgumentException("invalid index");
-        }
-
-        return tokens.get(index).token();
-    }
-
-    public String value(final int index) {
-        if (!validIndex(index)) {
-            throw new IllegalArgumentException("invalid index");
-        }
-
-        return tokens.get(index).value();
     }
 
     public int size() {

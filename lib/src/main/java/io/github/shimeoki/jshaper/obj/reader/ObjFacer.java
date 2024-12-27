@@ -23,7 +23,7 @@ public final class ObjFacer {
     public ObjFace parse(final ObjTokens tokens, final Set<ObjGroupName> groupNames)
             throws ShaperError {
 
-        if (!tokens.lineTokenIs(ObjToken.FACE)) {
+        if (!tokens.lineTokenTypeIs(ObjToken.Type.FACE)) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid face format");
         }
 
@@ -38,7 +38,7 @@ public final class ObjFacer {
         ObjTriplet triplet;
 
         for (int i = 1; i < len; i++) {
-            triplet = tripleter.parse(tokens.value(i));
+            triplet = tripleter.parse(tokens.get(i).text());
             tripletFormat = triplet.format();
 
             if (faceFormat == null) {

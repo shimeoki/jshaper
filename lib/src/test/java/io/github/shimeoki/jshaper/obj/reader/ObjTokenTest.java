@@ -3,6 +3,7 @@ package io.github.shimeoki.jshaper.obj.reader;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,79 +11,203 @@ public final class ObjTokenTest {
 
     @Test
     public void isNull() {
-        assertFalse(ObjToken.NIL.is(null));
+        final ObjToken t = new ObjToken("#");
+        assertFalse(t.typeIs(null));
     }
 
     @Test
     public void isTrue() {
-        assertTrue(ObjToken.VERTEX.is(ObjToken.VERTEX));
+        final ObjToken t = new ObjToken("v");
+        assertTrue(t.typeIs(ObjToken.Type.VERTEX));
     }
 
     @Test
     public void isFalse() {
-        assertFalse(ObjToken.TEXTURE_VERTEX.is(ObjToken.VERTEX_NORMAL));
+        final ObjToken t = new ObjToken("vt");
+        assertFalse(t.typeIs(ObjToken.Type.VERTEX_NORMAL));
     }
 
     @Test
     public void nilString() {
-        final String s = ObjToken.NIL.toString();
-
-        assertEquals("", s);
+        final ObjToken t = new ObjToken(ObjToken.NIL);
+        assertEquals("", t.text());
     }
 
     @Test
     public void commentString() {
-        final String s = ObjToken.COMMENT.toString();
-
-        assertEquals("#", s);
-        assertEquals(ObjTokenizer.COMMENT, s);
+        assertEquals("#", ObjToken.COMMENT);
     }
 
     @Test
     public void vertexString() {
-        final String s = ObjToken.VERTEX.toString();
-
-        assertEquals("v", s);
-        assertEquals(ObjTokenizer.VERTEX, s);
+        assertEquals("v", ObjToken.VERTEX);
     }
 
     @Test
     public void textureVertexString() {
-        final String s = ObjToken.TEXTURE_VERTEX.toString();
-
-        assertEquals("vt", s);
-        assertEquals(ObjTokenizer.TEXTURE_VERTEX, s);
+        assertEquals("vt", ObjToken.TEXTURE_VERTEX);
     }
 
     @Test
     public void vertexNormalString() {
-        final String s = ObjToken.VERTEX_NORMAL.toString();
-
-        assertEquals("vn", s);
-        assertEquals(ObjTokenizer.VERTEX_NORMAL, s);
+        assertEquals("vn", ObjToken.VERTEX_NORMAL);
     }
 
     @Test
     public void parameterSpaceVertexString() {
-        final String s = ObjToken.PARAMETER_SPACE_VERTEX.toString();
-
-        assertEquals("vp", s);
-        assertEquals(ObjTokenizer.PARAMETER_SPACE_VERTEX, s);
+        assertEquals("vp", ObjToken.PARAMETER_SPACE_VERTEX);
     }
 
     @Test
     public void faceString() {
-        final String s = ObjToken.FACE.toString();
-
-        assertEquals("f", s);
-        assertEquals(ObjTokenizer.FACE, s);
+        assertEquals("f", ObjToken.FACE);
     }
 
     @Test
     public void groupNameString() {
-        final String s = ObjToken.GROUP_NAME.toString();
+        assertEquals("g", ObjToken.GROUP_NAME);
+    }
 
-        assertEquals("g", s);
-        assertEquals(ObjTokenizer.GROUP_NAME, s);
+    @Test
+    public void parseNull() {
+        try {
+            ObjToken.parse(null);
+        } catch (final NullPointerException e) {
+            return;
+        }
+
+        fail("no NullPointerException caught");
+    }
+
+    @Test
+    public void parseComment() {
+        final ObjToken.Type t1 = ObjToken.parse(ObjToken.COMMENT);
+        final ObjToken.Type t2 = ObjToken.parse("#");
+
+        assertTrue(t1.equals(t2));
+        assertTrue(t1.equals(ObjToken.Type.COMMENT));
+    }
+
+    @Test
+    public void parseVertex() {
+        final ObjToken.Type t1 = ObjToken.parse(ObjToken.VERTEX);
+        final ObjToken.Type t2 = ObjToken.parse("v");
+
+        assertTrue(t1.equals(t2));
+        assertTrue(t1.equals(ObjToken.Type.VERTEX));
+    }
+
+    @Test
+    public void parseTextureVertex() {
+        final ObjToken.Type t1 = ObjToken.parse(ObjToken.TEXTURE_VERTEX);
+        final ObjToken.Type t2 = ObjToken.parse("vt");
+
+        assertTrue(t1.equals(t2));
+        assertTrue(t1.equals(ObjToken.Type.TEXTURE_VERTEX));
+    }
+
+    @Test
+    public void parseVertexNormal() {
+        final ObjToken.Type t1 = ObjToken.parse(ObjToken.VERTEX_NORMAL);
+        final ObjToken.Type t2 = ObjToken.parse("vn");
+
+        assertTrue(t1.equals(t2));
+        assertTrue(t1.equals(ObjToken.Type.VERTEX_NORMAL));
+    }
+
+    @Test
+    public void parseParameterSpaceVertex() {
+        final ObjToken.Type t1 = ObjToken.parse(ObjToken.PARAMETER_SPACE_VERTEX);
+        final ObjToken.Type t2 = ObjToken.parse("vp");
+
+        assertTrue(t1.equals(t2));
+        assertTrue(t1.equals(ObjToken.Type.PARAMETER_SPACE_VERTEX));
+    }
+
+    @Test
+    public void parseFace() {
+        final ObjToken.Type t1 = ObjToken.parse(ObjToken.FACE);
+        final ObjToken.Type t2 = ObjToken.parse("f");
+
+        assertTrue(t1.equals(t2));
+        assertTrue(t1.equals(ObjToken.Type.FACE));
+    }
+
+    @Test
+    public void parseGroupName() {
+        final ObjToken.Type t1 = ObjToken.parse(ObjToken.GROUP_NAME);
+        final ObjToken.Type t2 = ObjToken.parse("g");
+
+        assertTrue(t1.equals(t2));
+        assertTrue(t1.equals(ObjToken.Type.GROUP_NAME));
+    }
+
+    @Test
+    public void parseNumber() {
+        final ObjToken.Type nil = ObjToken.Type.NIL;
+
+        final ObjToken.Type t1 = ObjToken.parse("0");
+        final ObjToken.Type t2 = ObjToken.parse("1");
+        final ObjToken.Type t3 = ObjToken.parse("0.0");
+        final ObjToken.Type t4 = ObjToken.parse("1.0");
+        final ObjToken.Type t5 = ObjToken.parse("0.1234");
+        final ObjToken.Type t6 = ObjToken.parse("100.000");
+
+        assertTrue(t1.equals(nil));
+        assertTrue(t2.equals(nil));
+        assertTrue(t3.equals(nil));
+        assertTrue(t4.equals(nil));
+        assertTrue(t5.equals(nil));
+        assertTrue(t6.equals(nil));
+    }
+
+    @Test
+    public void parseSpace() {
+        final ObjToken.Type nil = ObjToken.Type.NIL;
+
+        final ObjToken.Type t1 = ObjToken.parse(" ");
+        final ObjToken.Type t2 = ObjToken.parse("   ");
+        final ObjToken.Type t3 = ObjToken.parse("     ");
+
+        assertTrue(t1.equals(nil));
+        assertTrue(t2.equals(nil));
+        assertTrue(t3.equals(nil));
+    }
+
+    @Test
+    public void parseBlank() {
+        assertTrue(ObjToken.parse("").equals(ObjToken.Type.NIL));
+    }
+
+    @Test
+    public void parseWithSpaces() {
+        final ObjToken.Type nil = ObjToken.Type.NIL;
+
+        final ObjToken.Type t1 = ObjToken.parse(" v");
+        final ObjToken.Type t2 = ObjToken.parse("v ");
+        final ObjToken.Type t3 = ObjToken.parse(" v ");
+        final ObjToken.Type t4 = ObjToken.parse("  v  ");
+
+        assertTrue(t1.equals(nil));
+        assertTrue(t2.equals(nil));
+        assertTrue(t3.equals(nil));
+        assertTrue(t4.equals(nil));
+    }
+
+    @Test
+    public void parseInvalid() {
+        final ObjToken.Type nil = ObjToken.Type.NIL;
+
+        final ObjToken.Type t1 = ObjToken.parse("-");
+        final ObjToken.Type t2 = ObjToken.parse("+");
+        final ObjToken.Type t3 = ObjToken.parse("!");
+        final ObjToken.Type t4 = ObjToken.parse(":");
+        final ObjToken.Type t5 = ObjToken.parse("?");
+
+        assertTrue(t1.equals(nil));
+        assertTrue(t2.equals(nil));
+        assertTrue(t3.equals(nil));
+        assertTrue(t4.equals(nil));
+        assertTrue(t5.equals(nil));
     }
 }
