@@ -3,6 +3,8 @@ package io.github.shimeoki.jshaper.obj.reader;
 import java.util.Objects;
 
 import io.github.shimeoki.jshaper.ShaperError;
+import io.github.shimeoki.jshaper.obj.ObjTokens;
+import io.github.shimeoki.jshaper.obj.ObjToken;
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;

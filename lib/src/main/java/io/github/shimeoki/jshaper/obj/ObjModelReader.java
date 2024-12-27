@@ -22,9 +22,7 @@ import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import io.github.shimeoki.jshaper.obj.reader.ObjFacer;
 import io.github.shimeoki.jshaper.obj.reader.ObjGroupNamer;
 import io.github.shimeoki.jshaper.ShaperError;
-import io.github.shimeoki.jshaper.obj.reader.ObjToken;
 import io.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
-import io.github.shimeoki.jshaper.obj.reader.ObjTokens;
 import io.github.shimeoki.jshaper.obj.reader.ObjTripleter;
 import io.github.shimeoki.jshaper.obj.reader.ObjVertexer;
 

@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import io.github.shimeoki.jshaper.obj.ObjToken;
+import io.github.shimeoki.jshaper.obj.ObjTokens;
+
 public final class ObjTokenizer {
 
     public enum Mode {

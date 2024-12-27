@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.Set;
 
 import io.github.shimeoki.jshaper.ShaperError;
+import io.github.shimeoki.jshaper.obj.ObjTokens;
+import io.github.shimeoki.jshaper.obj.ObjToken;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.data.ObjTripletFormat;
