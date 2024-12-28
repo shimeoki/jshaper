@@ -23,7 +23,7 @@ import io.github.shimeoki.jshaper.obj.reader.Facer;
 import io.github.shimeoki.jshaper.obj.reader.GroupNamer;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.reader.Tokenizer;
-import io.github.shimeoki.jshaper.obj.reader.ObjTripleter;
+import io.github.shimeoki.jshaper.obj.reader.Tripleter;
 import io.github.shimeoki.jshaper.obj.reader.ObjVertexer;
 
 public final class ModelReader implements Reader {
@@ -43,7 +43,7 @@ public final class ModelReader implements Reader {
     private List<ObjFace> faces;
 
     private Tokenizer tokenizer;
-    private ObjTripleter tripleter;
+    private Tripleter tripleter;
     private Facer facer;
     private GroupNamer groupNamer;
 
@@ -106,7 +106,7 @@ public final class ModelReader implements Reader {
 
         tokenizer = new Tokenizer(
                 TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
-        tripleter = new ObjTripleter(vertices, textureVertices, vertexNormals);
+        tripleter = new Tripleter(vertices, textureVertices, vertexNormals);
         facer = new Facer(tripleter);
         groupNamer = new GroupNamer();
     }

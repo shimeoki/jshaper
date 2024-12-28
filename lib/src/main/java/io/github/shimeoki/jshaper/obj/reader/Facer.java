@@ -15,9 +15,9 @@ import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 public final class Facer {
 
     private final List<ObjTriplet> triplets = new ArrayList<>();
-    private final ObjTripleter tripleter;
+    private final Tripleter tripleter;
 
-    public Facer(final ObjTripleter tripleter) {
+    public Facer(final Tripleter tripleter) {
         this.tripleter = Objects.requireNonNull(tripleter);
     }
 

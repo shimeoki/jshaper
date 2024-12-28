@@ -11,7 +11,7 @@ import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
-public final class ObjTripleter {
+public final class Tripleter {
 
     private final List<ObjVertex> vertices;
     private final List<ObjTextureVertex> textureVertices;
@@ -22,7 +22,7 @@ public final class ObjTripleter {
     private final int[] indices = new int[3];
     private int index;
 
-    public ObjTripleter(
+    public Tripleter(
             final List<ObjVertex> vertices,
             final List<ObjTextureVertex> textureVertices,
             final List<ObjVertexNormal> vertexNormals) {
