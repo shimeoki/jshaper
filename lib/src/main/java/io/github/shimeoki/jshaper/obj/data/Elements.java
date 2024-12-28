@@ -5,13 +5,13 @@ import java.util.Objects;
 
 import io.github.shimeoki.jshaper.obj.geom.Face;
 
-public final class ObjElements {
+public final class Elements {
 
     // not all elements from the specification
     // are present
     private final List<Face> faces;
 
-    public ObjElements(final List<Face> faces) {
+    public Elements(final List<Face> faces) {
         this.faces = Objects.requireNonNull(faces);
     }
 

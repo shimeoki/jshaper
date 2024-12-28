@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import io.github.shimeoki.jshaper.obj.data.ObjElements;
+import io.github.shimeoki.jshaper.obj.data.Elements;
 import io.github.shimeoki.jshaper.obj.data.ObjFile;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupingData;
 import io.github.shimeoki.jshaper.obj.data.ObjVertexData;
@@ -173,7 +173,7 @@ public final class ModelReader implements Reader {
                 vertexNormals,
                 new ArrayList<>());
 
-        final ObjElements elements = new ObjElements(faces);
+        final Elements elements = new Elements(faces);
         final ObjGroupingData groupingData = new ObjGroupingData(groupNamer.all());
 
         return new ObjFile(vertexData, elements, groupingData);
