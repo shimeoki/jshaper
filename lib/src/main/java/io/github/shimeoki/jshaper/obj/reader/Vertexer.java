@@ -7,12 +7,12 @@ import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.Tokens;
 import io.github.shimeoki.jshaper.obj.Token;
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
+import io.github.shimeoki.jshaper.obj.geom.Vertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
 public final class Vertexer {
 
-    public static ObjVertex parseVertex(final Tokens tokens) throws ShaperError {
+    public static Vertex parseVertex(final Tokens tokens) throws ShaperError {
         final int len = Objects.requireNonNull(tokens).size();
         if (len < 4 || len > 5) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid vertex format");
@@ -30,10 +30,10 @@ public final class Vertexer {
         if (len == 5) {
             w = Numberer.parseFloat(tokens.get(4).text());
         } else {
-            w = ObjVertex.DEFAULT_W;
+            w = Vertex.DEFAULT_W;
         }
 
-        return new ObjVertex(x, y, z, w);
+        return new Vertex(x, y, z, w);
     }
 
     public static ObjTextureVertex parseTextureVertex(final Tokens tokens) throws ShaperError {

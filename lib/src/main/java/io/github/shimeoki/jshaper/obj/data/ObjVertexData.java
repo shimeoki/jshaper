@@ -5,18 +5,18 @@ import java.util.Objects;
 
 import io.github.shimeoki.jshaper.obj.geom.ObjParameterSpaceVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
+import io.github.shimeoki.jshaper.obj.geom.Vertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
 public final class ObjVertexData {
 
-    private final List<ObjVertex> vertices;
+    private final List<Vertex> vertices;
     private final List<ObjTextureVertex> textureVertices;
     private final List<ObjVertexNormal> vertexNormals;
     private final List<ObjParameterSpaceVertex> parameterSpaceVertices;
 
     public ObjVertexData(
-            final List<ObjVertex> vertices,
+            final List<Vertex> vertices,
             final List<ObjTextureVertex> textureVertices,
             final List<ObjVertexNormal> vertexNormals,
             final List<ObjParameterSpaceVertex> parameterSpaceVertices) {
@@ -27,7 +27,7 @@ public final class ObjVertexData {
         this.parameterSpaceVertices = Objects.requireNonNull(parameterSpaceVertices);
     }
 
-    public List<ObjVertex> vertices() {
+    public List<Vertex> vertices() {
         return vertices;
     }
 

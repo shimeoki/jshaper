@@ -4,7 +4,7 @@ import io.github.shimeoki.jshaper.data.Clearable;
 import io.github.shimeoki.jshaper.geom.Pointf;
 import io.github.shimeoki.jshaper.geom.Pos;
 
-public final class ObjVertex implements Clearable, Pointf {
+public final class Vertex implements Clearable, Pointf {
 
     public static final float DEFAULT_X = 0;
     public static final float DEFAULT_Y = 0;
@@ -13,7 +13,7 @@ public final class ObjVertex implements Clearable, Pointf {
 
     private final float[] values = new float[4];
 
-    public ObjVertex(final float x, final float y, final float z, final float w) {
+    public Vertex(final float x, final float y, final float z, final float w) {
         setX(x);
         setY(y);
         setZ(z);
