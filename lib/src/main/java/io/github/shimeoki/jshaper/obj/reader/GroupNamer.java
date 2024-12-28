@@ -10,7 +10,7 @@ import io.github.shimeoki.jshaper.obj.Tokens;
 import io.github.shimeoki.jshaper.obj.Token;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 
-public final class ObjGroupNamer {
+public final class GroupNamer {
 
     private final ObjGroupName DEFAULT_GROUP_NAME = new ObjGroupName("default");
 
@@ -20,7 +20,7 @@ public final class ObjGroupNamer {
     private final Set<ObjGroupName> currentGroupNames = new HashSet<>();
     private final Set<ObjGroupName> groupNames = new HashSet<>();
 
-    public ObjGroupNamer() {
+    public GroupNamer() {
     }
 
     public void parse(final Tokens tokens) throws ShaperError {

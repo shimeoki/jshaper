@@ -20,7 +20,7 @@ import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import io.github.shimeoki.jshaper.obj.reader.Facer;
-import io.github.shimeoki.jshaper.obj.reader.ObjGroupNamer;
+import io.github.shimeoki.jshaper.obj.reader.GroupNamer;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
 import io.github.shimeoki.jshaper.obj.reader.ObjTripleter;
@@ -45,7 +45,7 @@ public final class ModelReader implements Reader {
     private ObjTokenizer tokenizer;
     private ObjTripleter tripleter;
     private Facer facer;
-    private ObjGroupNamer groupNamer;
+    private GroupNamer groupNamer;
 
     private BufferedReader reader;
     private int row;
@@ -108,7 +108,7 @@ public final class ModelReader implements Reader {
                 TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
         tripleter = new ObjTripleter(vertices, textureVertices, vertexNormals);
         facer = new Facer(tripleter);
-        groupNamer = new ObjGroupNamer();
+        groupNamer = new GroupNamer();
     }
 
     private void uncache() {
