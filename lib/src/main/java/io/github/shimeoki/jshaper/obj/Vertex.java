@@ -1,10 +1,10 @@
 package io.github.shimeoki.jshaper.obj;
 
 import io.github.shimeoki.jshaper.Clearable;
-import io.github.shimeoki.jshaper.Pointf;
+import io.github.shimeoki.jshaper.Point;
 import io.github.shimeoki.jshaper.Pos;
 
-public final class Vertex implements Clearable, Pointf {
+public final class Vertex implements Clearable, Point {
 
     public static final float DEFAULT_X = 0;
     public static final float DEFAULT_Y = 0;
