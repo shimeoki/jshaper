@@ -24,7 +24,7 @@ import io.github.shimeoki.jshaper.obj.reader.GroupNamer;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.reader.Tokenizer;
 import io.github.shimeoki.jshaper.obj.reader.Tripleter;
-import io.github.shimeoki.jshaper.obj.reader.ObjVertexer;
+import io.github.shimeoki.jshaper.obj.reader.Vertexer;
 
 public final class ModelReader implements Reader {
 
@@ -145,13 +145,13 @@ public final class ModelReader implements Reader {
 
             switch (lineToken.type()) {
                 case VERTEX:
-                    vertices.add(ObjVertexer.parseVertex(tokens));
+                    vertices.add(Vertexer.parseVertex(tokens));
                     break;
                 case TEXTURE_VERTEX:
-                    textureVertices.add(ObjVertexer.parseTextureVertex(tokens));
+                    textureVertices.add(Vertexer.parseTextureVertex(tokens));
                     break;
                 case VERTEX_NORMAL:
-                    vertexNormals.add(ObjVertexer.parseVertexNormal(tokens));
+                    vertexNormals.add(Vertexer.parseVertexNormal(tokens));
                     break;
                 case FACE:
                     faces.add(facer.parse(tokens, groupNamer.current()));

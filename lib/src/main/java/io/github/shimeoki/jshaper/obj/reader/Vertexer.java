@@ -10,7 +10,7 @@ import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
-public final class ObjVertexer {
+public final class Vertexer {
 
     public static ObjVertex parseVertex(final Tokens tokens) throws ShaperError {
         final int len = Objects.requireNonNull(tokens).size();
