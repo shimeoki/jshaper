@@ -12,12 +12,12 @@ import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 
-public final class ObjFacer {
+public final class Facer {
 
     private final List<ObjTriplet> triplets = new ArrayList<>();
     private final ObjTripleter tripleter;
 
-    public ObjFacer(final ObjTripleter tripleter) {
+    public Facer(final ObjTripleter tripleter) {
         this.tripleter = Objects.requireNonNull(tripleter);
     }
 
