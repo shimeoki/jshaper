@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import io.github.shimeoki.jshaper.obj.data.ObjElement;
+import io.github.shimeoki.jshaper.obj.data.Element;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 
-public final class Face implements ObjElement {
+public final class Face implements Element {
 
     private final List<ObjTriplet> triplets;
     private final Set<ObjGroupName> groupNames;
