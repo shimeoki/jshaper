@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import io.github.shimeoki.jshaper.obj.ObjToken;
+import io.github.shimeoki.jshaper.obj.Token;
 import io.github.shimeoki.jshaper.obj.ObjTokens;
 
 public final class ObjTokenizer {
@@ -19,8 +19,8 @@ public final class ObjTokenizer {
 
     private Mode mode;
 
-    private final Set<ObjToken.Type> whitelist;
-    private final Set<ObjToken.Type> blacklist;
+    private final Set<Token.Type> whitelist;
+    private final Set<Token.Type> blacklist;
 
     private final StringBuilder builder = new StringBuilder();
 
@@ -28,8 +28,8 @@ public final class ObjTokenizer {
 
     public ObjTokenizer(
             final Mode mode,
-            final Set<ObjToken.Type> whitelist,
-            final Set<ObjToken.Type> blacklist) {
+            final Set<Token.Type> whitelist,
+            final Set<Token.Type> blacklist) {
 
         setMode(mode);
 
@@ -37,7 +37,7 @@ public final class ObjTokenizer {
         this.blacklist = Objects.requireNonNull(blacklist);
     }
 
-    public static Set<ObjToken.Type> typeSet(final ObjToken.Type... types) {
+    public static Set<Token.Type> typeSet(final Token.Type... types) {
         return new HashSet<>(Arrays.asList(Objects.requireNonNull(types)));
     }
 
@@ -59,7 +59,7 @@ public final class ObjTokenizer {
         builder.setLength(0);
 
         char c;
-        ObjToken token;
+        Token token;
 
         for (int i = 0; i <= len; i++) {
             if (i == len) {
@@ -68,8 +68,8 @@ public final class ObjTokenizer {
                 c = line.charAt(i);
             }
 
-            token = new ObjToken(String.valueOf(c));
-            if (token.typeIs(ObjToken.Type.COMMENT)) {
+            token = new Token(String.valueOf(c));
+            if (token.typeIs(Token.Type.COMMENT)) {
                 if (!builder.isEmpty()) {
                     tokens.add(flushAndParse());
                 }
@@ -109,20 +109,20 @@ public final class ObjTokenizer {
         return false;
     }
 
-    private ObjToken flushAndParse() {
-        return new ObjToken(flushBuilder());
+    private Token flushAndParse() {
+        return new Token(flushBuilder());
     }
 
-    public boolean allowed(final ObjToken token) {
+    public boolean allowed(final Token token) {
         if (token == null) {
             return true;
         }
 
-        if (token.typeIs(ObjToken.Type.NIL)) {
+        if (token.typeIs(Token.Type.NIL)) {
             return true;
         }
 
-        if (token.typeIs(ObjToken.Type.COMMENT)) {
+        if (token.typeIs(Token.Type.COMMENT)) {
             return false;
         }
 

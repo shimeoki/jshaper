@@ -5,7 +5,7 @@ import java.util.Objects;
 import io.github.shimeoki.jshaper.Numberer;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.ObjTokens;
-import io.github.shimeoki.jshaper.obj.ObjToken;
+import io.github.shimeoki.jshaper.obj.Token;
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
 import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
@@ -18,7 +18,7 @@ public final class ObjVertexer {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid vertex format");
         }
 
-        if (!tokens.lineTokenTypeIs(ObjToken.Type.VERTEX)) {
+        if (!tokens.lineTokenTypeIs(Token.Type.VERTEX)) {
             throw new ShaperError(ShaperError.Type.PARSE, "no vertex token");
         }
 
@@ -42,7 +42,7 @@ public final class ObjVertexer {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid texture vertex format");
         }
 
-        if (!tokens.lineTokenTypeIs(ObjToken.Type.TEXTURE_VERTEX)) {
+        if (!tokens.lineTokenTypeIs(Token.Type.TEXTURE_VERTEX)) {
             throw new ShaperError(ShaperError.Type.PARSE, "no texture vertex token");
         }
 
@@ -70,7 +70,7 @@ public final class ObjVertexer {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid vertex normal format");
         }
 
-        if (!tokens.lineTokenTypeIs(ObjToken.Type.VERTEX_NORMAL)) {
+        if (!tokens.lineTokenTypeIs(Token.Type.VERTEX_NORMAL)) {
             throw new ShaperError(ShaperError.Type.PARSE, "no vertex normal token");
         }
 

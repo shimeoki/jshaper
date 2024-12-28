@@ -7,7 +7,7 @@ import java.util.Set;
 
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.ObjTokens;
-import io.github.shimeoki.jshaper.obj.ObjToken;
+import io.github.shimeoki.jshaper.obj.Token;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 
 public final class ObjGroupNamer {
@@ -24,7 +24,7 @@ public final class ObjGroupNamer {
     }
 
     public void parse(final ObjTokens tokens) throws ShaperError {
-        if (!tokens.lineTokenTypeIs(ObjToken.Type.GROUP_NAME)) {
+        if (!tokens.lineTokenTypeIs(Token.Type.GROUP_NAME)) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid group name format");
         }
 

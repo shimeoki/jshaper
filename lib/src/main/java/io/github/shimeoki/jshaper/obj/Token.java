@@ -2,7 +2,7 @@ package io.github.shimeoki.jshaper.obj;
 
 import java.util.Objects;
 
-public final class ObjToken {
+public final class Token {
 
     public static final String NIL = "";
     public static final String COMMENT = "#";
@@ -27,29 +27,29 @@ public final class ObjToken {
     private final String text;
     private final Type type;
 
-    public ObjToken(final String text) {
+    public Token(final String text) {
         this.text = Objects.requireNonNull(text);
         this.type = parse(text);
     }
 
     public static Type parse(final String text) {
         switch (Objects.requireNonNull(text)) {
-            case ObjToken.COMMENT:
-                return ObjToken.Type.COMMENT;
-            case ObjToken.VERTEX:
-                return ObjToken.Type.VERTEX;
-            case ObjToken.TEXTURE_VERTEX:
-                return ObjToken.Type.TEXTURE_VERTEX;
-            case ObjToken.VERTEX_NORMAL:
-                return ObjToken.Type.VERTEX_NORMAL;
-            case ObjToken.PARAMETER_SPACE_VERTEX:
-                return ObjToken.Type.PARAMETER_SPACE_VERTEX;
-            case ObjToken.FACE:
-                return ObjToken.Type.FACE;
-            case ObjToken.GROUP_NAME:
-                return ObjToken.Type.GROUP_NAME;
+            case Token.COMMENT:
+                return Token.Type.COMMENT;
+            case Token.VERTEX:
+                return Token.Type.VERTEX;
+            case Token.TEXTURE_VERTEX:
+                return Token.Type.TEXTURE_VERTEX;
+            case Token.VERTEX_NORMAL:
+                return Token.Type.VERTEX_NORMAL;
+            case Token.PARAMETER_SPACE_VERTEX:
+                return Token.Type.PARAMETER_SPACE_VERTEX;
+            case Token.FACE:
+                return Token.Type.FACE;
+            case Token.GROUP_NAME:
+                return Token.Type.GROUP_NAME;
             default:
-                return ObjToken.Type.NIL;
+                return Token.Type.NIL;
         }
     }
 
@@ -66,7 +66,7 @@ public final class ObjToken {
         return text;
     }
 
-    public boolean typeIs(final ObjToken.Type type) {
+    public boolean typeIs(final Token.Type type) {
         if (type == null) {
             return false;
         } else {

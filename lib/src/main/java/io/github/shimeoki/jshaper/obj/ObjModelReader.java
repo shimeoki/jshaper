@@ -29,13 +29,13 @@ import io.github.shimeoki.jshaper.obj.reader.ObjVertexer;
 public final class ObjModelReader implements ObjReader {
 
     private static final ObjTokenizer.Mode TOKENIZER_MODE = ObjTokenizer.Mode.WHITELIST_ONLY;
-    private static final Set<ObjToken.Type> TOKENIZER_BLACKLIST = new HashSet<>();
-    private static final Set<ObjToken.Type> TOKENIZER_WHITELIST = ObjTokenizer.typeSet(
-            ObjToken.Type.VERTEX,
-            ObjToken.Type.TEXTURE_VERTEX,
-            ObjToken.Type.VERTEX_NORMAL,
-            ObjToken.Type.FACE,
-            ObjToken.Type.GROUP_NAME);
+    private static final Set<Token.Type> TOKENIZER_BLACKLIST = new HashSet<>();
+    private static final Set<Token.Type> TOKENIZER_WHITELIST = ObjTokenizer.typeSet(
+            Token.Type.VERTEX,
+            Token.Type.TEXTURE_VERTEX,
+            Token.Type.VERTEX_NORMAL,
+            Token.Type.FACE,
+            Token.Type.GROUP_NAME);
 
     private List<ObjVertex> vertices;
     private List<ObjTextureVertex> textureVertices;
@@ -134,7 +134,7 @@ public final class ObjModelReader implements ObjReader {
     private void parse() throws ShaperError {
         final ObjTokens tokens = tokenizer.tokens();
 
-        ObjToken lineToken;
+        Token lineToken;
         for (readLine(); line != null; readLine(), row++) {
             tokenizer.parseLine(line);
 
