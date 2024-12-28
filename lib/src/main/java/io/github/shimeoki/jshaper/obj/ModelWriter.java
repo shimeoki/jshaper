@@ -71,6 +71,7 @@ public final class ModelWriter implements Writer {
             writer.write(unvertexer.parseVertex(v));
             writer.newLine();
             vertexIndices.put(v, vertexDataIndex);
+            vertexDataIndex++;
         }
     }
 
@@ -81,6 +82,7 @@ public final class ModelWriter implements Writer {
             writer.write(unvertexer.parseTextureVertex(vt));
             writer.newLine();
             textureVertexIndices.put(vt, vertexDataIndex);
+            vertexDataIndex++;
         }
     }
 
@@ -91,6 +93,7 @@ public final class ModelWriter implements Writer {
             writer.write(unvertexer.parseVertexNormal(vn));
             writer.newLine();
             vertexNormalIndices.put(vn, vertexDataIndex);
+            vertexDataIndex++;
         }
     }
 }
