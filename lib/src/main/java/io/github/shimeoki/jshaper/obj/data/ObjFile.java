@@ -4,12 +4,12 @@ import java.util.Objects;
 
 public final class ObjFile {
 
-    private final ObjVertexData vertexData;
+    private final VertexData vertexData;
     private final Elements elements;
     private final GroupingData groupingData;
 
     public ObjFile(
-            final ObjVertexData vertexData,
+            final VertexData vertexData,
             final Elements elements,
             final GroupingData groupingData) {
 
@@ -18,7 +18,7 @@ public final class ObjFile {
         this.groupingData = Objects.requireNonNull(groupingData);
     }
 
-    public ObjVertexData vertexData() {
+    public VertexData vertexData() {
         return vertexData;
     }
 

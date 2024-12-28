@@ -8,14 +8,14 @@ import io.github.shimeoki.jshaper.obj.geom.TextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.Vertex;
 import io.github.shimeoki.jshaper.obj.geom.VertexNormal;
 
-public final class ObjVertexData {
+public final class VertexData {
 
     private final List<Vertex> vertices;
     private final List<TextureVertex> textureVertices;
     private final List<VertexNormal> vertexNormals;
     private final List<ParameterSpaceVertex> parameterSpaceVertices;
 
-    public ObjVertexData(
+    public VertexData(
             final List<Vertex> vertices,
             final List<TextureVertex> textureVertices,
             final List<VertexNormal> vertexNormals,

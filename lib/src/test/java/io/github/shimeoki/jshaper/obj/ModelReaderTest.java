@@ -9,7 +9,7 @@ import java.io.File;
 import org.junit.jupiter.api.Test;
 
 import io.github.shimeoki.jshaper.obj.data.ObjFile;
-import io.github.shimeoki.jshaper.obj.data.ObjVertexData;
+import io.github.shimeoki.jshaper.obj.data.VertexData;
 import io.github.shimeoki.jshaper.ShaperError;
 
 public final class ModelReaderTest {
@@ -18,7 +18,7 @@ public final class ModelReaderTest {
 
     private File file;
     private ObjFile obj;
-    private ObjVertexData data;
+    private VertexData data;
 
     private void readFile(final String name) {
         final String filename = String.format("%s/%s.obj", name, name);
