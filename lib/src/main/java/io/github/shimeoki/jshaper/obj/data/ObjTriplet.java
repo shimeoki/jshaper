@@ -8,11 +8,18 @@ import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 
 public final class ObjTriplet {
 
+    public enum Format {
+        VERTEX,
+        TEXTURE_VERTEX,
+        VERTEX_NORMAL,
+        ALL
+    }
+
     private ObjVertex v;
     private ObjTextureVertex vt;
     private ObjVertexNormal vn;
 
-    private ObjTripletFormat fmt;
+    private Format format;
 
     public ObjTriplet(
             final ObjVertex v,
@@ -53,19 +60,19 @@ public final class ObjTriplet {
         update();
     }
 
-    public ObjTripletFormat format() {
-        return fmt;
+    public Format format() {
+        return format;
     }
 
     private void update() {
         if (vt != null && vn != null) {
-            fmt = ObjTripletFormat.ALL;
+            format = Format.ALL;
         } else if (vn != null) {
-            fmt = ObjTripletFormat.VERTEX_NORMAL;
+            format = Format.VERTEX_NORMAL;
         } else if (vt != null) {
-            fmt = ObjTripletFormat.TEXTURE_VERTEX;
+            format = Format.TEXTURE_VERTEX;
         } else {
-            fmt = ObjTripletFormat.VERTEX;
+            format = Format.VERTEX;
         }
     }
 }

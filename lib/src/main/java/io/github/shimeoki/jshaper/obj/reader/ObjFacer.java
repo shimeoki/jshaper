@@ -10,7 +10,6 @@ import io.github.shimeoki.jshaper.obj.ObjTokens;
 import io.github.shimeoki.jshaper.obj.ObjToken;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
-import io.github.shimeoki.jshaper.obj.data.ObjTripletFormat;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
 
 public final class ObjFacer {
@@ -36,7 +35,7 @@ public final class ObjFacer {
 
         triplets.clear();
 
-        ObjTripletFormat tripletFormat, faceFormat = null;
+        ObjTriplet.Format tripletFormat, faceFormat = null;
         ObjTriplet triplet;
 
         for (int i = 1; i < len; i++) {
