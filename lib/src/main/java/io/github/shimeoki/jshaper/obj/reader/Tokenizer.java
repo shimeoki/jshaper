@@ -8,7 +8,7 @@ import java.util.Set;
 import io.github.shimeoki.jshaper.obj.Token;
 import io.github.shimeoki.jshaper.obj.Tokens;
 
-public final class ObjTokenizer {
+public final class Tokenizer {
 
     public enum Mode {
         WHITELIST_ONLY,
@@ -26,7 +26,7 @@ public final class ObjTokenizer {
 
     private final Tokens tokens = new Tokens();
 
-    public ObjTokenizer(
+    public Tokenizer(
             final Mode mode,
             final Set<Token.Type> whitelist,
             final Set<Token.Type> blacklist) {

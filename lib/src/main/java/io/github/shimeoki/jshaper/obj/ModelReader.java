@@ -22,15 +22,15 @@ import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
 import io.github.shimeoki.jshaper.obj.reader.Facer;
 import io.github.shimeoki.jshaper.obj.reader.GroupNamer;
 import io.github.shimeoki.jshaper.ShaperError;
-import io.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
+import io.github.shimeoki.jshaper.obj.reader.Tokenizer;
 import io.github.shimeoki.jshaper.obj.reader.ObjTripleter;
 import io.github.shimeoki.jshaper.obj.reader.ObjVertexer;
 
 public final class ModelReader implements Reader {
 
-    private static final ObjTokenizer.Mode TOKENIZER_MODE = ObjTokenizer.Mode.WHITELIST_ONLY;
+    private static final Tokenizer.Mode TOKENIZER_MODE = Tokenizer.Mode.WHITELIST_ONLY;
     private static final Set<Token.Type> TOKENIZER_BLACKLIST = new HashSet<>();
-    private static final Set<Token.Type> TOKENIZER_WHITELIST = ObjTokenizer.typeSet(
+    private static final Set<Token.Type> TOKENIZER_WHITELIST = Tokenizer.typeSet(
             Token.Type.VERTEX,
             Token.Type.TEXTURE_VERTEX,
             Token.Type.VERTEX_NORMAL,
@@ -42,7 +42,7 @@ public final class ModelReader implements Reader {
     private List<ObjVertexNormal> vertexNormals;
     private List<ObjFace> faces;
 
-    private ObjTokenizer tokenizer;
+    private Tokenizer tokenizer;
     private ObjTripleter tripleter;
     private Facer facer;
     private GroupNamer groupNamer;
@@ -104,7 +104,7 @@ public final class ModelReader implements Reader {
         vertexNormals = new ArrayList<>();
         faces = new ArrayList<>();
 
-        tokenizer = new ObjTokenizer(
+        tokenizer = new Tokenizer(
                 TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
         tripleter = new ObjTripleter(vertices, textureVertices, vertexNormals);
         facer = new Facer(tripleter);
