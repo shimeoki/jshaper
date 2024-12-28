@@ -13,7 +13,7 @@ import java.util.Set;
 
 import io.github.shimeoki.jshaper.obj.data.Elements;
 import io.github.shimeoki.jshaper.obj.data.ObjFile;
-import io.github.shimeoki.jshaper.obj.data.ObjGroupingData;
+import io.github.shimeoki.jshaper.obj.data.GroupingData;
 import io.github.shimeoki.jshaper.obj.data.ObjVertexData;
 import io.github.shimeoki.jshaper.obj.geom.Face;
 import io.github.shimeoki.jshaper.obj.geom.TextureVertex;
@@ -174,7 +174,7 @@ public final class ModelReader implements Reader {
                 new ArrayList<>());
 
         final Elements elements = new Elements(faces);
-        final ObjGroupingData groupingData = new ObjGroupingData(groupNamer.all());
+        final GroupingData groupingData = new GroupingData(groupNamer.all());
 
         return new ObjFile(vertexData, elements, groupingData);
     }

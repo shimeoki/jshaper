@@ -6,12 +6,12 @@ public final class ObjFile {
 
     private final ObjVertexData vertexData;
     private final Elements elements;
-    private final ObjGroupingData groupingData;
+    private final GroupingData groupingData;
 
     public ObjFile(
             final ObjVertexData vertexData,
             final Elements elements,
-            final ObjGroupingData groupingData) {
+            final GroupingData groupingData) {
 
         this.vertexData = Objects.requireNonNull(vertexData);
         this.elements = Objects.requireNonNull(elements);
@@ -26,7 +26,7 @@ public final class ObjFile {
         return elements;
     }
 
-    public ObjGroupingData groupingData() {
+    public GroupingData groupingData() {
         return groupingData;
     }
 }
