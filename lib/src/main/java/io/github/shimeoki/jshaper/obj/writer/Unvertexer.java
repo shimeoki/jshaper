@@ -2,23 +2,23 @@ package io.github.shimeoki.jshaper.obj.writer;
 
 import java.util.Objects;
 
-import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
-import io.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
+import io.github.shimeoki.jshaper.obj.TextureVertex;
+import io.github.shimeoki.jshaper.obj.Token;
+import io.github.shimeoki.jshaper.obj.Vertex;
+import io.github.shimeoki.jshaper.obj.VertexNormal;
 
-public final class ObjUnvertexer {
+public final class Unvertexer {
 
     private final StringBuilder builder = new StringBuilder();
 
-    public ObjUnvertexer() {
+    public Unvertexer() {
     }
 
-    public String parseVertex(final ObjVertex v) {
+    public String parseVertex(final Vertex v) {
         Objects.requireNonNull(v);
         builder.setLength(0);
 
-        builder.append(ObjTokenizer.VERTEX);
+        builder.append(Token.VERTEX);
 
         builder.append(' ');
         builder.append(v.x());
@@ -35,11 +35,11 @@ public final class ObjUnvertexer {
         return builder.toString();
     }
 
-    public String parseTextureVertex(final ObjTextureVertex vt) {
+    public String parseTextureVertex(final TextureVertex vt) {
         Objects.requireNonNull(vt);
         builder.setLength(0);
 
-        builder.append(ObjTokenizer.TEXTURE_VERTEX);
+        builder.append(Token.TEXTURE_VERTEX);
 
         builder.append(' ');
         builder.append(vt.u());
@@ -53,11 +53,11 @@ public final class ObjUnvertexer {
         return builder.toString();
     }
 
-    public String parseVertexNormal(final ObjVertexNormal vn) {
+    public String parseVertexNormal(final VertexNormal vn) {
         Objects.requireNonNull(vn);
         builder.setLength(0);
 
-        builder.append(ObjTokenizer.VERTEX_NORMAL);
+        builder.append(Token.VERTEX_NORMAL);
 
         builder.append(' ');
         builder.append(vn.i());

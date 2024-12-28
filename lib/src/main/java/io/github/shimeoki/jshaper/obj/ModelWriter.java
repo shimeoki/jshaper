@@ -8,27 +8,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.github.shimeoki.jshaper.obj.data.ObjFile;
-import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import io.github.shimeoki.jshaper.ObjFile;
 
-public final class ObjModelWriter implements ObjWriter {
+public final class ModelWriter implements Writer {
 
     private ObjFile src;
     private File dst;
 
     private BufferedWriter writer;
 
-    private List<ObjVertex> vertices;
-    private List<ObjTextureVertex> textureVertices;
-    private List<ObjVertexNormal> vertexNormals;
+    private List<Vertex> vertices;
+    private List<TextureVertex> textureVertices;
+    private List<VertexNormal> vertexNormals;
 
-    private final Map<ObjVertex, Integer> vertexIndices = new HashMap<>();
-    private final Map<ObjTextureVertex, Integer> textureVertexIndices = new HashMap<>();
-    private final Map<ObjVertexNormal, Integer> vertexNormalIndices = new HashMap<>();
+    private final Map<Vertex, Integer> vertexIndices = new HashMap<>();
+    private final Map<TextureVertex, Integer> textureVertexIndices = new HashMap<>();
+    private final Map<VertexNormal, Integer> vertexNormalIndices = new HashMap<>();
 
-    public ObjModelWriter() {
+    public ModelWriter() {
     }
 
     private void open(final File f) {
