@@ -8,7 +8,7 @@ import io.github.shimeoki.jshaper.obj.Tokens;
 import io.github.shimeoki.jshaper.obj.Token;
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.Vertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import io.github.shimeoki.jshaper.obj.geom.VertexNormal;
 
 public final class Vertexer {
 
@@ -65,7 +65,7 @@ public final class Vertexer {
         return new ObjTextureVertex(u, v, w);
     }
 
-    public static ObjVertexNormal parseVertexNormal(final Tokens tokens) throws ShaperError {
+    public static VertexNormal parseVertexNormal(final Tokens tokens) throws ShaperError {
         if (Objects.requireNonNull(tokens).size() != 4) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid vertex normal format");
         }
@@ -78,6 +78,6 @@ public final class Vertexer {
         final float j = Numberer.parseFloat(tokens.get(2).text());
         final float k = Numberer.parseFloat(tokens.get(3).text());
 
-        return new ObjVertexNormal(i, j, k);
+        return new VertexNormal(i, j, k);
     }
 }

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.Vertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import io.github.shimeoki.jshaper.obj.geom.VertexNormal;
 
 public final class ObjTriplet {
 
@@ -17,14 +17,14 @@ public final class ObjTriplet {
 
     private Vertex v;
     private ObjTextureVertex vt;
-    private ObjVertexNormal vn;
+    private VertexNormal vn;
 
     private Format format;
 
     public ObjTriplet(
             final Vertex v,
             final ObjTextureVertex vt,
-            final ObjVertexNormal vn) {
+            final VertexNormal vn) {
 
         this.v = Objects.requireNonNull(v);
         this.vt = vt;
@@ -51,11 +51,11 @@ public final class ObjTriplet {
         update();
     }
 
-    public ObjVertexNormal vertexNormal() {
+    public VertexNormal vertexNormal() {
         return vn;
     }
 
-    public void setVertexNormal(final ObjVertexNormal vn) {
+    public void setVertexNormal(final VertexNormal vn) {
         this.vn = vn;
         update();
     }
