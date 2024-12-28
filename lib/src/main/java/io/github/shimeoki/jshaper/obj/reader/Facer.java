@@ -8,8 +8,8 @@ import java.util.Set;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.Tokens;
 import io.github.shimeoki.jshaper.obj.Token;
-import io.github.shimeoki.jshaper.obj.data.GroupName;
-import io.github.shimeoki.jshaper.obj.data.Triplet;
+import io.github.shimeoki.jshaper.obj.GroupName;
+import io.github.shimeoki.jshaper.obj.Triplet;
 import io.github.shimeoki.jshaper.obj.Face;
 
 public final class Facer {

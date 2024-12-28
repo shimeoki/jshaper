@@ -1,4 +1,4 @@
-package io.github.shimeoki.jshaper.obj.data;
+package io.github.shimeoki.jshaper.obj;
 
 import java.util.Objects;
 import java.util.Set;

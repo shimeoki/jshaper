@@ -9,7 +9,6 @@ import java.io.File;
 import org.junit.jupiter.api.Test;
 
 import io.github.shimeoki.jshaper.ObjFile;
-import io.github.shimeoki.jshaper.obj.data.VertexData;
 import io.github.shimeoki.jshaper.ShaperError;
 
 public final class ModelReaderTest {

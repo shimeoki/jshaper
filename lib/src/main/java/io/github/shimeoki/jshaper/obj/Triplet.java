@@ -1,10 +1,6 @@
-package io.github.shimeoki.jshaper.obj.data;
+package io.github.shimeoki.jshaper.obj;
 
 import java.util.Objects;
-
-import io.github.shimeoki.jshaper.obj.TextureVertex;
-import io.github.shimeoki.jshaper.obj.Vertex;
-import io.github.shimeoki.jshaper.obj.VertexNormal;
 
 public final class Triplet {
 

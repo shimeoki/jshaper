@@ -8,7 +8,7 @@ import java.util.Set;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.Tokens;
 import io.github.shimeoki.jshaper.obj.Token;
-import io.github.shimeoki.jshaper.obj.data.GroupName;
+import io.github.shimeoki.jshaper.obj.GroupName;
 
 public final class GroupNamer {
 

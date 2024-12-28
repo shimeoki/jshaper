@@ -1,9 +1,7 @@
-package io.github.shimeoki.jshaper.obj.data;
+package io.github.shimeoki.jshaper.obj;
 
 import java.util.List;
 import java.util.Objects;
-
-import io.github.shimeoki.jshaper.obj.Face;
 
 public final class Elements {
 

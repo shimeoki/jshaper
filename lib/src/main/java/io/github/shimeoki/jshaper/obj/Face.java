@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import io.github.shimeoki.jshaper.obj.data.Element;
-import io.github.shimeoki.jshaper.obj.data.GroupName;
-import io.github.shimeoki.jshaper.obj.data.Triplet;
-
 public final class Face implements Element {
 
     private final List<Triplet> triplets;

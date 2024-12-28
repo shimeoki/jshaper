@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import io.github.shimeoki.jshaper.Numberer;
 import io.github.shimeoki.jshaper.ShaperError;
-import io.github.shimeoki.jshaper.obj.data.Triplet;
+import io.github.shimeoki.jshaper.obj.Triplet;
 import io.github.shimeoki.jshaper.obj.TextureVertex;
 import io.github.shimeoki.jshaper.obj.Vertex;
 import io.github.shimeoki.jshaper.obj.VertexNormal;
