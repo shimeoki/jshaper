@@ -132,7 +132,7 @@ public final class ObjModelReader implements ObjReader {
     }
 
     private void parse() throws ShaperError {
-        final ObjTokens tokens = tokenizer.tokens();
+        final Tokens tokens = tokenizer.tokens();
 
         Token lineToken;
         for (readLine(); line != null; readLine(), row++) {

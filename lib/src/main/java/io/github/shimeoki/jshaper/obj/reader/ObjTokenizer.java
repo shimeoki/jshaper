@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import io.github.shimeoki.jshaper.obj.Token;
-import io.github.shimeoki.jshaper.obj.ObjTokens;
+import io.github.shimeoki.jshaper.obj.Tokens;
 
 public final class ObjTokenizer {
 
@@ -24,7 +24,7 @@ public final class ObjTokenizer {
 
     private final StringBuilder builder = new StringBuilder();
 
-    private final ObjTokens tokens = new ObjTokens();
+    private final Tokens tokens = new Tokens();
 
     public ObjTokenizer(
             final Mode mode,
@@ -148,7 +148,7 @@ public final class ObjTokenizer {
         }
     }
 
-    public ObjTokens tokens() {
+    public Tokens tokens() {
         return tokens;
     }
 }

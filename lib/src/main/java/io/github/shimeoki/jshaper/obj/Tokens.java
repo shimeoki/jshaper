@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class ObjTokens {
+public final class Tokens {
 
     private final List<Token> tokens = new ArrayList<>();
 
-    public ObjTokens() {
+    public Tokens() {
     }
 
     public boolean empty() {
