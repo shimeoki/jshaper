@@ -7,14 +7,14 @@ import java.util.Objects;
 import io.github.shimeoki.jshaper.Numberer;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
-import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
+import io.github.shimeoki.jshaper.obj.geom.TextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.Vertex;
 import io.github.shimeoki.jshaper.obj.geom.VertexNormal;
 
 public final class Tripleter {
 
     private final List<Vertex> vertices;
-    private final List<ObjTextureVertex> textureVertices;
+    private final List<TextureVertex> textureVertices;
     private final List<VertexNormal> vertexNormals;
 
     private final StringBuilder builder = new StringBuilder();
@@ -24,7 +24,7 @@ public final class Tripleter {
 
     public Tripleter(
             final List<Vertex> vertices,
-            final List<ObjTextureVertex> textureVertices,
+            final List<TextureVertex> textureVertices,
             final List<VertexNormal> vertexNormals) {
 
         this.vertices = Objects.requireNonNull(vertices);
@@ -78,7 +78,7 @@ public final class Tripleter {
         }
     }
 
-    private ObjTextureVertex parseTextureVertex() throws ShaperError {
+    private TextureVertex parseTextureVertex() throws ShaperError {
         parseIndex(indices[1], textureVertices.size());
 
         if (index < 0) {
@@ -117,7 +117,7 @@ public final class Tripleter {
         parseIndices(Objects.requireNonNull(triplet));
 
         final Vertex v = parseVertex();
-        final ObjTextureVertex vt = parseTextureVertex();
+        final TextureVertex vt = parseTextureVertex();
         final VertexNormal vn = parseVertexNormal();
 
         return new ObjTriplet(v, vt, vn);

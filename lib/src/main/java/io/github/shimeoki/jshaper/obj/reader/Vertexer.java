@@ -6,7 +6,7 @@ import io.github.shimeoki.jshaper.Numberer;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.Tokens;
 import io.github.shimeoki.jshaper.obj.Token;
-import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
+import io.github.shimeoki.jshaper.obj.geom.TextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.Vertex;
 import io.github.shimeoki.jshaper.obj.geom.VertexNormal;
 
@@ -36,7 +36,7 @@ public final class Vertexer {
         return new Vertex(x, y, z, w);
     }
 
-    public static ObjTextureVertex parseTextureVertex(final Tokens tokens) throws ShaperError {
+    public static TextureVertex parseTextureVertex(final Tokens tokens) throws ShaperError {
         final int len = Objects.requireNonNull(tokens).size();
         if (len < 2 || len > 4) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid texture vertex format");
@@ -52,17 +52,17 @@ public final class Vertexer {
         if (len >= 3) {
             v = Numberer.parseFloat(tokens.get(2).text());
         } else {
-            v = ObjTextureVertex.DEFAULT_V;
+            v = TextureVertex.DEFAULT_V;
         }
 
         final float w;
         if (len == 4) {
             w = Numberer.parseFloat(tokens.get(3).text());
         } else {
-            w = ObjTextureVertex.DEFAULT_W;
+            w = TextureVertex.DEFAULT_W;
         }
 
-        return new ObjTextureVertex(u, v, w);
+        return new TextureVertex(u, v, w);
     }
 
     public static VertexNormal parseVertexNormal(final Tokens tokens) throws ShaperError {

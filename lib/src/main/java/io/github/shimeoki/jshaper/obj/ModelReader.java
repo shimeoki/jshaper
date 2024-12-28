@@ -16,7 +16,7 @@ import io.github.shimeoki.jshaper.obj.data.ObjFile;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupingData;
 import io.github.shimeoki.jshaper.obj.data.ObjVertexData;
 import io.github.shimeoki.jshaper.obj.geom.ObjFace;
-import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
+import io.github.shimeoki.jshaper.obj.geom.TextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.Vertex;
 import io.github.shimeoki.jshaper.obj.geom.VertexNormal;
 import io.github.shimeoki.jshaper.obj.reader.Facer;
@@ -38,7 +38,7 @@ public final class ModelReader implements Reader {
             Token.Type.GROUP_NAME);
 
     private List<Vertex> vertices;
-    private List<ObjTextureVertex> textureVertices;
+    private List<TextureVertex> textureVertices;
     private List<VertexNormal> vertexNormals;
     private List<ObjFace> faces;
 
