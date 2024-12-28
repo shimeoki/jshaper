@@ -8,7 +8,7 @@ import java.util.Set;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.Tokens;
 import io.github.shimeoki.jshaper.obj.Token;
-import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
+import io.github.shimeoki.jshaper.obj.data.GroupName;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 import io.github.shimeoki.jshaper.obj.geom.Face;
 
@@ -21,7 +21,7 @@ public final class Facer {
         this.tripleter = Objects.requireNonNull(tripleter);
     }
 
-    public Face parse(final Tokens tokens, final Set<ObjGroupName> groupNames)
+    public Face parse(final Tokens tokens, final Set<GroupName> groupNames)
             throws ShaperError {
 
         if (!tokens.lineTokenTypeIs(Token.Type.FACE)) {

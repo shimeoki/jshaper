@@ -2,12 +2,12 @@ package io.github.shimeoki.jshaper.obj.data;
 
 import java.util.Objects;
 
-// TODO: check name validity
-public final class ObjGroupName {
+public final class GroupName {
 
+    // TODO: check name validity
     private String name;
 
-    public ObjGroupName(final String name) {
+    public GroupName(final String name) {
         setName(name);
     }
 

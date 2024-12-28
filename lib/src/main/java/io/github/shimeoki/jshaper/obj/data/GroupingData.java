@@ -7,13 +7,13 @@ public final class GroupingData {
 
     // not all grouping data from the specification
     // is present
-    private final Set<ObjGroupName> groupNames;
+    private final Set<GroupName> groupNames;
 
-    public GroupingData(final Set<ObjGroupName> groupNames) {
+    public GroupingData(final Set<GroupName> groupNames) {
         this.groupNames = Objects.requireNonNull(groupNames);
     }
 
-    public Set<ObjGroupName> groupNames() {
+    public Set<GroupName> groupNames() {
         return groupNames;
     }
 }
