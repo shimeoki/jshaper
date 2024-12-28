@@ -9,12 +9,12 @@ import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.Tokens;
 import io.github.shimeoki.jshaper.obj.Token;
 import io.github.shimeoki.jshaper.obj.data.GroupName;
-import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
+import io.github.shimeoki.jshaper.obj.data.Triplet;
 import io.github.shimeoki.jshaper.obj.geom.Face;
 
 public final class Facer {
 
-    private final List<ObjTriplet> triplets = new ArrayList<>();
+    private final List<Triplet> triplets = new ArrayList<>();
     private final Tripleter tripleter;
 
     public Facer(final Tripleter tripleter) {
@@ -35,8 +35,8 @@ public final class Facer {
 
         triplets.clear();
 
-        ObjTriplet.Format tripletFormat, faceFormat = null;
-        ObjTriplet triplet;
+        Triplet.Format tripletFormat, faceFormat = null;
+        Triplet triplet;
 
         for (int i = 1; i < len; i++) {
             triplet = tripleter.parse(tokens.get(i).text());

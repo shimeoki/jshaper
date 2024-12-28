@@ -6,7 +6,7 @@ import io.github.shimeoki.jshaper.obj.geom.TextureVertex;
 import io.github.shimeoki.jshaper.obj.geom.Vertex;
 import io.github.shimeoki.jshaper.obj.geom.VertexNormal;
 
-public final class ObjTriplet {
+public final class Triplet {
 
     public enum Format {
         VERTEX,
@@ -21,7 +21,7 @@ public final class ObjTriplet {
 
     private Format format;
 
-    public ObjTriplet(
+    public Triplet(
             final Vertex v,
             final TextureVertex vt,
             final VertexNormal vn) {

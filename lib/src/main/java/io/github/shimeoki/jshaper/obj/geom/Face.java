@@ -6,21 +6,21 @@ import java.util.Set;
 
 import io.github.shimeoki.jshaper.obj.data.Element;
 import io.github.shimeoki.jshaper.obj.data.GroupName;
-import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
+import io.github.shimeoki.jshaper.obj.data.Triplet;
 
 public final class Face implements Element {
 
-    private final List<ObjTriplet> triplets;
+    private final List<Triplet> triplets;
     private final Set<GroupName> groupNames;
 
     public Face(
-            final List<ObjTriplet> triplets, final Set<GroupName> groupNames) {
+            final List<Triplet> triplets, final Set<GroupName> groupNames) {
 
         this.triplets = Objects.requireNonNull(triplets);
         this.groupNames = Objects.requireNonNull(groupNames);
     }
 
-    public List<ObjTriplet> triplets() {
+    public List<Triplet> triplets() {
         return triplets;
     }
 
