@@ -26,7 +26,7 @@ import io.github.shimeoki.jshaper.obj.reader.ObjTokenizer;
 import io.github.shimeoki.jshaper.obj.reader.ObjTripleter;
 import io.github.shimeoki.jshaper.obj.reader.ObjVertexer;
 
-public final class ObjModelReader implements ObjReader {
+public final class ModelReader implements Reader {
 
     private static final ObjTokenizer.Mode TOKENIZER_MODE = ObjTokenizer.Mode.WHITELIST_ONLY;
     private static final Set<Token.Type> TOKENIZER_BLACKLIST = new HashSet<>();
@@ -51,7 +51,7 @@ public final class ObjModelReader implements ObjReader {
     private int row;
     private String line;
 
-    public ObjModelReader() {
+    public ModelReader() {
     }
 
     private void open(final File f) throws ShaperError {

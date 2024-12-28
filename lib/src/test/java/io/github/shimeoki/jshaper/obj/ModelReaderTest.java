@@ -12,9 +12,9 @@ import io.github.shimeoki.jshaper.obj.data.ObjFile;
 import io.github.shimeoki.jshaper.obj.data.ObjVertexData;
 import io.github.shimeoki.jshaper.ShaperError;
 
-public final class ObjModelReaderTest {
+public final class ModelReaderTest {
 
-    private final ObjModelReader reader = new ObjModelReader();
+    private final ModelReader reader = new ModelReader();
 
     private File file;
     private ObjFile obj;
