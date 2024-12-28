@@ -1,6 +1,6 @@
 package io.github.shimeoki.jshaper;
 
-public interface Point extends Vectorf {
+public interface Point {
 
     public float get(final Pos p);
 

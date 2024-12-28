@@ -19,11 +19,6 @@ public final class ParameterSpaceVertex implements Clearable, Point {
     }
 
     @Override
-    public float[] array() {
-        return values;
-    }
-
-    @Override
     public float get(final Pos p) {
         switch (p) {
             case U:
