@@ -8,12 +8,12 @@ import io.github.shimeoki.jshaper.obj.data.ObjElement;
 import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
 import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
 
-public final class ObjFace implements ObjElement {
+public final class Face implements ObjElement {
 
     private final List<ObjTriplet> triplets;
     private final Set<ObjGroupName> groupNames;
 
-    public ObjFace(
+    public Face(
             final List<ObjTriplet> triplets, final Set<ObjGroupName> groupNames) {
 
         this.triplets = Objects.requireNonNull(triplets);
