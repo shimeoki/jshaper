@@ -1,6 +1,6 @@
 package io.github.shimeoki.jshaper.obj;
 
-import io.github.shimeoki.jshaper.data.Clearable;
+import io.github.shimeoki.jshaper.Clearable;
 import io.github.shimeoki.jshaper.Pointf;
 import io.github.shimeoki.jshaper.Pos;
 
