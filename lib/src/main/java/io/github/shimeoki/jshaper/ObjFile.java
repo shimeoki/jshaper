@@ -1,6 +1,10 @@
-package io.github.shimeoki.jshaper.obj.data;
+package io.github.shimeoki.jshaper;
 
 import java.util.Objects;
+
+import io.github.shimeoki.jshaper.obj.data.Elements;
+import io.github.shimeoki.jshaper.obj.data.GroupingData;
+import io.github.shimeoki.jshaper.obj.data.VertexData;
 
 public final class ObjFile {
 

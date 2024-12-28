@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import io.github.shimeoki.jshaper.obj.data.Elements;
-import io.github.shimeoki.jshaper.obj.data.ObjFile;
+import io.github.shimeoki.jshaper.ObjFile;
 import io.github.shimeoki.jshaper.obj.data.GroupingData;
 import io.github.shimeoki.jshaper.obj.data.VertexData;
 import io.github.shimeoki.jshaper.obj.geom.Face;
