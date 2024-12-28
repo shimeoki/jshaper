@@ -1,18 +1,18 @@
-package io.github.shimeoki.jshaper.obj.geom;
+package io.github.shimeoki.jshaper.obj;
 
 import io.github.shimeoki.jshaper.data.Clearable;
 import io.github.shimeoki.jshaper.geom.Pointf;
 import io.github.shimeoki.jshaper.geom.Pos;
 
-public final class TextureVertex implements Clearable, Pointf {
+public final class ParameterSpaceVertex implements Clearable, Pointf {
 
     public static final float DEFAULT_U = 0;
     public static final float DEFAULT_V = 0;
-    public static final float DEFAULT_W = 0;
+    public static final float DEFAULT_W = 1;
 
     private final float[] values = new float[3];
 
-    public TextureVertex(final float u, final float v, final float w) {
+    public ParameterSpaceVertex(final float u, final float v, final float w) {
         setU(u);
         setV(v);
         setW(w);
@@ -33,7 +33,7 @@ public final class TextureVertex implements Clearable, Pointf {
             case W:
                 return w();
             default:
-                throw new IllegalArgumentException("ObjTextureVertex: invalid Pos");
+                throw new IllegalArgumentException("ObjParameterSpaceVertex: invalid Pos");
         }
     }
 
@@ -50,7 +50,7 @@ public final class TextureVertex implements Clearable, Pointf {
                 setW(value);
                 break;
             default:
-                throw new IllegalArgumentException("ObjTextureVertex: invalid Pos");
+                throw new IllegalArgumentException("ObjParameterSpaceVertex: invalid Pos");
         }
     }
 

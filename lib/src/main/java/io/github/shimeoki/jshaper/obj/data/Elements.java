@@ -3,7 +3,7 @@ package io.github.shimeoki.jshaper.obj.data;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.shimeoki.jshaper.obj.geom.Face;
+import io.github.shimeoki.jshaper.obj.Face;
 
 public final class Elements {
 

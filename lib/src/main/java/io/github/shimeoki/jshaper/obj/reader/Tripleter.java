@@ -7,9 +7,9 @@ import java.util.Objects;
 import io.github.shimeoki.jshaper.Numberer;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.data.Triplet;
-import io.github.shimeoki.jshaper.obj.geom.TextureVertex;
-import io.github.shimeoki.jshaper.obj.geom.Vertex;
-import io.github.shimeoki.jshaper.obj.geom.VertexNormal;
+import io.github.shimeoki.jshaper.obj.TextureVertex;
+import io.github.shimeoki.jshaper.obj.Vertex;
+import io.github.shimeoki.jshaper.obj.VertexNormal;
 
 public final class Tripleter {
 

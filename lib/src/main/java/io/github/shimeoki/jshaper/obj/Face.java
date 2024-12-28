@@ -1,4 +1,4 @@
-package io.github.shimeoki.jshaper.obj.geom;
+package io.github.shimeoki.jshaper.obj;
 
 import java.util.List;
 import java.util.Objects;

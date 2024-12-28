@@ -1,4 +1,4 @@
-package io.github.shimeoki.jshaper.obj.geom;
+package io.github.shimeoki.jshaper.obj;
 
 import io.github.shimeoki.jshaper.data.Clearable;
 import io.github.shimeoki.jshaper.geom.Pointf;

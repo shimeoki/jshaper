@@ -3,10 +3,10 @@ package io.github.shimeoki.jshaper.obj.data;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.shimeoki.jshaper.obj.geom.ParameterSpaceVertex;
-import io.github.shimeoki.jshaper.obj.geom.TextureVertex;
-import io.github.shimeoki.jshaper.obj.geom.Vertex;
-import io.github.shimeoki.jshaper.obj.geom.VertexNormal;
+import io.github.shimeoki.jshaper.obj.ParameterSpaceVertex;
+import io.github.shimeoki.jshaper.obj.TextureVertex;
+import io.github.shimeoki.jshaper.obj.Vertex;
+import io.github.shimeoki.jshaper.obj.VertexNormal;
 
 public final class VertexData {
 
