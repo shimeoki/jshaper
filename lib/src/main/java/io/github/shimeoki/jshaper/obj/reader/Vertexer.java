@@ -4,21 +4,21 @@ import java.util.Objects;
 
 import io.github.shimeoki.jshaper.Numberer;
 import io.github.shimeoki.jshaper.ShaperError;
-import io.github.shimeoki.jshaper.obj.ObjTokens;
-import io.github.shimeoki.jshaper.obj.ObjToken;
-import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import io.github.shimeoki.jshaper.obj.Tokens;
+import io.github.shimeoki.jshaper.obj.Token;
+import io.github.shimeoki.jshaper.obj.TextureVertex;
+import io.github.shimeoki.jshaper.obj.Vertex;
+import io.github.shimeoki.jshaper.obj.VertexNormal;
 
-public final class ObjVertexer {
+public final class Vertexer {
 
-    public static ObjVertex parseVertex(final ObjTokens tokens) throws ShaperError {
+    public static Vertex parseVertex(final Tokens tokens) throws ShaperError {
         final int len = Objects.requireNonNull(tokens).size();
         if (len < 4 || len > 5) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid vertex format");
         }
 
-        if (!tokens.lineTokenTypeIs(ObjToken.Type.VERTEX)) {
+        if (!tokens.lineTokenTypeIs(Token.Type.VERTEX)) {
             throw new ShaperError(ShaperError.Type.PARSE, "no vertex token");
         }
 
@@ -30,19 +30,19 @@ public final class ObjVertexer {
         if (len == 5) {
             w = Numberer.parseFloat(tokens.get(4).text());
         } else {
-            w = ObjVertex.DEFAULT_W;
+            w = Vertex.DEFAULT_W;
         }
 
-        return new ObjVertex(x, y, z, w);
+        return new Vertex(x, y, z, w);
     }
 
-    public static ObjTextureVertex parseTextureVertex(final ObjTokens tokens) throws ShaperError {
+    public static TextureVertex parseTextureVertex(final Tokens tokens) throws ShaperError {
         final int len = Objects.requireNonNull(tokens).size();
         if (len < 2 || len > 4) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid texture vertex format");
         }
 
-        if (!tokens.lineTokenTypeIs(ObjToken.Type.TEXTURE_VERTEX)) {
+        if (!tokens.lineTokenTypeIs(Token.Type.TEXTURE_VERTEX)) {
             throw new ShaperError(ShaperError.Type.PARSE, "no texture vertex token");
         }
 
@@ -52,25 +52,25 @@ public final class ObjVertexer {
         if (len >= 3) {
             v = Numberer.parseFloat(tokens.get(2).text());
         } else {
-            v = ObjTextureVertex.DEFAULT_V;
+            v = TextureVertex.DEFAULT_V;
         }
 
         final float w;
         if (len == 4) {
             w = Numberer.parseFloat(tokens.get(3).text());
         } else {
-            w = ObjTextureVertex.DEFAULT_W;
+            w = TextureVertex.DEFAULT_W;
         }
 
-        return new ObjTextureVertex(u, v, w);
+        return new TextureVertex(u, v, w);
     }
 
-    public static ObjVertexNormal parseVertexNormal(final ObjTokens tokens) throws ShaperError {
+    public static VertexNormal parseVertexNormal(final Tokens tokens) throws ShaperError {
         if (Objects.requireNonNull(tokens).size() != 4) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid vertex normal format");
         }
 
-        if (!tokens.lineTokenTypeIs(ObjToken.Type.VERTEX_NORMAL)) {
+        if (!tokens.lineTokenTypeIs(Token.Type.VERTEX_NORMAL)) {
             throw new ShaperError(ShaperError.Type.PARSE, "no vertex normal token");
         }
 
@@ -78,6 +78,6 @@ public final class ObjVertexer {
         final float j = Numberer.parseFloat(tokens.get(2).text());
         final float k = Numberer.parseFloat(tokens.get(3).text());
 
-        return new ObjVertexNormal(i, j, k);
+        return new VertexNormal(i, j, k);
     }
 }

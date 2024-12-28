@@ -6,25 +6,25 @@ import java.util.Objects;
 import java.util.Set;
 
 import io.github.shimeoki.jshaper.ShaperError;
-import io.github.shimeoki.jshaper.obj.ObjTokens;
-import io.github.shimeoki.jshaper.obj.ObjToken;
-import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
-import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
-import io.github.shimeoki.jshaper.obj.geom.ObjFace;
+import io.github.shimeoki.jshaper.obj.Tokens;
+import io.github.shimeoki.jshaper.obj.Token;
+import io.github.shimeoki.jshaper.obj.GroupName;
+import io.github.shimeoki.jshaper.obj.Triplet;
+import io.github.shimeoki.jshaper.obj.Face;
 
-public final class ObjFacer {
+public final class Facer {
 
-    private final List<ObjTriplet> triplets = new ArrayList<>();
-    private final ObjTripleter tripleter;
+    private final List<Triplet> triplets = new ArrayList<>();
+    private final Tripleter tripleter;
 
-    public ObjFacer(final ObjTripleter tripleter) {
+    public Facer(final Tripleter tripleter) {
         this.tripleter = Objects.requireNonNull(tripleter);
     }
 
-    public ObjFace parse(final ObjTokens tokens, final Set<ObjGroupName> groupNames)
+    public Face parse(final Tokens tokens, final Set<GroupName> groupNames)
             throws ShaperError {
 
-        if (!tokens.lineTokenTypeIs(ObjToken.Type.FACE)) {
+        if (!tokens.lineTokenTypeIs(Token.Type.FACE)) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid face format");
         }
 
@@ -35,8 +35,8 @@ public final class ObjFacer {
 
         triplets.clear();
 
-        ObjTriplet.Format tripletFormat, faceFormat = null;
-        ObjTriplet triplet;
+        Triplet.Format tripletFormat, faceFormat = null;
+        Triplet triplet;
 
         for (int i = 1; i < len; i++) {
             triplet = tripleter.parse(tokens.get(i).text());
@@ -53,6 +53,6 @@ public final class ObjFacer {
             triplets.add(triplet);
         }
 
-        return new ObjFace(new ArrayList<>(triplets), groupNames);
+        return new Face(new ArrayList<>(triplets), groupNames);
     }
 }

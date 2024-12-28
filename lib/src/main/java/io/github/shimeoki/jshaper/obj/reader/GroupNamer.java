@@ -6,25 +6,25 @@ import java.util.Map;
 import java.util.Set;
 
 import io.github.shimeoki.jshaper.ShaperError;
-import io.github.shimeoki.jshaper.obj.ObjTokens;
-import io.github.shimeoki.jshaper.obj.ObjToken;
-import io.github.shimeoki.jshaper.obj.data.ObjGroupName;
+import io.github.shimeoki.jshaper.obj.Tokens;
+import io.github.shimeoki.jshaper.obj.Token;
+import io.github.shimeoki.jshaper.obj.GroupName;
 
-public final class ObjGroupNamer {
+public final class GroupNamer {
 
-    private final ObjGroupName DEFAULT_GROUP_NAME = new ObjGroupName("default");
+    private final GroupName DEFAULT_GROUP_NAME = new GroupName("default");
 
     private final Set<String> currentNames = new HashSet<>();
-    private final Map<String, ObjGroupName> nameMap = new HashMap<>();
+    private final Map<String, GroupName> nameMap = new HashMap<>();
 
-    private final Set<ObjGroupName> currentGroupNames = new HashSet<>();
-    private final Set<ObjGroupName> groupNames = new HashSet<>();
+    private final Set<GroupName> currentGroupNames = new HashSet<>();
+    private final Set<GroupName> groupNames = new HashSet<>();
 
-    public ObjGroupNamer() {
+    public GroupNamer() {
     }
 
-    public void parse(final ObjTokens tokens) throws ShaperError {
-        if (!tokens.lineTokenTypeIs(ObjToken.Type.GROUP_NAME)) {
+    public void parse(final Tokens tokens) throws ShaperError {
+        if (!tokens.lineTokenTypeIs(Token.Type.GROUP_NAME)) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid group name format");
         }
 
@@ -36,14 +36,14 @@ public final class ObjGroupNamer {
         currentNames.clear();
         currentGroupNames.clear();
 
-        ObjGroupName n;
+        GroupName n;
         String s;
 
         for (int i = 1; i < len; i++) {
             s = tokens.get(i).text();
 
             currentNames.add(s);
-            n = nameMap.getOrDefault(s, new ObjGroupName(s));
+            n = nameMap.getOrDefault(s, new GroupName(s));
 
             currentGroupNames.add(n);
             groupNames.add(n);
@@ -54,8 +54,8 @@ public final class ObjGroupNamer {
         }
     }
 
-    public Set<ObjGroupName> current() {
-        final Set<ObjGroupName> current = new HashSet<>(currentGroupNames);
+    public Set<GroupName> current() {
+        final Set<GroupName> current = new HashSet<>(currentGroupNames);
 
         if (current.isEmpty()) {
             current.add(DEFAULT_GROUP_NAME);
@@ -64,7 +64,7 @@ public final class ObjGroupNamer {
         return current;
     }
 
-    public Set<ObjGroupName> all() {
+    public Set<GroupName> all() {
         return new HashSet<>(groupNames);
     }
 }

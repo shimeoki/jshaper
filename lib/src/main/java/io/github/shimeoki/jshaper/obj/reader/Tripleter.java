@@ -6,26 +6,26 @@ import java.util.Objects;
 
 import io.github.shimeoki.jshaper.Numberer;
 import io.github.shimeoki.jshaper.ShaperError;
-import io.github.shimeoki.jshaper.obj.data.ObjTriplet;
-import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
+import io.github.shimeoki.jshaper.obj.Triplet;
+import io.github.shimeoki.jshaper.obj.TextureVertex;
+import io.github.shimeoki.jshaper.obj.Vertex;
+import io.github.shimeoki.jshaper.obj.VertexNormal;
 
-public final class ObjTripleter {
+public final class Tripleter {
 
-    private final List<ObjVertex> vertices;
-    private final List<ObjTextureVertex> textureVertices;
-    private final List<ObjVertexNormal> vertexNormals;
+    private final List<Vertex> vertices;
+    private final List<TextureVertex> textureVertices;
+    private final List<VertexNormal> vertexNormals;
 
     private final StringBuilder builder = new StringBuilder();
 
     private final int[] indices = new int[3];
     private int index;
 
-    public ObjTripleter(
-            final List<ObjVertex> vertices,
-            final List<ObjTextureVertex> textureVertices,
-            final List<ObjVertexNormal> vertexNormals) {
+    public Tripleter(
+            final List<Vertex> vertices,
+            final List<TextureVertex> textureVertices,
+            final List<VertexNormal> vertexNormals) {
 
         this.vertices = Objects.requireNonNull(vertices);
         this.textureVertices = Objects.requireNonNull(textureVertices);
@@ -68,7 +68,7 @@ public final class ObjTripleter {
         }
     }
 
-    private ObjVertex parseVertex() throws ShaperError {
+    private Vertex parseVertex() throws ShaperError {
         parseIndex(indices[0], vertices.size());
 
         if (index < 0) {
@@ -78,7 +78,7 @@ public final class ObjTripleter {
         }
     }
 
-    private ObjTextureVertex parseTextureVertex() throws ShaperError {
+    private TextureVertex parseTextureVertex() throws ShaperError {
         parseIndex(indices[1], textureVertices.size());
 
         if (index < 0) {
@@ -88,7 +88,7 @@ public final class ObjTripleter {
         }
     }
 
-    private ObjVertexNormal parseVertexNormal() throws ShaperError {
+    private VertexNormal parseVertexNormal() throws ShaperError {
         parseIndex(indices[2], vertexNormals.size());
 
         if (index < 0) {
@@ -113,13 +113,13 @@ public final class ObjTripleter {
         }
     }
 
-    public ObjTriplet parse(final String triplet) throws ShaperError {
+    public Triplet parse(final String triplet) throws ShaperError {
         parseIndices(Objects.requireNonNull(triplet));
 
-        final ObjVertex v = parseVertex();
-        final ObjTextureVertex vt = parseTextureVertex();
-        final ObjVertexNormal vn = parseVertexNormal();
+        final Vertex v = parseVertex();
+        final TextureVertex vt = parseTextureVertex();
+        final VertexNormal vn = parseVertexNormal();
 
-        return new ObjTriplet(v, vt, vn);
+        return new Triplet(v, vt, vn);
     }
 }

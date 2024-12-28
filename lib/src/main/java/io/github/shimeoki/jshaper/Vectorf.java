@@ -1,4 +1,4 @@
-package io.github.shimeoki.jshaper.data;
+package io.github.shimeoki.jshaper;
 
 public interface Vectorf {
 

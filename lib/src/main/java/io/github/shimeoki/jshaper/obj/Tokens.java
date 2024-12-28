@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class ObjTokens {
+public final class Tokens {
 
-    private final List<ObjToken> tokens = new ArrayList<>();
+    private final List<Token> tokens = new ArrayList<>();
 
-    public ObjTokens() {
+    public Tokens() {
     }
 
     public boolean empty() {
@@ -19,7 +19,7 @@ public final class ObjTokens {
         tokens.clear();
     }
 
-    public ObjToken lineToken() {
+    public Token lineToken() {
         if (empty()) {
             return null;
         } else {
@@ -27,7 +27,7 @@ public final class ObjTokens {
         }
     }
 
-    public boolean lineTokenTypeIs(final ObjToken.Type type) {
+    public boolean lineTokenTypeIs(final Token.Type type) {
         if (empty()) {
             return false;
         } else {
@@ -35,11 +35,11 @@ public final class ObjTokens {
         }
     }
 
-    public void add(final ObjToken t) {
+    public void add(final Token t) {
         tokens.add(Objects.requireNonNull(t));
     }
 
-    public ObjToken get(final int index) {
+    public Token get(final int index) {
         if (!validIndex(index)) {
             throw new IllegalArgumentException("invalid index");
         }

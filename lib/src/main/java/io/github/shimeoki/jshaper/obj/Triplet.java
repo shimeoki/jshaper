@@ -1,12 +1,8 @@
-package io.github.shimeoki.jshaper.obj.data;
+package io.github.shimeoki.jshaper.obj;
 
 import java.util.Objects;
 
-import io.github.shimeoki.jshaper.obj.geom.ObjTextureVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertex;
-import io.github.shimeoki.jshaper.obj.geom.ObjVertexNormal;
-
-public final class ObjTriplet {
+public final class Triplet {
 
     public enum Format {
         VERTEX,
@@ -15,16 +11,16 @@ public final class ObjTriplet {
         ALL
     }
 
-    private ObjVertex v;
-    private ObjTextureVertex vt;
-    private ObjVertexNormal vn;
+    private Vertex v;
+    private TextureVertex vt;
+    private VertexNormal vn;
 
     private Format format;
 
-    public ObjTriplet(
-            final ObjVertex v,
-            final ObjTextureVertex vt,
-            final ObjVertexNormal vn) {
+    public Triplet(
+            final Vertex v,
+            final TextureVertex vt,
+            final VertexNormal vn) {
 
         this.v = Objects.requireNonNull(v);
         this.vt = vt;
@@ -33,29 +29,29 @@ public final class ObjTriplet {
         update();
     }
 
-    public ObjVertex vertex() {
+    public Vertex vertex() {
         return v;
     }
 
-    public void setVertex(final ObjVertex v) {
+    public void setVertex(final Vertex v) {
         this.v = Objects.requireNonNull(v);
         update();
     }
 
-    public ObjTextureVertex textureVertex() {
+    public TextureVertex textureVertex() {
         return vt;
     }
 
-    public void setTextureVertex(final ObjTextureVertex vt) {
+    public void setTextureVertex(final TextureVertex vt) {
         this.vt = vt;
         update();
     }
 
-    public ObjVertexNormal vertexNormal() {
+    public VertexNormal vertexNormal() {
         return vn;
     }
 
-    public void setVertexNormal(final ObjVertexNormal vn) {
+    public void setVertexNormal(final VertexNormal vn) {
         this.vn = vn;
         update();
     }

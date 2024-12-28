@@ -7,18 +7,18 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-public final class ObjTokensTest {
+public final class TokensTest {
 
     @Test
     public void make() {
-        final ObjTokens t = new ObjTokens();
+        final Tokens t = new Tokens();
 
         assertTrue(t.empty());
     }
 
     @Test
     public void addNull() {
-        final ObjTokens t = new ObjTokens();
+        final Tokens t = new Tokens();
 
         try {
             t.add(null);
@@ -31,23 +31,23 @@ public final class ObjTokensTest {
 
     @Test
     public void empty() {
-        final ObjTokens t = new ObjTokens();
+        final Tokens t = new Tokens();
 
         assertEquals(t.empty(), t.size() == 0);
     }
 
     @Test
     public void notEmpty() {
-        final ObjTokens t = new ObjTokens();
-        t.add(new ObjToken("#"));
+        final Tokens t = new Tokens();
+        t.add(new Token("#"));
 
         assertEquals(!t.empty(), t.size() != 0);
     }
 
     @Test
     public void add() {
-        final ObjTokens tokens = new ObjTokens();
-        final ObjToken token = new ObjToken("v");
+        final Tokens tokens = new Tokens();
+        final Token token = new Token("v");
         tokens.add(token);
 
         assertEquals(1, tokens.size());
@@ -56,8 +56,8 @@ public final class ObjTokensTest {
 
     @Test
     public void clear() {
-        final ObjTokens t = new ObjTokens();
-        t.add(new ObjToken("vt"));
+        final Tokens t = new Tokens();
+        t.add(new Token("vt"));
 
         assertTrue(!t.empty());
 
@@ -68,8 +68,8 @@ public final class ObjTokensTest {
 
     @Test
     public void lineToken() {
-        final ObjTokens tokens = new ObjTokens();
-        final ObjToken token = new ObjToken("vn");
+        final Tokens tokens = new Tokens();
+        final Token token = new Token("vn");
 
         tokens.add(token);
 
@@ -79,42 +79,42 @@ public final class ObjTokensTest {
 
     @Test
     public void noLineToken() {
-        final ObjTokens t = new ObjTokens();
+        final Tokens t = new Tokens();
 
         assertEquals(null, t.lineToken());
     }
 
     @Test
     public void noLineTokenIs() {
-        final ObjTokens t = new ObjTokens();
+        final Tokens t = new Tokens();
 
-        assertFalse(t.lineTokenTypeIs(ObjToken.Type.PARAMETER_SPACE_VERTEX));
+        assertFalse(t.lineTokenTypeIs(Token.Type.PARAMETER_SPACE_VERTEX));
     }
 
     @Test
     public void lineTokenIs() {
-        final ObjTokens tokens = new ObjTokens();
-        final ObjToken token = new ObjToken("f");
+        final Tokens tokens = new Tokens();
+        final Token token = new Token("f");
 
         tokens.add(token);
 
         assertTrue(tokens.lineTokenTypeIs(token.type()));
-        assertTrue(tokens.lineTokenTypeIs(ObjToken.Type.FACE));
-        assertFalse(tokens.lineTokenTypeIs(ObjToken.Type.TEXTURE_VERTEX));
+        assertTrue(tokens.lineTokenTypeIs(Token.Type.FACE));
+        assertFalse(tokens.lineTokenTypeIs(Token.Type.TEXTURE_VERTEX));
     }
 
     @Test
     public void size() {
-        final ObjTokens t = new ObjTokens();
+        final Tokens t = new Tokens();
         assertEquals(0, t.size());
 
-        t.add(new ObjToken("vp"));
+        t.add(new Token("vp"));
         assertEquals(1, t.size());
 
-        t.add(new ObjToken("g"));
+        t.add(new Token("g"));
         assertEquals(2, t.size());
 
-        t.add(new ObjToken("100"));
+        t.add(new Token("100"));
         assertEquals(3, t.size());
 
         t.clear();
@@ -123,14 +123,14 @@ public final class ObjTokensTest {
 
     @Test
     public void validIndex() {
-        final ObjTokens t = new ObjTokens();
+        final Tokens t = new Tokens();
         assertFalse(t.validIndex(0));
 
-        t.add(new ObjToken("o"));
+        t.add(new Token("o"));
         assertTrue(t.validIndex(0));
         assertFalse(t.validIndex(1));
 
-        t.add(new ObjToken("gg"));
+        t.add(new Token("gg"));
         assertTrue(t.validIndex(1));
         assertFalse(t.validIndex(2));
 
@@ -147,14 +147,14 @@ public final class ObjTokensTest {
 
     @Test
     public void get() {
-        final ObjTokens tokens = new ObjTokens();
+        final Tokens tokens = new Tokens();
 
-        final ObjToken t1 = new ObjToken("vp");
+        final Token t1 = new Token("vp");
         tokens.add(t1);
 
         assertEquals(t1, tokens.get(0));
 
-        final ObjToken t2 = new ObjToken("vn");
+        final Token t2 = new Token("vn");
         tokens.add(t2);
 
         assertEquals(t2, tokens.get(1));
