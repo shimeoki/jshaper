@@ -1,8 +1,8 @@
 package io.github.shimeoki.jshaper.obj;
 
 import io.github.shimeoki.jshaper.data.Clearable;
-import io.github.shimeoki.jshaper.geom.Pointf;
-import io.github.shimeoki.jshaper.geom.Pos;
+import io.github.shimeoki.jshaper.Pointf;
+import io.github.shimeoki.jshaper.Pos;
 
 public final class VertexNormal implements Clearable, Pointf {
 

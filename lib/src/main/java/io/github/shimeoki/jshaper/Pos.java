@@ -1,4 +1,4 @@
-package io.github.shimeoki.jshaper.geom;
+package io.github.shimeoki.jshaper;
 
 public enum Pos {
     X,
