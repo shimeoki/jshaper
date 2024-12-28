@@ -1,10 +1,10 @@
 package io.github.shimeoki.jshaper.obj;
 
 import io.github.shimeoki.jshaper.Clearable;
-import io.github.shimeoki.jshaper.Pointf;
+import io.github.shimeoki.jshaper.Point;
 import io.github.shimeoki.jshaper.Pos;
 
-public final class VertexNormal implements Clearable, Pointf {
+public final class VertexNormal implements Clearable, Point {
 
     public static final float DEFAULT_I = 0;
     public static final float DEFAULT_J = 0;
@@ -16,11 +16,6 @@ public final class VertexNormal implements Clearable, Pointf {
         setI(i);
         setJ(j);
         setK(k);
-    }
-
-    @Override
-    public float[] array() {
-        return values;
     }
 
     @Override
