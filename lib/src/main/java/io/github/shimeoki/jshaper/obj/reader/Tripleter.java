@@ -40,15 +40,19 @@ public final class Tripleter {
         int index = -1;
 
         char c;
-        for (int i = 0; i < len; i++) {
-            c = triplet.charAt(i);
+        for (int i = 0; i <= len; i++) {
+            if (i == len) {
+                c = ' '; // artificially add a whitespace at the end
+            } else {
+                c = triplet.charAt(i);
+            }
 
-            if (c == ' ') {
+            if (c == ' ' && i != len) {
                 throw new ShaperError(ShaperError.Type.PARSE,
                         "found a space in a triplet");
             }
 
-            if (c != '/') {
+            if (c != '/' && i != len) {
                 builder.append(c);
                 continue;
             }
