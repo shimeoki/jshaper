@@ -14,9 +14,6 @@ import io.github.shimeoki.jshaper.obj.writer.Unvertexer;
 
 public final class ModelWriter implements Writer {
 
-    private ObjFile src;
-    private File dst;
-
     private BufferedWriter writer;
 
     private Unvertexer unvertexer;
@@ -24,6 +21,7 @@ public final class ModelWriter implements Writer {
     private List<Vertex> vertices;
     private List<TextureVertex> textureVertices;
     private List<VertexNormal> vertexNormals;
+    private List<Face> faces;
 
     private final Map<Vertex, Integer> vertexIndices = new HashMap<>();
     private final Map<TextureVertex, Integer> textureVertexIndices = new HashMap<>();
@@ -38,25 +36,80 @@ public final class ModelWriter implements Writer {
     public ModelWriter() {
     }
 
-    private void open(final File f) {
-        openWriter(f);
-        unvertexer = new Unvertexer();
-        faceBuilder = new StringBuilder();
-        tripletBuilder = new StringBuilder();
+    private void open(final ObjFile src, final File dst) throws ShaperError {
+        cache(src);
+        openWriter(dst);
     }
 
-    private void openWriter(final File f) {
+    private void close() throws ShaperError {
+        uncache();
+        closeWriter();
+    }
+
+    private void openWriter(final File f) throws ShaperError {
         try {
+            if (!f.createNewFile()) {
+                throw new ShaperError(ShaperError.Type.IO,
+                        "new file cannot be created");
+            }
+
             writer = Files.newBufferedWriter(f.toPath());
         } catch (final IOException e) {
-            // TODO throw error
-            return;
+            throw new ShaperError(ShaperError.Type.IO,
+                    "error occured while opening the file");
         }
     }
 
+    private void closeWriter() throws ShaperError {
+        try {
+            if (writer != null) {
+                writer.close();
+            }
+        } catch (final IOException e) {
+            throw new ShaperError(ShaperError.Type.IO,
+                    "error while closing the file");
+        } finally {
+            writer = null;
+        }
+    }
+
+    private void cache(final ObjFile f) {
+        unvertexer = new Unvertexer();
+        faceBuilder = new StringBuilder();
+        tripletBuilder = new StringBuilder();
+
+        final VertexData d = f.vertexData();
+        vertices = d.vertices();
+        textureVertices = d.textureVertices();
+        vertexNormals = d.vertexNormals();
+
+        faces = f.elements().faces();
+    }
+
+    private void uncache() {
+        unvertexer = null;
+        faceBuilder = null;
+        tripletBuilder = null;
+
+        vertices = null;
+        textureVertices = null;
+        vertexNormals = null;
+
+        faces = null;
+
+        vertexIndices.clear();
+        textureVertexIndices.clear();
+        vertexNormalIndices.clear();
+    }
+
     @Override
-    public void write(final ObjFile src, final File dst) {
-        // TODO
+    public void write(final ObjFile src, final File dst) throws ShaperError {
+        open(src, dst);
+
+        writeVertexData();
+        writeFaces();
+
+        close();
     }
 
     private void writeVertexData() throws ShaperError {
@@ -100,6 +153,12 @@ public final class ModelWriter implements Writer {
             writer.newLine();
             vertexNormalIndices.put(vn, vertexDataIndex);
             vertexDataIndex++;
+        }
+    }
+
+    private void writeFaces() throws ShaperError {
+        for (final Face f : faces) {
+            writeFace(f);
         }
     }
 
