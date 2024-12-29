@@ -31,12 +31,18 @@ public final class ModelWriter implements Writer {
 
     private int vertexDataIndex;
 
+    private Triplet.Format format;
+    private StringBuilder faceBuilder;
+    private StringBuilder tripletBuilder;
+
     public ModelWriter() {
     }
 
     private void open(final File f) {
         openWriter(f);
         unvertexer = new Unvertexer();
+        faceBuilder = new StringBuilder();
+        tripletBuilder = new StringBuilder();
     }
 
     private void openWriter(final File f) {
@@ -95,5 +101,96 @@ public final class ModelWriter implements Writer {
             vertexNormalIndices.put(vn, vertexDataIndex);
             vertexDataIndex++;
         }
+    }
+
+    private void writeFace(final Face f) throws ShaperError {
+        final List<Triplet> triplets = f.triplets();
+        if (triplets.size() < 3) {
+            throw new ShaperError(ShaperError.Type.PARSE,
+                    "less than 3 triplets in a face");
+        }
+
+        format = triplets.get(0).format();
+
+        faceBuilder.append(Token.FACE);
+        faceBuilder.append(' ');
+
+        for (final Triplet t : triplets) {
+            faceBuilder.append(writeTriplet(t));
+            faceBuilder.append(' ');
+        }
+
+        try {
+            writer.write(faceBuilder.toString());
+            writer.newLine();
+        } catch (final IOException e) {
+            throw new ShaperError(ShaperError.Type.IO,
+                    "io error occured while writing the vertex data");
+        }
+
+        faceBuilder.setLength(0);
+    }
+
+    private String writeTriplet(final Triplet t) throws ShaperError {
+        tripletBuilder.setLength(0);
+        switch (format) {
+            case VERTEX:
+                return writeVertexFormat(t);
+            case TEXTURE_VERTEX:
+                return writeTextureVertexFormat(t);
+            case VERTEX_NORMAL:
+                return writeVertexNormalFormat(t);
+            case ALL:
+                return writeAllFormat(t);
+            default:
+                return null;
+        }
+    }
+
+    private String writeVertexFormat(final Triplet t) {
+        if (!t.format().equals(Triplet.Format.VERTEX)) {
+            return null;
+        }
+
+        tripletBuilder.append(vertexIndices.get(t.vertex()));
+        return tripletBuilder.toString();
+    }
+
+    private String writeTextureVertexFormat(final Triplet t) {
+        if (!t.format().equals(Triplet.Format.TEXTURE_VERTEX)) {
+            return null;
+        }
+
+        tripletBuilder.append(vertexIndices.get(t.vertex()));
+        tripletBuilder.append('/');
+        tripletBuilder.append(textureVertexIndices.get(t.textureVertex()));
+        return tripletBuilder.toString();
+    }
+
+    private String writeVertexNormalFormat(final Triplet t) {
+        if (!t.format().equals(Triplet.Format.VERTEX_NORMAL)) {
+            return null;
+        }
+
+        tripletBuilder.append(vertexIndices.get(t.vertex()));
+        tripletBuilder.append('/');
+        tripletBuilder.append('/');
+        tripletBuilder.append(vertexNormalIndices.get(t.vertexNormal()));
+        return tripletBuilder.toString();
+
+    }
+
+    private String writeAllFormat(final Triplet t) {
+        if (!t.format().equals(Triplet.Format.ALL)) {
+            return null;
+        }
+
+        tripletBuilder.append(vertexIndices.get(t.vertex()));
+        tripletBuilder.append('/');
+        tripletBuilder.append(textureVertexIndices.get(t.textureVertex()));
+        tripletBuilder.append('/');
+        tripletBuilder.append(vertexNormalIndices.get(t.vertexNormal()));
+        return tripletBuilder.toString();
+
     }
 }
