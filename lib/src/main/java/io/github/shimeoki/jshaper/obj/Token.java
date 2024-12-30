@@ -9,9 +9,9 @@ public final class Token {
     public static final String VERTEX = "v";
     public static final String TEXTURE_VERTEX = "vt";
     public static final String VERTEX_NORMAL = "vn";
-    public static final String PARAMETER_SPACE_VERTEX = "vp";
+    public static final String PARAMETER_VERTEX = "vp";
     public static final String FACE = "f";
-    public static final String GROUP_NAME = "g";
+    public static final String GROUP = "g";
 
     public enum Type {
         NIL,
@@ -19,9 +19,9 @@ public final class Token {
         VERTEX,
         TEXTURE_VERTEX,
         VERTEX_NORMAL,
-        PARAMETER_SPACE_VERTEX,
+        PARAMETER_VERTEX,
         FACE,
-        GROUP_NAME
+        GROUP
     }
 
     private final String text;
@@ -42,12 +42,12 @@ public final class Token {
                 return Token.Type.TEXTURE_VERTEX;
             case Token.VERTEX_NORMAL:
                 return Token.Type.VERTEX_NORMAL;
-            case Token.PARAMETER_SPACE_VERTEX:
-                return Token.Type.PARAMETER_SPACE_VERTEX;
+            case Token.PARAMETER_VERTEX:
+                return Token.Type.PARAMETER_VERTEX;
             case Token.FACE:
                 return Token.Type.FACE;
-            case Token.GROUP_NAME:
-                return Token.Type.GROUP_NAME;
+            case Token.GROUP:
+                return Token.Type.GROUP;
             default:
                 return Token.Type.NIL;
         }

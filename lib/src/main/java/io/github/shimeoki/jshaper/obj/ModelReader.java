@@ -28,7 +28,7 @@ public final class ModelReader implements Reader {
             Token.Type.TEXTURE_VERTEX,
             Token.Type.VERTEX_NORMAL,
             Token.Type.FACE,
-            Token.Type.GROUP_NAME);
+            Token.Type.GROUP);
 
     private List<Vertex> vertices;
     private List<TextureVertex> textureVertices;
@@ -149,7 +149,7 @@ public final class ModelReader implements Reader {
                 case FACE:
                     faces.add(facer.parse(tokens, grouper.current()));
                     break;
-                case GROUP_NAME:
+                case GROUP:
                     grouper.parse(tokens);
                     break;
                 default:

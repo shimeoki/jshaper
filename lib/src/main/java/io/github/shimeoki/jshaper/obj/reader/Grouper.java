@@ -24,7 +24,7 @@ public final class Grouper {
     }
 
     public void parse(final Tokens tokens) throws ShaperError {
-        if (!tokens.lineTokenTypeIs(Token.Type.GROUP_NAME)) {
+        if (!tokens.lineTokenTypeIs(Token.Type.GROUP)) {
             throw new ShaperError(ShaperError.Type.PARSE, "invalid group name format");
         }
 
