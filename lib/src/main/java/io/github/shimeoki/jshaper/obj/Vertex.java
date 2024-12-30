@@ -32,7 +32,7 @@ public final class Vertex implements Clearable, Point {
             case W:
                 return w();
             default:
-                throw new IllegalArgumentException("ObjVertex: invalid Pos");
+                throw new IllegalArgumentException("invalid Pos");
         }
     }
 
@@ -52,7 +52,7 @@ public final class Vertex implements Clearable, Point {
                 setW(value);
                 break;
             default:
-                throw new IllegalArgumentException("ObjVertex: invalid Pos");
+                throw new IllegalArgumentException("invalid Pos");
         }
     }
 
