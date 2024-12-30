@@ -29,8 +29,10 @@ public final class Unvertexer {
         builder.append(' ');
         builder.append(v.z());
 
-        builder.append(' ');
-        builder.append(v.w());
+        if (v.w() != Vertex.DEFAULT_W) {
+            builder.append(' ');
+            builder.append(v.w());
+        }
 
         builder.append('\n');
         return builder.toString();
@@ -45,11 +47,15 @@ public final class Unvertexer {
         builder.append(' ');
         builder.append(vt.u());
 
-        builder.append(' ');
-        builder.append(vt.v());
+        if (vt.v() != TextureVertex.DEFAULT_V) {
+            builder.append(' ');
+            builder.append(vt.v());
+        }
 
-        builder.append(' ');
-        builder.append(vt.w());
+        if (vt.w() != TextureVertex.DEFAULT_W) {
+            builder.append(' ');
+            builder.append(vt.w());
+        }
 
         builder.append('\n');
         return builder.toString();
