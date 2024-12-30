@@ -4,12 +4,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.github.shimeoki.jshaper.ObjFile;
 import io.github.shimeoki.jshaper.ShaperError;
+import io.github.shimeoki.jshaper.obj.writer.Unfacer;
 import io.github.shimeoki.jshaper.obj.writer.Untripleter;
 import io.github.shimeoki.jshaper.obj.writer.Unvertexer;
 
@@ -19,18 +18,13 @@ public final class ModelWriter implements Writer {
 
     private Unvertexer unvertexer;
     private Untripleter untripleter;
+    private Unfacer unfacer;
 
     private List<Vertex> vertices;
     private List<TextureVertex> textureVertices;
     private List<VertexNormal> vertexNormals;
     private List<Face> faces;
 
-    private final Map<Vertex, Integer> vertexIndices = new HashMap<>();
-    private final Map<TextureVertex, Integer> textureVertexIndices = new HashMap<>();
-    private final Map<VertexNormal, Integer> vertexNormalIndices = new HashMap<>();
-
-    private Triplet.Format format; // FIXME check format
-    private StringBuilder faceBuilder;
     private StringBuilder commentBuilder;
 
     public ModelWriter() {
@@ -76,7 +70,7 @@ public final class ModelWriter implements Writer {
     private void cache(final ObjFile f) {
         unvertexer = new Unvertexer();
         untripleter = new Untripleter();
-        faceBuilder = new StringBuilder();
+        unfacer = new Unfacer(untripleter);
         commentBuilder = new StringBuilder();
 
         final VertexData d = f.vertexData();
@@ -90,7 +84,7 @@ public final class ModelWriter implements Writer {
     private void uncache() {
         unvertexer = null;
         untripleter = null;
-        faceBuilder = null;
+        unfacer = null;
         commentBuilder = null;
 
         vertices = null;
@@ -98,10 +92,6 @@ public final class ModelWriter implements Writer {
         vertexNormals = null;
 
         faces = null;
-
-        vertexIndices.clear();
-        textureVertexIndices.clear();
-        vertexNormalIndices.clear();
     }
 
     @Override
@@ -151,37 +141,15 @@ public final class ModelWriter implements Writer {
     }
 
     private void writeFaces() throws ShaperError {
-        for (final Face f : faces) {
-            writeFace(f);
-        }
-    }
-
-    private void writeFace(final Face f) throws ShaperError {
-        final List<Triplet> triplets = f.triplets();
-        if (triplets.size() < 3) {
-            throw new ShaperError(ShaperError.Type.PARSE,
-                    "less than 3 triplets in a face");
-        }
-
-        format = triplets.get(0).format();
-
-        faceBuilder.append(Token.FACE);
-        faceBuilder.append(' ');
-
-        for (final Triplet t : triplets) {
-            faceBuilder.append(untripleter.parse(t));
-            faceBuilder.append(' ');
-        }
-
         try {
-            writer.write(faceBuilder.toString());
-            writer.newLine();
+            for (final Face f : faces) {
+                writer.write(unfacer.parse(f));
+                writer.newLine();
+            }
         } catch (final IOException e) {
             throw new ShaperError(ShaperError.Type.IO,
                     "io error occured while writing the faces");
         }
-
-        faceBuilder.setLength(0);
     }
 
     private void writeStats() throws ShaperError {
