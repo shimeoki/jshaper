@@ -97,4 +97,24 @@ public final class ModelWriterTest {
     public void case001() {
         test("001");
     }
+
+    @Test
+    public void case002() {
+        test("002");
+    }
+
+    @Test
+    public void case003() {
+        test("003");
+    }
+
+    @Test
+    public void case004() {
+        test("004");
+    }
+
+    @Test
+    public void case005() {
+        test("005");
+    }
 }
