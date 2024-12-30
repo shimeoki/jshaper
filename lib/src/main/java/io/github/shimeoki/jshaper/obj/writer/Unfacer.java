@@ -44,6 +44,7 @@ public final class Unfacer {
             builder.append(' ');
         }
 
+        builder.append('\n');
         return builder.toString();
     }
 }

@@ -32,6 +32,7 @@ public final class Unvertexer {
         builder.append(' ');
         builder.append(v.w());
 
+        builder.append('\n');
         return builder.toString();
     }
 
@@ -50,6 +51,7 @@ public final class Unvertexer {
         builder.append(' ');
         builder.append(vt.w());
 
+        builder.append('\n');
         return builder.toString();
     }
 
@@ -68,6 +70,7 @@ public final class Unvertexer {
         builder.append(' ');
         builder.append(vn.j());
 
+        builder.append('\n');
         return builder.toString();
     }
 }

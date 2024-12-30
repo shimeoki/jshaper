@@ -17,6 +17,7 @@ public class Commenter {
         builder.append(Token.COMMENT);
         builder.append(' ');
         builder.append(Objects.requireNonNull(comment));
+        builder.append('\n');
 
         return builder.toString();
     }
