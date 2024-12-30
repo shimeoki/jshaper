@@ -1,5 +1,6 @@
 package io.github.shimeoki.jshaper.obj;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -16,7 +17,8 @@ public final class ModelWriterTest {
     private final Writer writer = new ModelWriter();
 
     private File file;
-    private ObjFile obj;
+    private ObjFile read;
+    private ObjFile write;
 
     private void readFile(final String name) {
         final String filename = String.format("%s/read.obj", name);
@@ -28,7 +30,7 @@ public final class ModelWriterTest {
         file = f;
     }
 
-    private void writeFile(final String name) {
+    private void setWriteFile() {
         file = new File(String.format("%s/write.obj", file.getParent()));
         if (file.exists()) {
             file.delete();
@@ -44,7 +46,7 @@ public final class ModelWriterTest {
         }
 
         assertNotNull(obj);
-        this.obj = obj;
+        read = obj;
     }
 
     private void readObjFile(final String name) {
@@ -52,23 +54,47 @@ public final class ModelWriterTest {
         readObj(file);
     }
 
-    private void setup(final String name) {
-        readObjFile(name);
-        writeFile(name);
-    }
-
-    private void write() {
+    private void writeObjFile() {
         try {
-            writer.write(obj, file);
+            writer.write(read, file);
         } catch (final ShaperError e) {
             fail(e.getMessage());
         }
     }
 
+    private void readWrittenObj() {
+        ObjFile obj = null;
+        try {
+            obj = reader.read(file);
+        } catch (final ShaperError e) {
+            fail(e.getMessage());
+        }
+
+        assertNotNull(obj);
+        write = obj;
+    }
+
+    private void verify() {
+        final VertexData readData = read.vertexData();
+        final VertexData writeData = write.vertexData();
+
+        assertEquals(readData.vertices().size(), writeData.vertices().size());
+        assertEquals(readData.textureVertices().size(), writeData.textureVertices().size());
+        assertEquals(readData.vertexNormals().size(), writeData.vertexNormals().size());
+        assertEquals(read.elements().faces().size(), write.elements().faces().size());
+    }
+
+    private void test(final String name) {
+        readObjFile(name);
+        setWriteFile();
+        writeObjFile();
+        readWrittenObj();
+        verify();
+
+    }
+
     @Test
     public void case001() {
-        setup("001");
-        write();
-        // FIXME check the result
+        test("001");
     }
 }
