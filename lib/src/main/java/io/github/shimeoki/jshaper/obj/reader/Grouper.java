@@ -8,19 +8,19 @@ import java.util.Set;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.Tokens;
 import io.github.shimeoki.jshaper.obj.Token;
-import io.github.shimeoki.jshaper.obj.GroupName;
+import io.github.shimeoki.jshaper.obj.Group;
 
-public final class GroupNamer {
+public final class Grouper {
 
-    private final GroupName DEFAULT_GROUP_NAME = new GroupName("default");
+    private final Group DEFAULT_GROUP = new Group("default");
 
     private final Set<String> currentNames = new HashSet<>();
-    private final Map<String, GroupName> nameMap = new HashMap<>();
+    private final Map<String, Group> nameMap = new HashMap<>();
 
-    private final Set<GroupName> currentGroupNames = new HashSet<>();
-    private final Set<GroupName> groupNames = new HashSet<>();
+    private final Set<Group> currentGroups = new HashSet<>();
+    private final Set<Group> allGroups = new HashSet<>();
 
-    public GroupNamer() {
+    public Grouper() {
     }
 
     public void parse(final Tokens tokens) throws ShaperError {
@@ -34,37 +34,37 @@ public final class GroupNamer {
         }
 
         currentNames.clear();
-        currentGroupNames.clear();
+        currentGroups.clear();
 
-        GroupName n;
+        Group g;
         String s;
 
         for (int i = 1; i < len; i++) {
             s = tokens.get(i).text();
 
             currentNames.add(s);
-            n = nameMap.getOrDefault(s, new GroupName(s));
+            g = nameMap.getOrDefault(s, new Group(s));
 
-            currentGroupNames.add(n);
-            groupNames.add(n);
+            currentGroups.add(g);
+            allGroups.add(g);
 
             if (!nameMap.containsKey(s)) {
-                nameMap.put(s, n);
+                nameMap.put(s, g);
             }
         }
     }
 
-    public Set<GroupName> current() {
-        final Set<GroupName> current = new HashSet<>(currentGroupNames);
+    public Set<Group> current() {
+        final Set<Group> current = new HashSet<>(currentGroups);
 
         if (current.isEmpty()) {
-            current.add(DEFAULT_GROUP_NAME);
+            current.add(DEFAULT_GROUP);
         }
 
         return current;
     }
 
-    public Set<GroupName> all() {
-        return new HashSet<>(groupNames);
+    public Set<Group> all() {
+        return new HashSet<>(allGroups);
     }
 }

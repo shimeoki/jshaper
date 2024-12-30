@@ -7,13 +7,13 @@ import java.util.Set;
 public final class Face implements Element {
 
     private final List<Triplet> triplets;
-    private final Set<GroupName> groupNames;
+    private final Set<Group> groups;
 
     public Face(
-            final List<Triplet> triplets, final Set<GroupName> groupNames) {
+            final List<Triplet> triplets, final Set<Group> groups) {
 
         this.triplets = Objects.requireNonNull(triplets);
-        this.groupNames = Objects.requireNonNull(groupNames);
+        this.groups = Objects.requireNonNull(groups);
     }
 
     public List<Triplet> triplets() {
@@ -21,7 +21,7 @@ public final class Face implements Element {
     }
 
     @Override
-    public Set<GroupName> groupNames() {
-        return groupNames;
+    public Set<Group> groups() {
+        return groups;
     }
 }
