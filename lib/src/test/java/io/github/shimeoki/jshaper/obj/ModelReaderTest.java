@@ -13,14 +13,14 @@ import io.github.shimeoki.jshaper.ShaperError;
 
 public final class ModelReaderTest {
 
-    private final ModelReader reader = new ModelReader();
+    private final Reader reader = new ModelReader();
 
     private File file;
     private ObjFile obj;
     private VertexData data;
 
     private void readFile(final String name) {
-        final String filename = String.format("%s/%s.obj", name, name);
+        final String filename = String.format("%s/read.obj", name);
         final String path = getClass().getResource(filename).getPath();
 
         final File f = new File(path);
