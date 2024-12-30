@@ -88,7 +88,7 @@ public final class TokensTest {
     public void noLineTokenIs() {
         final Tokens t = new Tokens();
 
-        assertFalse(t.lineTokenTypeIs(Token.Type.PARAMETER_SPACE_VERTEX));
+        assertFalse(t.lineTokenTypeIs(Token.Type.PARAMETER_VERTEX));
     }
 
     @Test

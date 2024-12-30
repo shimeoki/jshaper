@@ -28,7 +28,7 @@ public final class VertexNormal implements Clearable, Point {
             case K:
                 return k();
             default:
-                throw new IllegalArgumentException("ObjVertexNormal: invalid Pos");
+                throw new IllegalArgumentException("invalid Pos");
         }
     }
 
@@ -45,7 +45,7 @@ public final class VertexNormal implements Clearable, Point {
                 setK(value);
                 break;
             default:
-                throw new IllegalArgumentException("ObjVertexNormal: invalid Pos");
+                throw new IllegalArgumentException("invalid Pos");
         }
     }
 

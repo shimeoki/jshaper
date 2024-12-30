@@ -53,7 +53,7 @@ public final class ModelReaderTest {
             final Integer verticesSize,
             final Integer textureVerticesSize,
             final Integer vertexNormalsSize,
-            final Integer parameterSpaceVerticesSize) {
+            final Integer parameterVertices) {
 
         if (verticesSize != null) {
             assertEquals(verticesSize, data.vertices().size());
@@ -67,8 +67,8 @@ public final class ModelReaderTest {
             assertEquals(vertexNormalsSize, data.vertexNormals().size());
         }
 
-        if (parameterSpaceVerticesSize != null) {
-            assertEquals(parameterSpaceVerticesSize, data.parameterSpaceVertices().size());
+        if (parameterVertices != null) {
+            assertEquals(parameterVertices, data.parameterVertices().size());
         }
     }
 
@@ -78,7 +78,7 @@ public final class ModelReaderTest {
 
         assertDataSize(15789, 28209, 26181, null);
         assertEquals(31930, obj.elements().faces().size());
-        assertEquals(30, obj.groupingData().groupNames().size());
+        assertEquals(30, obj.groupingData().groups().size());
     }
 
     @Test
@@ -182,7 +182,7 @@ public final class ModelReaderTest {
 
         assertDataSize(692, 1528, 1384, null);
         assertEquals(1416, obj.elements().faces().size());
-        assertEquals(1, obj.groupingData().groupNames().size());
+        assertEquals(1, obj.groupingData().groups().size());
     }
 
     @Test
@@ -191,7 +191,7 @@ public final class ModelReaderTest {
 
         assertDataSize(5289, 10601, 10451, null);
         assertEquals(10670, obj.elements().faces().size());
-        assertEquals(6, obj.groupingData().groupNames().size());
+        assertEquals(6, obj.groupingData().groups().size());
     }
 
     @Test
@@ -200,7 +200,7 @@ public final class ModelReaderTest {
 
         assertDataSize(3232, 7114, 7008, null);
         assertEquals(6712, obj.elements().faces().size());
-        assertEquals(7, obj.groupingData().groupNames().size());
+        assertEquals(7, obj.groupingData().groups().size());
     }
 
     @Test
@@ -209,7 +209,7 @@ public final class ModelReaderTest {
 
         assertDataSize(2574, 5130, 4903, null);
         assertEquals(5208, obj.elements().faces().size());
-        assertEquals(8, obj.groupingData().groupNames().size());
+        assertEquals(8, obj.groupingData().groups().size());
     }
 
     @Test
@@ -218,7 +218,7 @@ public final class ModelReaderTest {
 
         assertDataSize(563, 1144, 1126, null);
         assertEquals(1118, obj.elements().faces().size());
-        assertEquals(3, obj.groupingData().groupNames().size());
+        assertEquals(3, obj.groupingData().groups().size());
     }
 
     @Test

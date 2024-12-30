@@ -14,7 +14,7 @@ import java.util.Set;
 import io.github.shimeoki.jshaper.ObjFile;
 import io.github.shimeoki.jshaper.ShaperError;
 import io.github.shimeoki.jshaper.obj.reader.Facer;
-import io.github.shimeoki.jshaper.obj.reader.GroupNamer;
+import io.github.shimeoki.jshaper.obj.reader.Grouper;
 import io.github.shimeoki.jshaper.obj.reader.Tokenizer;
 import io.github.shimeoki.jshaper.obj.reader.Tripleter;
 import io.github.shimeoki.jshaper.obj.reader.Vertexer;
@@ -28,7 +28,7 @@ public final class ModelReader implements Reader {
             Token.Type.TEXTURE_VERTEX,
             Token.Type.VERTEX_NORMAL,
             Token.Type.FACE,
-            Token.Type.GROUP_NAME);
+            Token.Type.GROUP);
 
     private List<Vertex> vertices;
     private List<TextureVertex> textureVertices;
@@ -38,7 +38,7 @@ public final class ModelReader implements Reader {
     private Tokenizer tokenizer;
     private Tripleter tripleter;
     private Facer facer;
-    private GroupNamer groupNamer;
+    private Grouper grouper;
 
     private BufferedReader reader;
     private int row;
@@ -101,7 +101,7 @@ public final class ModelReader implements Reader {
                 TOKENIZER_MODE, TOKENIZER_WHITELIST, TOKENIZER_BLACKLIST);
         tripleter = new Tripleter(vertices, textureVertices, vertexNormals);
         facer = new Facer(tripleter);
-        groupNamer = new GroupNamer();
+        grouper = new Grouper();
     }
 
     private void uncache() {
@@ -113,7 +113,7 @@ public final class ModelReader implements Reader {
         tokenizer = null;
         tripleter = null;
         facer = null;
-        groupNamer = null;
+        grouper = null;
     }
 
     private void readLine() throws ShaperError {
@@ -147,10 +147,10 @@ public final class ModelReader implements Reader {
                     vertexNormals.add(Vertexer.parseVertexNormal(tokens));
                     break;
                 case FACE:
-                    faces.add(facer.parse(tokens, groupNamer.current()));
+                    faces.add(facer.parse(tokens, grouper.current()));
                     break;
-                case GROUP_NAME:
-                    groupNamer.parse(tokens);
+                case GROUP:
+                    grouper.parse(tokens);
                     break;
                 default:
                     // skip unsupported tokens
@@ -167,7 +167,7 @@ public final class ModelReader implements Reader {
                 new ArrayList<>());
 
         final Elements elements = new Elements(faces);
-        final GroupingData groupingData = new GroupingData(groupNamer.all());
+        final GroupingData groupingData = new GroupingData(grouper.all());
 
         return new ObjFile(vertexData, elements, groupingData);
     }

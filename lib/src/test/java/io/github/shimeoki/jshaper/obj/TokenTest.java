@@ -55,7 +55,7 @@ public final class TokenTest {
 
     @Test
     public void parameterSpaceVertexString() {
-        assertEquals("vp", Token.PARAMETER_SPACE_VERTEX);
+        assertEquals("vp", Token.PARAMETER_VERTEX);
     }
 
     @Test
@@ -65,7 +65,7 @@ public final class TokenTest {
 
     @Test
     public void groupNameString() {
-        assertEquals("g", Token.GROUP_NAME);
+        assertEquals("g", Token.GROUP);
     }
 
     @Test
@@ -117,11 +117,11 @@ public final class TokenTest {
 
     @Test
     public void parseParameterSpaceVertex() {
-        final Token.Type t1 = Token.parse(Token.PARAMETER_SPACE_VERTEX);
+        final Token.Type t1 = Token.parse(Token.PARAMETER_VERTEX);
         final Token.Type t2 = Token.parse("vp");
 
         assertTrue(t1.equals(t2));
-        assertTrue(t1.equals(Token.Type.PARAMETER_SPACE_VERTEX));
+        assertTrue(t1.equals(Token.Type.PARAMETER_VERTEX));
     }
 
     @Test
@@ -135,11 +135,11 @@ public final class TokenTest {
 
     @Test
     public void parseGroupName() {
-        final Token.Type t1 = Token.parse(Token.GROUP_NAME);
+        final Token.Type t1 = Token.parse(Token.GROUP);
         final Token.Type t2 = Token.parse("g");
 
         assertTrue(t1.equals(t2));
-        assertTrue(t1.equals(Token.Type.GROUP_NAME));
+        assertTrue(t1.equals(Token.Type.GROUP));
     }
 
     @Test

@@ -28,7 +28,7 @@ public final class TextureVertex implements Clearable, Point {
             case W:
                 return w();
             default:
-                throw new IllegalArgumentException("ObjTextureVertex: invalid Pos");
+                throw new IllegalArgumentException("invalid Pos");
         }
     }
 
@@ -45,7 +45,7 @@ public final class TextureVertex implements Clearable, Point {
                 setW(value);
                 break;
             default:
-                throw new IllegalArgumentException("ObjTextureVertex: invalid Pos");
+                throw new IllegalArgumentException("invalid Pos");
         }
     }
 

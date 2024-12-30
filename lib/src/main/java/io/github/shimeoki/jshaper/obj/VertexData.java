@@ -8,18 +8,18 @@ public final class VertexData {
     private final List<Vertex> vertices;
     private final List<TextureVertex> textureVertices;
     private final List<VertexNormal> vertexNormals;
-    private final List<ParameterSpaceVertex> parameterSpaceVertices;
+    private final List<ParameterVertex> parameterVertices;
 
     public VertexData(
             final List<Vertex> vertices,
             final List<TextureVertex> textureVertices,
             final List<VertexNormal> vertexNormals,
-            final List<ParameterSpaceVertex> parameterSpaceVertices) {
+            final List<ParameterVertex> parameterVertices) {
 
         this.vertices = Objects.requireNonNull(vertices);
         this.textureVertices = Objects.requireNonNull(textureVertices);
         this.vertexNormals = Objects.requireNonNull(vertexNormals);
-        this.parameterSpaceVertices = Objects.requireNonNull(parameterSpaceVertices);
+        this.parameterVertices = Objects.requireNonNull(parameterVertices);
     }
 
     public List<Vertex> vertices() {
@@ -34,7 +34,7 @@ public final class VertexData {
         return vertexNormals;
     }
 
-    public List<ParameterSpaceVertex> parameterSpaceVertices() {
-        return parameterSpaceVertices;
+    public List<ParameterVertex> parameterVertices() {
+        return parameterVertices;
     }
 }

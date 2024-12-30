@@ -4,5 +4,5 @@ import java.util.Set;
 
 public interface Element {
 
-    public Set<GroupName> groupNames();
+    public Set<Group> groups();
 }
