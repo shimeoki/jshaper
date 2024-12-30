@@ -10,6 +10,7 @@ import java.util.Map;
 
 import io.github.shimeoki.jshaper.ObjFile;
 import io.github.shimeoki.jshaper.ShaperError;
+import io.github.shimeoki.jshaper.obj.writer.Untripleter;
 import io.github.shimeoki.jshaper.obj.writer.Unvertexer;
 
 public final class ModelWriter implements Writer {
@@ -17,6 +18,7 @@ public final class ModelWriter implements Writer {
     private BufferedWriter writer;
 
     private Unvertexer unvertexer;
+    private Untripleter untripleter;
 
     private List<Vertex> vertices;
     private List<TextureVertex> textureVertices;
@@ -27,11 +29,8 @@ public final class ModelWriter implements Writer {
     private final Map<TextureVertex, Integer> textureVertexIndices = new HashMap<>();
     private final Map<VertexNormal, Integer> vertexNormalIndices = new HashMap<>();
 
-    private int vertexDataIndex;
-
-    private Triplet.Format format;
+    private Triplet.Format format; // FIXME check format
     private StringBuilder faceBuilder;
-    private StringBuilder tripletBuilder;
     private StringBuilder commentBuilder;
 
     public ModelWriter() {
@@ -76,8 +75,8 @@ public final class ModelWriter implements Writer {
 
     private void cache(final ObjFile f) {
         unvertexer = new Unvertexer();
+        untripleter = new Untripleter();
         faceBuilder = new StringBuilder();
-        tripletBuilder = new StringBuilder();
         commentBuilder = new StringBuilder();
 
         final VertexData d = f.vertexData();
@@ -90,8 +89,8 @@ public final class ModelWriter implements Writer {
 
     private void uncache() {
         unvertexer = null;
+        untripleter = null;
         faceBuilder = null;
-        tripletBuilder = null;
         commentBuilder = null;
 
         vertices = null;
@@ -128,35 +127,26 @@ public final class ModelWriter implements Writer {
     }
 
     private void writeVertices() throws IOException {
-        vertexDataIndex = 1;
-
         for (final Vertex v : vertices) {
             writer.write(unvertexer.parseVertex(v));
             writer.newLine();
-            vertexIndices.put(v, vertexDataIndex);
-            vertexDataIndex++;
+            untripleter.addVertex(v);
         }
     }
 
     private void writeTextureVertices() throws IOException {
-        vertexDataIndex = 1;
-
         for (final TextureVertex vt : textureVertices) {
             writer.write(unvertexer.parseTextureVertex(vt));
             writer.newLine();
-            textureVertexIndices.put(vt, vertexDataIndex);
-            vertexDataIndex++;
+            untripleter.addTextureVertex(vt);
         }
     }
 
     private void writeVertexNormals() throws IOException {
-        vertexDataIndex = 1;
-
         for (final VertexNormal vn : vertexNormals) {
             writer.write(unvertexer.parseVertexNormal(vn));
             writer.newLine();
-            vertexNormalIndices.put(vn, vertexDataIndex);
-            vertexDataIndex++;
+            untripleter.addVertexNormal(vn);
         }
     }
 
@@ -179,7 +169,7 @@ public final class ModelWriter implements Writer {
         faceBuilder.append(' ');
 
         for (final Triplet t : triplets) {
-            faceBuilder.append(writeTriplet(t));
+            faceBuilder.append(untripleter.parse(t));
             faceBuilder.append(' ');
         }
 
@@ -192,67 +182,6 @@ public final class ModelWriter implements Writer {
         }
 
         faceBuilder.setLength(0);
-    }
-
-    private String writeTriplet(final Triplet t) throws ShaperError {
-        tripletBuilder.setLength(0);
-        switch (format) {
-            case VERTEX:
-                return writeVertexFormat(t);
-            case TEXTURE_VERTEX:
-                return writeTextureVertexFormat(t);
-            case VERTEX_NORMAL:
-                return writeVertexNormalFormat(t);
-            case ALL:
-                return writeAllFormat(t);
-            default:
-                return null;
-        }
-    }
-
-    private String writeVertexFormat(final Triplet t) {
-        if (!t.format().equals(Triplet.Format.VERTEX)) {
-            return null;
-        }
-
-        tripletBuilder.append(vertexIndices.get(t.vertex()));
-        return tripletBuilder.toString();
-    }
-
-    private String writeTextureVertexFormat(final Triplet t) {
-        if (!t.format().equals(Triplet.Format.TEXTURE_VERTEX)) {
-            return null;
-        }
-
-        tripletBuilder.append(vertexIndices.get(t.vertex()));
-        tripletBuilder.append('/');
-        tripletBuilder.append(textureVertexIndices.get(t.textureVertex()));
-        return tripletBuilder.toString();
-    }
-
-    private String writeVertexNormalFormat(final Triplet t) {
-        if (!t.format().equals(Triplet.Format.VERTEX_NORMAL)) {
-            return null;
-        }
-
-        tripletBuilder.append(vertexIndices.get(t.vertex()));
-        tripletBuilder.append('/');
-        tripletBuilder.append('/');
-        tripletBuilder.append(vertexNormalIndices.get(t.vertexNormal()));
-        return tripletBuilder.toString();
-    }
-
-    private String writeAllFormat(final Triplet t) {
-        if (!t.format().equals(Triplet.Format.ALL)) {
-            return null;
-        }
-
-        tripletBuilder.append(vertexIndices.get(t.vertex()));
-        tripletBuilder.append('/');
-        tripletBuilder.append(textureVertexIndices.get(t.textureVertex()));
-        tripletBuilder.append('/');
-        tripletBuilder.append(vertexNormalIndices.get(t.vertexNormal()));
-        return tripletBuilder.toString();
     }
 
     private void writeStats() throws ShaperError {
