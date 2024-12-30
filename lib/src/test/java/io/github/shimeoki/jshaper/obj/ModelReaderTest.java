@@ -53,7 +53,7 @@ public final class ModelReaderTest {
             final Integer verticesSize,
             final Integer textureVerticesSize,
             final Integer vertexNormalsSize,
-            final Integer parameterSpaceVerticesSize) {
+            final Integer parameterVertices) {
 
         if (verticesSize != null) {
             assertEquals(verticesSize, data.vertices().size());
@@ -67,8 +67,8 @@ public final class ModelReaderTest {
             assertEquals(vertexNormalsSize, data.vertexNormals().size());
         }
 
-        if (parameterSpaceVerticesSize != null) {
-            assertEquals(parameterSpaceVerticesSize, data.parameterSpaceVertices().size());
+        if (parameterVertices != null) {
+            assertEquals(parameterVertices, data.parameterVertices().size());
         }
     }
 

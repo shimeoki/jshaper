@@ -4,7 +4,7 @@ import io.github.shimeoki.jshaper.Clearable;
 import io.github.shimeoki.jshaper.Point;
 import io.github.shimeoki.jshaper.Pos;
 
-public final class ParameterSpaceVertex implements Clearable, Point {
+public final class ParameterVertex implements Clearable, Point {
 
     public static final float DEFAULT_U = 0;
     public static final float DEFAULT_V = 0;
@@ -12,7 +12,7 @@ public final class ParameterSpaceVertex implements Clearable, Point {
 
     private final float[] values = new float[3];
 
-    public ParameterSpaceVertex(final float u, final float v, final float w) {
+    public ParameterVertex(final float u, final float v, final float w) {
         setU(u);
         setV(v);
         setW(w);
