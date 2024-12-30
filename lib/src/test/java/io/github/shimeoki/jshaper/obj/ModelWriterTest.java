@@ -117,4 +117,74 @@ public final class ModelWriterTest {
     public void case005() {
         test("005");
     }
+
+    @Test
+    public void case006() {
+        test("006");
+    }
+
+    @Test
+    public void case007() {
+        test("007");
+    }
+
+    @Test
+    public void case008() {
+        test("008");
+    }
+
+    @Test
+    public void case009() {
+        test("009");
+    }
+
+    @Test
+    public void case010() {
+        test("010");
+    }
+
+    @Test
+    public void case011() {
+        test("011");
+    }
+
+    @Test
+    public void case012() {
+        test("012");
+    }
+
+    @Test
+    public void case013() {
+        test("013");
+    }
+
+    @Test
+    public void case014() {
+        test("014");
+    }
+
+    @Test
+    public void case015() {
+        test("015");
+    }
+
+    @Test
+    public void case016() {
+        test("016");
+    }
+
+    @Test
+    public void case017() {
+        test("017");
+    }
+
+    @Test
+    public void case018() {
+        test("018");
+    }
+
+    @Test
+    public void case019() {
+        test("019");
+    }
 }
